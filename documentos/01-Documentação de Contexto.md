@@ -2,7 +2,7 @@
 
 A agricultura, hoje, é um dos setores mais importantes para a economia brasileira. Dados do IBGE<sup>1</sup> indicam um impacto de 6,5% no produto interno bruto (PIB) do país, se considerarmos somente as atividades primárias relacionadas ao campo. Se incluirmos nessa conta as atividades comerciais e industriais que resultam diretamente das colheitas, teremos um impacto que chega a 23% do PIB brasileiro. Sabemos, ainda, que no cenário agrícola, as pequenas propriedades tem um papel fundamental. Segundo o especialista André Chagas<sup>2</sup>, "os pequenos estabelecimentos representam 77% dos produtores agropecuários e são responsáveis por gerar renda para 70% dos brasileiros no campo."
 
-Entretanto, ainda que tenham tanta expressividade no volume da colheita brasileira, os pequenos produtores sofrem de várias restrições que impedem seu crescimento socioeconômico, como o pouco acesso ao grande mercado e as altas perdas no processo da colheita por falta de conhecimento técnico. O presente projeto tem por objetivo desenvolver uma solução tecnológica que automatize processos já conhecidos do pequeno produtor de feijão, como a classificação de feijão por catação, e que também forneça-o uma plataforma que permita uma melhor gestão do seu negócio, fornecendo funcionalidades de registro de estoque, conteúdos educativos curados por especialistas e uma rede de contatos comerciais que potencialize o seu alcance dentro do mercado agrícola.
+Entretanto, ainda que tenham tanta expressividade no volume da colheita brasileira, os pequenos produtores sofrem de várias restrições que impedem seu crescimento socioeconômico, como o pouco acesso ao grande mercado e as altas perdas no processo da colheita por falta de conhecimento técnico. O presente projeto tem por objetivo desenvolver uma solução tecnológica que automatize processos já conhecidos do pequeno produtor de feijão carioca, como a classificação de feijão por catação, e que também forneça-o uma plataforma que permita uma melhor gestão do seu negócio, fornecendo funcionalidades de registro de estoque, conteúdos educativos curados por especialistas e uma rede de contatos comerciais que potencialize o seu alcance dentro do mercado agrícola.
 
 ## Problema
 ### Acesso ao conhecimento técnico
@@ -25,23 +25,20 @@ Finalmente, observamos um problema que surge como consequência direta dos dois 
 
 ## Objetivos
 
-Aqui o grupo deve descrever os objetivos do trabalho indicando que o objetivo é aplicar os conceitos de extensão universitária no desenvolvimento de um sistema sociotécnico que impacte positivamente a comunidade.
+O presente projeto visa a criação de uma aplicação web que atue em três campos diferentes: (1) gestão, (2) educação, (3) automatização. No setor de gestão, pretendemos fornecer uma plataforma que permita ao usuário gerenciar seu negócio por meio do registro das colheitas em um estoque individual ou coletivo. No setor de educação, pretendemos fornecer ao usuário um acervo de conteúdos de educativos, fornecidos por uma curadoria de profissionais especialistas em técnicas agrícolas. Por último, no setor de automatização, pretendemos automatizar o processo de classificação do feijão carioca por meio da implementação de um modelo de inteligência artificial.
 
 ## Justificativa
 
-Descreva as dores/dificuldades do parceiro que motivam trabalhar na construção da solução.
+A justificativa do nosso projeto jaz nas dores, já mencionadas, que assolam o pequeno produtor rural nos dias de hoje, a saber: (1) a falta de uma visão ampla acerca do próprio negócio, (2) a falta de acesso ao conhecimento técnico no campo da agricultura, (3) a marginalização em relação ao grande mercado agrícola, decorrente do distanciamento geográfico dos grandes centros urbanos e da consequente dependência da mediação de atravessadores.
 
-> **Links Úteis**:
-> - [Como montar a justificativa](https://guiadamonografia.com.br/como-montar-justificativa-do-tcc/)
 
 ## Relação com a Extensão Universitária
 
-Relacionar a situação-problema da organização com o impacto social esperado com a implantação do sistema sociotécnico.
-Apresentar aqui como este projeto extensionista transforma a realidade do parceiro e dos alunos.
+O presente projeto enquadra-se perfeitamente dentro dos requisitos para a extensão universitária, visto que serve ao propósito de levar para fora do ambiente acadêmico todo o conhecimento aqui obtido, promovendo assim um impacto socioeconômico por meio do emprego de soluções tecnológicas. O fornece uma solução totalmente inédita e altamente contextualizada ao pequeno produtor rural e, por causa disso, tem o potencial de inovar no campo social, combatendo a desigualdade social e invisibiliação dos produtores rurais marginalizados, bem como o potencial de inovar no campo econômico, movimentando o mercado de feijão em Minas Gerais - e eventualmente no Brasil - e lançando as bases para o que pode se tornar um novo padrão nacional de classificação automatizada de feijão carioca.
 
 ## Descrição do Parceiro
 
-Apresente uma descrição resumida sobre a organização onde o projeto será desenvolvido para que possa ser compreendido o cenário do sistema sociotécnico.
+O parceiro desde projeto é a marca Cultivo do Bem, representada pelo stakeholder Zenilton Alves Costa. A marca foi registrada sob um projeto social de mesmo nome, o projeto Cultivo do Bem, que atua há mais de dois anos em comunidades de pequenos agricultores de feijão no interior de Minas Gerais. O projeto nasceu para auxiliar na recuperação das atividades de agricultores afetados pelo rompimento da barragem de rejeitos em Mariana/MG, fornecendo a eles diversos auxílios, especialmente capacitação técnica e incentivos comerciais.
 
 *<sup>1</sup> SALATI, Paula. Por que o agro (especialmente a soja) puxou o crescimento da economia no início do ano. Disponível em: https://g1.globo.com/economia/agronegocios/noticia/2025/05/30/por-que-o-agro-puxou-o-crescimento-do-pib-no-inicio-do-ano.ghtml. Acesso em: 27 ago. 2025.*
 
