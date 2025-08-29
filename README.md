@@ -1,25 +1,24 @@
 # TÍTULO DO PROJETO
 
-`CURSO`
+`ANÁLISE E DESENVOLVIMENTO DE SISTEMAS`
 
-`DISCIPLINA`
+`PROJETO: DESENVOLVIMENTO DE UM SISTEMA SOCIOTÉCNICO INOVADOR`
 
-`SEMESTRE`
+`EIXO 5`
 
-Descrever resumidamente, em um ou dois parágrafos, o projeto que está sendo desenvolvido.
+O presente projeto consiste em uma aplicação web voltada para auxiliar pequenos produtores de feijão a expandirem seu alcance no mercado e a obterem acesso ao conhecimento técnico necessário para sua atuação no campo. O sistema implementa funcionalidades como: (1) sistema de gerenciamento de estoque, (2) rede de contatos comerciais, (3) classificadora automática de feijão.
 
 ## Integrantes
 
-* Nome completo do aluno 1
-* Nome completo do aluno 2
-* Nome completo do aluno 3
-* Nome completo do aluno 4
-* Nome completo do aluno 5
-* Nome completo do aluno 6
+* Arthur Alves de Souza Costa
+* Juan Pereira Alves Andrade
+* Lucas Marinho Ribeiro Guimarães
+* Matheus Reis Castelliano
+* Vinicius Vieira Silva
 
 ## Orientador
 
-* Nome completo do professor orientador
+* Sandra Maria Silveira
 
 ## Instruções de utilização
 
