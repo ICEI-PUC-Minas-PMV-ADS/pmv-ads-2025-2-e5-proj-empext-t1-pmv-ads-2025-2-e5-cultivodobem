@@ -1,29 +1,27 @@
 message: Please cite this software using these metadata.
-title:
+title: Cultivo do Bem Web
 authors:
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
+  - family-names: Alves de Souza Costa
+    given-names: Arthur
+  - family-names: Pereira Alves Andrade
+    given-names: Juan
+  - family-names: Marinho Ribeiro Guimarães
+    given-names: Lucas
+  - family-names: Reis Castelliano
+    given-names: Matheus
+  - family-names: Vieira Silva
+    given-names: Vinícius
   - name-suffix: Professor
     affiliation: PUC Minas
-    family-names: 
-    given-names: 
-  - name-suffix: Professor
-    affiliation: PUC Minas
-    family-names: 
-    given-names: 
+    family-names: Maria Silveira
+    given-names: Sandra
 keywords:
-  - 
-  - 
-repository-code: 
+  - Inteligência artificial
+  - Aplicação web
+  - Gerenciamento de estoque
+  - Agricultura familiar
+  - Social
+repository-code: https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-2-e5-proj-empext-t1-pmv-ads-2025-2-e5-cultivodobem
 version: 1.0.0
-date-released: 2023-10-31
+
+date-released: 2025-08-30
