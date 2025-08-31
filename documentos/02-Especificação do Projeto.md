@@ -70,9 +70,6 @@ O projeto está restrito pelos itens apresentados na tabela a seguir.
 
 <img width="2984" height="2684" alt="image" src="https://github.com/user-attachments/assets/451437a0-29c5-44a9-8730-289c14bc7110" />
 
-
 ## Projeto da Base de Dados
 
-O projeto da base de dados corresponde à representação das entidades e relacionamentos identificadas no Modelo ER, no formato de tabelas, com colunas e chaves primárias/estrangeiras necessárias para representar corretamente as restrições de integridade.
-
-Para mais informações, consulte o microfundamento "Modelagem de Dados".
+![Diagrama MER](/img/MER.png)
