@@ -72,4 +72,4 @@ O projeto está restrito pelos itens apresentados na tabela a seguir.
 
 ## Projeto da Base de Dados
 
-![Diagrama MER](/img/MER.png)
+![Diagrama MER](./img/MER.png)
