@@ -25,7 +25,7 @@ Finalmente, observamos um problema que surge como consequência direta dos dois 
 
 ## Objetivos
 
-O presente projeto visa a criação de uma aplicação web que atue em três campos diferentes: (1) gestão, (2) educação, (3) automatização. No setor de gestão, pretendemos fornecer uma plataforma que permita ao usuário gerenciar seu negócio por meio do registro das colheitas em um estoque individual ou coletivo. No setor de educação, pretendemos fornecer ao usuário um acervo de conteúdos de educativos, fornecidos por uma curadoria de profissionais especialistas em técnicas agrícolas. Por último, no setor de automatização, pretendemos automatizar o processo de classificação do feijão carioca por meio da implementação de um modelo de inteligência artificial.
+O presente projeto visa a criação de uma aplicação web que atue em três campos diferentes: (1) gestão, (2) educação, (3) automatização. No setor de gestão, pretendemos fornecer uma plataforma que permita ao usuário gerenciar seu negócio por meio do registro das colheitas em um estoque individual ou coletivo. No setor de educação, pretendemos fornecer ao usuário um acervo de conteúdos educativos, fornecidos por uma curadoria de profissionais especialistas em técnicas agrícolas. Por último, no setor de automatização, pretendemos automatizar o processo de classificação do feijão carioca por meio da implementação de um modelo de inteligência artificial.
 
 ## Justificativa
 
@@ -34,7 +34,10 @@ A justificativa do nosso projeto jaz nas dores, já mencionadas, que assolam o p
 
 ## Relação com a Extensão Universitária
 
-O presente projeto enquadra-se perfeitamente dentro dos requisitos para a extensão universitária, visto que serve ao propósito de levar para fora do ambiente acadêmico todo o conhecimento aqui obtido, promovendo assim um impacto socioeconômico por meio do emprego de soluções tecnológicas. O fornece uma solução totalmente inédita e altamente contextualizada ao pequeno produtor rural e, por causa disso, tem o potencial de inovar no campo social, combatendo a desigualdade social e invisibiliação dos produtores rurais marginalizados, bem como o potencial de inovar no campo econômico, movimentando o mercado de feijão em Minas Gerais - e eventualmente no Brasil - e lançando as bases para o que pode se tornar um novo padrão nacional de classificação automatizada de feijão carioca.
+ESTA PARTE - É O IMPACTO PARA SOCIEDADE
+O presente projeto enquadra-se perfeitamente dentro dos requisitos para a extensão universitária, visto que serve ao propósito de levar para fora do ambiente acadêmico todo o conhecimento aqui obtido, promovendo assim um impacto socioeconômico por meio do emprego de soluções tecnológicas. O projeto fornece uma solução totalmente inédita e altamente contextualizada ao pequeno produtor rural e, por causa disso, tem o potencial de inovar no campo social, combatendo a desigualdade social e invisibiliação dos produtores rurais marginalizados, bem como o potencial de inovar no campo econômico, movimentando o mercado de feijão em Minas Gerais - e eventualmente no Brasil - e lançando as bases para o que pode se tornar um novo padrão nacional de classificação automatizada de feijão carioca.
+
+COLOCAR AQUI O IMPACTO PARA OS ALUNOS.... COMO O PROJETO IMPACTA A FORMAÇÃO DOS ALUNOS
 
 ## Descrição do Parceiro
 
