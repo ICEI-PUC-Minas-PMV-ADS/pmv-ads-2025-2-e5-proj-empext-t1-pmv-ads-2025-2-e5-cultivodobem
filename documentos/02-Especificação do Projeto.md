@@ -11,7 +11,11 @@ Definição do problema e ideia de solução a partir da perspectiva do usuário
 
 ## Arquitetura e Tecnologias
 
-Descreva brevemente a arquitetura definida para o projeto e as tecnologias a serem utilizadas. Sugere-se a criação de um diagrama de componentes da solução.
+Para o desenvolvimento da solução serão adotadas as seguintes tecnologias:
+
+**Front end:** React
+**Back end:** NodeJS
+**Banco de Dados:** Convex
 
 ## Project Model Canvas
 
