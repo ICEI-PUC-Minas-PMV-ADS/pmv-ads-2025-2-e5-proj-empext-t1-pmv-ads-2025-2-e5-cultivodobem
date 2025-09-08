@@ -13,9 +13,9 @@ Definição do problema e ideia de solução a partir da perspectiva do usuário
 
 Para o desenvolvimento da solução serão adotadas as seguintes tecnologias:
 
-**Front end:** React
-**Back end:** NodeJS
-**Banco de Dados:** Convex
+- **Front end:** React
+- **Back end:** NodeJS
+- **Banco de Dados:** Convex
 
 ## Project Model Canvas
 
