@@ -19,7 +19,7 @@ Para o desenvolvimento da solução serão adotadas as seguintes tecnologias:
 
 ## Project Model Canvas
 
-![Cultivo do Bem PMC](https://github.com/user-attachments/assets/d62de60c-b137-4b2f-b140-987eff16c047)
+![Cultivo do Bem PMC](https://github.com/user-attachments/assets/e3a8abe9-b155-4d6b-a531-d4710215222f)
 
 ## Requisitos
 
