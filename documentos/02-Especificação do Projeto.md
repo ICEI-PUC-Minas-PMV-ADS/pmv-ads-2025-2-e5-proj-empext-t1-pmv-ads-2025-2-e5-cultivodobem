@@ -21,7 +21,6 @@ Para o desenvolvimento da solução serão adotadas as seguintes tecnologias:
 
 ![Cultivo do Bem PMC](https://github.com/user-attachments/assets/d62de60c-b137-4b2f-b140-987eff16c047)
 
-
 ## Requisitos
 
 As tabelas que se seguem apresentam os requisitos funcionais e não funcionais que detalham o escopo do projeto.
