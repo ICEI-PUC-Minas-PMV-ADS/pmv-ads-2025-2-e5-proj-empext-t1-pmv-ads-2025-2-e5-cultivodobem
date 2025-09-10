@@ -34,10 +34,9 @@ A justificativa do nosso projeto jaz nas dores, já mencionadas, que assolam o p
 
 ## Relação com a Extensão Universitária
 
-ESTA PARTE - É O IMPACTO PARA SOCIEDADE
-O presente projeto enquadra-se perfeitamente dentro dos requisitos para a extensão universitária, visto que serve ao propósito de levar para fora do ambiente acadêmico todo o conhecimento aqui obtido, promovendo assim um impacto socioeconômico por meio do emprego de soluções tecnológicas. O projeto fornece uma solução totalmente inédita e altamente contextualizada ao pequeno produtor rural e, por causa disso, tem o potencial de inovar no campo social, combatendo a desigualdade social e invisibiliação dos produtores rurais marginalizados, bem como o potencial de inovar no campo econômico, movimentando o mercado de feijão em Minas Gerais - e eventualmente no Brasil - e lançando as bases para o que pode se tornar um novo padrão nacional de classificação automatizada de feijão carioca.
+O presente projeto enquadra-se perfeitamente dentro dos requisitos para a extensão universitária, visto que serve ao propósito de levar para fora do ambiente acadêmico todo o conhecimento aqui obtido, promovendo assim um impacto socioeconômico por meio do emprego de soluções tecnológicas. O projeto fornece uma solução totalmente inédita e altamente contextualizada ao pequeno produtor rural e, por causa disso, tem o potencial de inovar no campo social, combatendo a desigualdade social e invisibilização dos produtores rurais marginalizados, bem como o potencial de inovar no campo econômico, movimentando o mercado de feijão em Minas Gerais - e eventualmente no Brasil - e lançando as bases para o que pode se tornar um novo padrão nacional de classificação automatizada de feijão carioca.
 
-COLOCAR AQUI O IMPACTO PARA OS ALUNOS.... COMO O PROJETO IMPACTA A FORMAÇÃO DOS ALUNOS
+Em adição a isso, o projeto será de extrema importância para a formação acadêmica e profissional da equipe de alunos responsável pelo seu desenvolvimento, visto que proporcionará a oportunidade de concebermos uma solução completa e real, desde as primeiras etapas de planejamento até as últimas etapas de implementação, o que contribui para uma capacitação multidisciplinar da equipe. A oportunidade de contato real e direto com um stakeholder e com os usuários finais do app, própria do caráter extensionista do projeto, também é imprescindível para o desenvolvimento de _softskills_ valorizadas no mercado de trabalho, como comunicação eficaz, resiliência e empatia.
 
 ## Descrição do Parceiro
 
