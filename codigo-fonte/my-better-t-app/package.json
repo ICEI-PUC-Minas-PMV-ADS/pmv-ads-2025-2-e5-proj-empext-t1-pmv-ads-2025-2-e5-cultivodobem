@@ -1,0 +1,25 @@
+{
+  "name": "my-cultivoapp",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "check": "biome check --write .",
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "dev:native": "turbo -F native dev",
+    "dev:web": "turbo -F web dev",
+    "dev:server": "turbo -F @my-cultivoapp/backend dev",
+    "dev:setup": "turbo -F @my-cultivoapp/backend dev:setup"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "turbo": "^2.5.4",
+    "@biomejs/biome": "^2.2.0"
+  },
+  "packageManager": "npm@10.9.2"
+}

@@ -1,0 +1,29 @@
+// cultivoStack configuration file
+// safe to delete
+
+{
+  "$schema": "https://r2.better-t-stack.dev/schema.json",
+  "version": "2.44.0",
+  "createdAt": "2025-09-11T17:10:51.547Z",
+  "database": "none",
+  "orm": "none",
+  "backend": "convex",
+  "runtime": "none",
+  "frontend": [
+    "tanstack-router"
+  ],
+  "addons": [
+    "biome",
+    "pwa",
+    "turborepo"
+  ],
+  "examples": [
+    "todo"
+  ],
+  "auth": "none",
+  "packageManager": "npm",
+  "dbSetup": "none",
+  "api": "none",
+  "webDeploy": "none",
+  "serverDeploy": "none"
+}
