@@ -13,8 +13,8 @@ import { Loader2, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import { useMutation, useQuery } from "convex/react";
-import { api } from "@my-cultivoapp/backend/convex/_generated/api";
-import type { Id } from "@my-cultivoapp/backend/convex/_generated/dataModel";
+import { api } from "../../../../packages/backend/convex/_generated/api.js";
+import type { Id } from "../../../../packages/backend/convex/_generated/dataModel.js";
 
 export const Route = createFileRoute("/todos")({
 	component: TodosRoute,

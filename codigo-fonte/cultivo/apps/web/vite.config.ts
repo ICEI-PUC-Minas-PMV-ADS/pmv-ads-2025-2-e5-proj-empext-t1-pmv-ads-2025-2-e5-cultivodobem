@@ -14,8 +14,8 @@ export default defineConfig({
         description: "my-cultivoapp - PWA Application",
         theme_color: "#0c0c0c",
       },
-      pwaAssets: { disabled: false, config: true },
-      devOptions: { enabled: true },
+      pwaAssets: { disabled: true, config: false },
+      devOptions: { enabled: false },
     })],
 	resolve: {
 		alias: {

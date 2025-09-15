@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "convex/react";
-import { api } from "@my-cultivoapp/backend/convex/_generated/api";
+import { api } from "../../../../packages/backend/convex/_generated/api.js";
 
 export const Route = createFileRoute("/")({
 	component: HomeComponent,
