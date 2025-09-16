@@ -24,23 +24,23 @@ export const listProdutores = query({
   },
 });
 
-export const listRepresentantes = query({
-  args: {},
-  handler: async (ctx) => {
-    return await ctx.db
-      .query("usuario")
-      .withIndex("by_criado_em")
-      .filter((q) => q.eq("tipo_usuario", "Representante"))
-      .order("desc")
-      .collect();
-  },
-});
+// export const listRepresentantes = query({
+//   args: {},
+//   handler: async (ctx) => {
+//     return await ctx.db
+//       .query("usuario")
+//       .withIndex("by_criado_em")
+//       .filter((q) => q.eq("tipo_usuario", "Representante"))
+//       .order("desc")
+//       .collect();
+//   },
+// });
 
-      .filter((q) => q.eq("tipo_usuario", "Produtor Rural"))
-      .order("desc")
-      .collect();
-  },
-});
+//       .filter((q) => q.eq("tipo_usuario", "Produtor Rural"))
+//       .order("desc")
+//       .collect();
+//   },
+// });
 
 export const getById = query({
   args: { id: v.id("usuario") },
@@ -88,8 +88,8 @@ export const create = mutation({
       estado: args.estado,
       bio: args.bio,
       foto_url: args.foto_url,
-      criado_em: now,
-      atualizado_em: now,
+      criado_em: Date.now(),
+      atualizado_em: Date.now(),
     });
 
     return id;
