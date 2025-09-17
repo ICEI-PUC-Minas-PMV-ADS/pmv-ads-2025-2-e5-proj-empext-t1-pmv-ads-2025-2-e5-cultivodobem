@@ -17,7 +17,7 @@ body {
   }
 }
 
-:root {
+/* :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -84,6 +84,80 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+} */
+
+:root {
+  /* Espaçamento e raio padrão */
+  --radius: 0.75rem;
+
+  /* --- Paleta Cultivo do Bem (claro) --- */
+  --background: #FCF8F1;              /* bg da página */
+  --foreground: #6B3F33;              /* texto principal */
+
+  --card: #F6EFE4;
+  --card-foreground: #6B3F33;
+
+  --popover: #F6EFE4;
+  --popover-foreground: #6B3F33;
+
+  --primary: #F39A18;                 /* laranja principal */
+  --primary-foreground: #3A2000;      /* texto em cima do primário */
+
+  /* Secundária em tom sutil de verde */
+  --secondary: #E9F5EB;               /* fundo sutil p/ botões/labels “secundários” */
+  --secondary-foreground: #2D7A31;    /* texto/ícone verde */
+
+  --muted: #F3E8D9;                   /* superfícies neutras */
+  --muted-foreground: #9A7B6A;
+
+  --accent: #EDE2D3;                   /* realces suaves */
+  --accent-foreground: #6B3F33;
+
+  --destructive: #E24D4D;
+
+  --border: #EADFCE;                   /* bordas/inputs */
+  --input: #EADFCE;
+  --ring: #F39A18;                     /* foco */
+
+  /* Cores de gráficos (opcional) */
+  --chart-1: #F39A18;
+  --chart-2: #2D7A31;
+  --chart-3: #6B3F33;
+  --chart-4: #8BBE48;
+  --chart-5: #558F45;
+
+  /* Sidebar (se usar) */
+  --sidebar: #FCF8F1;
+  --sidebar-foreground: #6B3F33;
+  --sidebar-primary: #F39A18;
+  --sidebar-primary-foreground: #3A2000;
+  --sidebar-accent: #E9F5EB;
+  --sidebar-accent-foreground: #2D7A31;
+  --sidebar-border: #EADFCE;
+  --sidebar-ring: #F39A18;
+}
+
+.dark {
+  /* --- Paleta Cultivo do Bem (escuro) --- */
+  --background: #1D1714;
+  --foreground: #F4ECE3;
+
+  --card: #261D18;
+  --card-foreground: #F4ECE3;
+
+  --popover: #261D18;
+  --popover-foreground: #F4ECE3;
+
+  --primary: #FFB13E;
+  --primary-foreground: #2A1400;
+
+  --secondary: #203B25;
+  --secondary-foreground: #D6F1DB;
+
+  --muted: #2A221D;
+  --muted-foreground: #BFAEA3;
+
+  --accent: #2A221
 }
 
 @theme inline {
