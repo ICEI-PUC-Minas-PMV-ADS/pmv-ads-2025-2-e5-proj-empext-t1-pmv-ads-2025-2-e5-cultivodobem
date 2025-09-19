@@ -102,7 +102,7 @@ function LoginComponent() {
               <button
                 type="button"
                 className="login-forgot-link"
-                onClick={() => toast.info("Funcionalidade em desenvolvimento")}
+                onClick={() => router.navigate({ to: "/forgot" })}
               >
                 Esqueceu sua senha?
               </button>
