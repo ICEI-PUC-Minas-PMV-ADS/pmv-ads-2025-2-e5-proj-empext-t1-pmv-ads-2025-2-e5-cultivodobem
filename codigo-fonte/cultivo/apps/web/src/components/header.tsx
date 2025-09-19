@@ -5,6 +5,7 @@ export default function Header() {
 	const links = [
 		{ to: "/", label: "Home" },
 		{ to: "/todos", label: "Todos" },
+		{ to: "/login", label: "Login" },
 	] as const;
 
 	return (
