@@ -1,10 +1,11 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useAction } from "convex/react";
+import { useMutation } from "convex/react";
 import { api } from "../../../../packages/backend/convex/_generated/api.js";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import "@/styles/signup.css";
 
 export const Route = createFileRoute("/signup")({ component: SignUpRoute });
 
@@ -15,18 +16,18 @@ type Form = {
   confirmar: string;
   telefone: string;
   tipo_usuario: "Produtor Rural" | "Representante";
-  data_nascimento: string; 
+  data_nascimento: string;
   cep: string;
   cidade: string;
   estado: string;
   bio: string;
-  foto_url: string; 
+  foto_url: string;
 };
 type Errors = Partial<Record<keyof Form | "confirmar", string>>;
 
 function SignUpRoute() {
   const nav = useNavigate();
-  const createWithPassword = useAction(api.user_actions.createWithPassword); 
+  const register = useMutation(api.register.register);
   const [form, setForm] = useState<Form>({
     nome: "", email: "", senha: "", confirmar: "",
     telefone: "", tipo_usuario: "Produtor Rural",
@@ -90,10 +91,10 @@ function SignUpRoute() {
       const email = form.email.trim().toLowerCase();
       const cep = form.cep.replace(/\D/g, "").replace(/(\d{5})(\d{3})/, "$1-$2");
 
-      await createWithPassword({
-        nome: form.nome.trim(),
+      await register({
         email,
-        senha: form.senha,
+        password: form.senha,
+        name: form.nome.trim(),
         tipo_usuario: form.tipo_usuario,
         cep,
         telefone: form.telefone || undefined,
@@ -105,7 +106,7 @@ function SignUpRoute() {
       });
 
       setShowSuccess(true);
-      setTimeout(() => nav({ to: "/loginTest" }), 2000);
+      setTimeout(() => nav({ to: "/login" }), 2000);
     } catch (e: any) {
       const msg = String(e?.message ?? e);
       if (msg.toLowerCase().includes("e-mail já cadastrado")) {
@@ -132,10 +133,10 @@ function SignUpRoute() {
   return (
     <>
       {/* Backdrop */}
-      <div className="fixed inset-0 z-40 bg-black/50" />
+      <div className="fixed inset-0 z-40 signup-backdrop" />
 
       {/* Container do modal (clicar fora fecha) */}
-      <div className="fixed inset-0 z-50 overflow-y-auto" onClick={() => nav({ to: "/" })}>
+      <div className="fixed inset-0 z-50 overflow-y-auto signup-surface" onClick={() => nav({ to: "/login" })}>
         <div className="flex min-h-dvh items-start justify-center p-4 sm:p-6">
           {/* Modal de sucesso */}
           {showSuccess && (
@@ -143,8 +144,7 @@ function SignUpRoute() {
               <div className="absolute inset-0 bg-black/40" />
               <div className="relative z-10 w-[90%] max-w-sm rounded-3xl p-6 text-center shadow-2xl"
                    style={{ background: "#f6efe4", color: "#6b3f33" }}>
-                <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full"
-                     style={{ background: "#e3f7e7", color: "#1e7a31" }}>
+                <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full signup-success-ring">
                   <span className="text-3xl">✓</span>
                 </div>
                 <h3 className="text-lg font-extrabold mb-1">Cadastro realizado!</h3>
@@ -162,11 +162,10 @@ function SignUpRoute() {
             {/* X */}
             <button
               type="button"
-              onClick={() => nav({ to: "/" })}
-              className="absolute right-3 top-3 z-20 h-9 w-9 rounded-full text-xl leading-none"
+              onClick={() => nav({ to: "/login" })}
+              className="absolute right-3 top-3 z-20 h-9 w-9 rounded-full text-xl leading-none signup-close"
               title="Fechar"
               aria-label="Fechar"
-              style={{ color: "#6b3f33", background: "#efe6d9", boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}
             >
               ×
             </button>
@@ -182,8 +181,7 @@ function SignUpRoute() {
               {topError && (
                 <div
                   role="alert"
-                  className="mb-4 flex items-start gap-2 rounded-xl border px-3 py-2 text-sm font-medium"
-                  style={{ background: "#fdecec", borderColor: "#f3b4b4", color: "#7d1d1d" }}
+                  className="mb-4 flex items-start gap-2 rounded-xl border px-3 py-2 text-sm font-medium signup-alert"
                 >
                   <span aria-hidden>⚠️</span>
                   <span>{topError}</span>
@@ -241,13 +239,13 @@ function SignUpRoute() {
                   {errors.cep && <p className="text-xs text-red-600">{errors.cep}</p>}
                 </div>
 
-                {/* Data de nascimento — date picker */}
+                {/* Data de nascimento */}
                 <div className="space-y-1.5">
                   {label("Data de Nascimento")}
                   <Input
-                    type="date"                // abre o seletor nativo (mostra dd/mm/aaaa em pt-BR)
+                    type="date"
                     value={form.data_nascimento}
-                    onChange={(e) => set("data_nascimento", e.target.value)} 
+                    onChange={(e) => set("data_nascimento", e.target.value)}
                     className={errClass("data_nascimento")}
                     style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
                   />
@@ -273,9 +271,12 @@ function SignUpRoute() {
                 {/* Tipo de conta */}
                 <div className="space-y-1.5">
                   {label("Tipo de Conta *")}
-                  <select value={form.tipo_usuario} onChange={(e) => set("tipo_usuario", e.target.value as Form["tipo_usuario"])}
-                          className={`w-full h-11 rounded-xl border px-3 ${errors.tipo_usuario ? "border-red-500 bg-red-50" : ""}`}
-                          style={{ background: "#f9f2e8", borderColor: "#eadfce", color: "#6b3f33" }}>
+                  <select
+                    value={form.tipo_usuario}
+                    onChange={(e) => set("tipo_usuario", e.target.value as Form["tipo_usuario"])}
+                    className={`w-full h-11 rounded-xl border px-3 ${errors.tipo_usuario ? "border-red-500 bg-red-50" : ""}`}
+                    style={{ background: "#f9f2e8", borderColor: "#eadfce", color: "#6b3f33" }}
+                  >
                     <option>Produtor Rural</option>
                     <option>Representante</option>
                   </select>
@@ -285,10 +286,13 @@ function SignUpRoute() {
                 {/* Bio */}
                 <div className="space-y-1.5 md:col-span-2">
                   {label("Bio")}
-                  <textarea value={form.bio} onChange={(e) => set("bio", e.target.value)}
-                            placeholder="Conte um pouco sobre você"
-                            className={`min-h-[96px] w-full rounded-xl border p-3 ${errors.bio ? "border-red-500 bg-red-50" : ""}`}
-                            style={{ background: "#f9f2e8", borderColor: "#eadfce" }} />
+                  <textarea
+                    value={form.bio}
+                    onChange={(e) => set("bio", e.target.value)}
+                    placeholder="Conte um pouco sobre você"
+                    className={`min-h-[96px] w-full rounded-xl border p-3 ${errors.bio ? "border-red-500 bg-red-50" : ""}`}
+                    style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
+                  />
                 </div>
 
                 {/* Senhas */}
@@ -309,14 +313,16 @@ function SignUpRoute() {
 
                 {/* Ações */}
                 <div className="md:col-span-2">
-                  <Button type="submit" disabled={loading}
-                          className="h-12 w-full rounded-2xl text-base font-extrabold shadow-md"
-                          style={{ background: "#f39a18", color: "#3a2000" }}>
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    className="h-12 w-full rounded-2xl text-base font-extrabold shadow-md signup-primary"
+                  >
                     {loading ? "Enviando..." : "Cadastrar"}
                   </Button>
                   <div className="mt-2 text-center text-sm">
                     Já tem conta?{" "}
-                    <Link to="/loginTest" className="font-semibold" style={{ color: "#2d7a31" }}>
+                    <Link to="/login" className="font-semibold" style={{ color: "#2d7a31" }}>
                       Entrar
                     </Link>
                   </div>

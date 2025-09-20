@@ -1,0 +1,43 @@
+:root {
+  --cb-bg: #f6efe4;
+  --cb-text: #6b3f33;
+  --cb-muted: #efe6d9;
+  --cb-primary: #f39a18;
+  --cb-success-bg: #e3f7e7;
+  --cb-success-text: #1e7a31;
+  --cb-alert-bg: #fdecec;
+  --cb-alert-border: #f3b4b4;
+  --cb-alert-text: #7d1d1d;
+  --cb-card-shadow: 0 40px 120px rgba(0,0,0,0.20);
+}
+
+/* wrappers */
+.signup-backdrop { background: rgba(0,0,0,.5); }
+.signup-surface  { background: var(--cb-bg); color: var(--cb-text); }
+
+/* card */
+.signup-card {
+  background: var(--cb-bg);
+  color: var(--cb-text);
+  box-shadow: var(--cb-card-shadow);
+  border: 0;
+}
+
+/* close btn */
+.signup-close {
+  color: var(--cb-text);
+  background: var(--cb-muted);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* success modal */
+.signup-success-ring { background: var(--cb-success-bg); color: var(--cb-success-text); }
+
+/* alert */
+.signup-alert { background: var(--cb-alert-bg); border-color: var(--cb-alert-border); color: var(--cb-alert-text); }
+
+/* primary button */
+.signup-primary {
+  background: var(--cb-primary);
+  color: #3a2000;
+}

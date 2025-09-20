@@ -4,12 +4,15 @@ import { useState } from "react";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
 import "@/styles/login.css";
+import { useMutation } from "convex/react";
+import { api } from "../../../../packages/backend/convex/_generated/api.js";
 
 export const Route = createFileRoute("/login")({
   component: LoginComponent,
 });
 
 function LoginComponent() {
+  const login = useMutation(api.auth.login);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -20,33 +23,52 @@ function LoginComponent() {
     e.preventDefault();
     setIsLoading(true);
 
+
     try {
-      // Simular autenticação simples para demonstração
-      if (email === "admin@cultivodobem.com" && password === "123456") {
-        const user = {
-          email: "admin@cultivodobem.com",
-          name: "Administrador",
-          id: "1",
-        };
-
-        // Salvar dados do usuário no localStorage
-        localStorage.setItem("user", JSON.stringify(user));
-
-        toast.success("Login realizado com sucesso!");
-
-        // Redirecionar para a página de todos
-        router.navigate({ to: "/todos" });
-      } else {
-        throw new Error("Credenciais inválidas");
-      }
+      const user = await login({
+        email: email.trim().toLowerCase(),
+        password,
+      });
+      // Salva usuário sem hash (backend já retorna sanitizado)
+      localStorage.setItem("user", JSON.stringify(user));
+      toast.success("Login realizado com sucesso!");
+      router.navigate({ to: "/todos" });
     } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Erro ao fazer login"
-      );
+      toast.error(error instanceof Error ? error.message : "Erro ao fazer login");
     } finally {
       setIsLoading(false);
     }
   };
+
+      
+    // Simulação de autenticação
+  //   try {
+  //     // Simular autenticação simples para demonstração
+  //     if (email === "admin@cultivodobem.com" && password === "123456") {
+  //       const user = {
+  //         email: "admin@cultivodobem.com",
+  //         name: "Administrador",
+  //         id: "1",
+  //       };
+
+  //       // Salvar dados do usuário no localStorage
+  //       localStorage.setItem("user", JSON.stringify(user));
+
+  //       toast.success("Login realizado com sucesso!");
+
+  //       // Redirecionar para a página de todos
+  //       router.navigate({ to: "/todos" });
+  //     } else {
+  //       throw new Error("Credenciais inválidas");
+  //     }
+  //   } catch (error) {
+  //     toast.error(
+  //       error instanceof Error ? error.message : "Erro ao fazer login"
+  //     );
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   return (
     <div className="login-container">
@@ -123,11 +145,7 @@ function LoginComponent() {
               <button
                 type="button"
                 className="login-register-link"
-                onClick={() =>
-                  toast.info(
-                    "Cadastro não disponível. Use: admin@cultivodobem.com / 123456"
-                  )
-                }
+                onClick={() => router.navigate({ to: "/signup" })}
               >
                 Cadastre-se
               </button>
