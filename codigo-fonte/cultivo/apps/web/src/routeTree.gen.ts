@@ -10,11 +10,29 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TodosRouteImport } from './routes/todos'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as LoginTestRouteImport } from './routes/loginTest'
+import { Route as EditusersRouteImport } from './routes/editusers'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TodosRoute = TodosRouteImport.update({
   id: '/todos',
   path: '/todos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginTestRoute = LoginTestRouteImport.update({
+  id: '/loginTest',
+  path: '/loginTest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EditusersRoute = EditusersRouteImport.update({
+  id: '/editusers',
+  path: '/editusers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +43,39 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/editusers': typeof EditusersRoute
+  '/loginTest': typeof LoginTestRoute
+  '/signup': typeof SignupRoute
   '/todos': typeof TodosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/editusers': typeof EditusersRoute
+  '/loginTest': typeof LoginTestRoute
+  '/signup': typeof SignupRoute
   '/todos': typeof TodosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/editusers': typeof EditusersRoute
+  '/loginTest': typeof LoginTestRoute
+  '/signup': typeof SignupRoute
   '/todos': typeof TodosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/todos'
+  fullPaths: '/' | '/editusers' | '/loginTest' | '/signup' | '/todos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/todos'
-  id: '__root__' | '/' | '/todos'
+  to: '/' | '/editusers' | '/loginTest' | '/signup' | '/todos'
+  id: '__root__' | '/' | '/editusers' | '/loginTest' | '/signup' | '/todos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EditusersRoute: typeof EditusersRoute
+  LoginTestRoute: typeof LoginTestRoute
+  SignupRoute: typeof SignupRoute
   TodosRoute: typeof TodosRoute
 }
 
@@ -56,6 +86,27 @@ declare module '@tanstack/react-router' {
       path: '/todos'
       fullPath: '/todos'
       preLoaderRoute: typeof TodosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/loginTest': {
+      id: '/loginTest'
+      path: '/loginTest'
+      fullPath: '/loginTest'
+      preLoaderRoute: typeof LoginTestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/editusers': {
+      id: '/editusers'
+      path: '/editusers'
+      fullPath: '/editusers'
+      preLoaderRoute: typeof EditusersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,6 +121,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EditusersRoute: EditusersRoute,
+  LoginTestRoute: LoginTestRoute,
+  SignupRoute: SignupRoute,
   TodosRoute: TodosRoute,
 }
 export const routeTree = rootRouteImport
