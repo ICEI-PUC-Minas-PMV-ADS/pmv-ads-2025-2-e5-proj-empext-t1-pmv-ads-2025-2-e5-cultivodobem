@@ -22,8 +22,16 @@ export default defineSchema({
   .index("by_email", ["email"])
   .index("by_criado_em", ["criado_em"]),
 
-	todos: defineTable({
-		text: v.string(),
-		completed: v.boolean(),
-	}),
+  users: defineTable({
+    email: v.string(),
+    passwordHash: v.string(),
+    name: v.string(),
+    createdAt: v.number(),
+  }).index("by_email", ["email"]),
+
+  todos: defineTable({
+    text: v.string(),
+    completed: v.boolean(),
+    userId: v.optional(v.id("users")),
+  }).index("by_user", ["userId"]),
 });

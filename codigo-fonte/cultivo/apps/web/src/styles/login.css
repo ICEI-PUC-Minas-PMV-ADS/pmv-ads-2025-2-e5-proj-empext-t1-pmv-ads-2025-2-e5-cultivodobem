@@ -1,0 +1,291 @@
+/* Estilos específicos para a tela de login */
+
+/* Variáveis para light e dark mode */
+:root {
+  /* Light mode */
+  --login-bg: #fcf8f1;
+  --login-text-primary: #734338;
+  --login-text-secondary: #558f45;
+  --login-input-bg: #fcf8f1;
+  --login-input-border: #734338;
+  --login-input-focus: #558f45;
+  --login-button-bg: #f99d1c;
+  --login-shadow: rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+  /* Dark mode */
+  --login-bg: #1a1a1a;
+  --login-text-primary: #e5d5c8;
+  --login-text-secondary: #8bbe48;
+  --login-input-bg: #2a2a2a;
+  --login-input-border: #e5d5c8;
+  --login-input-focus: #8bbe48;
+  --login-button-bg: #f99d1c;
+  --login-shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* Container principal */
+.login-container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: var(--login-bg);
+  transition: background-color 0.3s ease;
+}
+
+/* Container do formulário */
+.login-form-wrapper {
+  width: 100%;
+  max-width: 24rem; /* max-w-sm */
+  padding: 1.5rem 2rem 2.5rem;
+}
+
+/* Header com logo e título */
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.login-logo {
+  width: 9rem;
+  height: 9rem;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+.login-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--login-text-primary);
+  transition: color 0.3s ease;
+}
+
+/* Formulário */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.login-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--login-text-primary);
+  transition: color 0.3s ease;
+}
+
+.login-input {
+  height: 2.5rem;
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+  width: 100%;
+  background-color: var(--login-input-bg);
+  border: 1px solid var(--login-input-border);
+  color: var(--login-text-primary);
+  padding: 0.5rem 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: var(--login-input-focus);
+  box-shadow: 0 0 0 2px rgba(139, 190, 72, 0.2);
+}
+
+.login-input::placeholder {
+  color: #9ca3af;
+}
+
+/* Link esqueceu senha */
+.login-forgot-password {
+  text-align: right;
+}
+
+.login-forgot-link {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--login-text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login-forgot-link:hover {
+  opacity: 0.8;
+}
+
+/* Botão entrar */
+.login-submit-button {
+  width: 100%;
+  height: 2.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  background-color: var(--login-button-bg);
+  border: none;
+  border-radius: 0.375rem;
+  box-shadow: 0 4px 6px -1px var(--login-shadow);
+  transition: all 0.2s ease;
+  transform: scale(1);
+  cursor: pointer;
+}
+
+.login-submit-button:hover:not(:disabled) {
+  transform: scale(1.02);
+  opacity: 0.9;
+}
+
+.login-submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Link para cadastro */
+.login-register-section {
+  text-align: center;
+  padding-top: 0.5rem;
+}
+
+.login-register-text {
+  font-size: 0.75rem;
+  color: var(--login-text-primary);
+  transition: color 0.3s ease;
+}
+
+.login-register-link {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--login-text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login-register-link:hover {
+  opacity: 0.8;
+}
+
+/* Responsividade para telas pequenas (mobile médio) */
+@media (min-width: 480px) {
+  .login-logo {
+    width: 10rem;
+    height: 10rem;
+  }
+}
+
+/* Responsividade para tablets */
+@media (min-width: 640px) {
+  .login-container {
+    padding: 1.5rem;
+  }
+
+  .login-form-wrapper {
+    max-width: 28rem; /* max-w-md */
+    padding: 2rem 2.5rem;
+  }
+
+  .login-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .login-logo-container {
+    margin-bottom: 2rem;
+  }
+
+  .login-logo {
+    width: 11.5rem;
+    height: 11.5rem;
+  }
+
+  .login-title {
+    font-size: 1.5rem;
+  }
+
+  .login-form {
+    gap: 1.5rem;
+  }
+
+  .login-label {
+    font-size: 1rem;
+  }
+
+  .login-input {
+    height: 3rem;
+    font-size: 1rem;
+  }
+
+  .login-forgot-link {
+    font-size: 0.875rem;
+  }
+
+  .login-submit-button {
+    height: 3rem;
+    font-size: 1rem;
+  }
+
+  .login-register-section {
+    padding-top: 1rem;
+  }
+
+  .login-register-text,
+  .login-register-link {
+    font-size: 0.875rem;
+  }
+}
+
+/* Responsividade para desktop */
+@media (min-width: 768px) {
+  .login-logo {
+    width: 12.5rem;
+    height: 12.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .login-form-wrapper {
+    max-width: 32rem; /* max-w-lg */
+  }
+
+  .login-logo {
+    width: 13.5rem;
+    height: 13.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .login-form-wrapper {
+    max-width: 36rem; /* max-w-xl */
+    padding: 2.5rem;
+  }
+
+  .login-logo {
+    width: 15rem;
+    height: 15rem;
+  }
+
+  .login-title {
+    font-size: 1.875rem;
+  }
+}
