@@ -163,7 +163,6 @@ function SignUpRoute() {
             <button
               type="button"
               onClick={() => nav({ to: "/login" })}
-              className="absolute right-3 top-3 z-20 h-9 w-9 rounded-full text-xl leading-none signup-close"
               title="Fechar"
               aria-label="Fechar"
             >
@@ -316,7 +315,7 @@ function SignUpRoute() {
                   <Button
                     type="submit"
                     disabled={loading}
-                    className="h-12 w-full rounded-2xl text-base font-extrabold shadow-md signup-primary"
+                    className="login-submit-button"
                   >
                     {loading ? "Enviando..." : "Cadastrar"}
                   </Button>

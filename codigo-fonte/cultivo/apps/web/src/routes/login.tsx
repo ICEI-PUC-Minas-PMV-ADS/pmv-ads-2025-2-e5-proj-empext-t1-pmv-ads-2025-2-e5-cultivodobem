@@ -31,6 +31,7 @@ function LoginComponent() {
       });
       // Salva usuário sem hash (backend já retorna sanitizado)
       localStorage.setItem("user", JSON.stringify(user));
+      window.dispatchEvent(new Event("auth-changed"));
       toast.success("Login realizado com sucesso!");
       router.navigate({ to: "/todos" });
     } catch (error) {

@@ -1,0 +1,74 @@
+:root {
+  --edit-bg: var(--login-bg, #fcf8f1);
+  --edit-text: var(--login-text-primary, #734338);
+  --edit-input-bg: var(--login-input-bg, #fcf8f1);
+  --edit-input-border: var(--login-input-border, #734338);
+  --edit-primary: var(--login-button-bg, #f99d1c);
+  --edit-shadow: var(--login-shadow, rgba(0,0,0,0.1));
+}
+
+/* container de página */
+.edit-container {
+  min-height: calc(100dvh - 56px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: var(--edit-bg);
+  color: var(--edit-text);
+}
+
+/* card */
+.edit-card {
+  width: 100%;
+  max-width: 28rem;
+  border: 0;
+  border-radius: 1.5rem;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.20);
+  background: var(--edit-bg);
+  color: var(--edit-text);
+}
+
+/* título */
+.edit-title {
+  text-align: center;
+  font-weight: 800;
+  color: var(--edit-text);
+}
+
+/* avatar */
+.edit-avatar {
+  background: #eadfce;
+  color: var(--edit-text);
+}
+
+/* inputs */
+.edit-input {
+  height: 3rem;
+  background: var(--edit-input-bg);
+  border: 1px solid var(--edit-input-border);
+  border-radius: 0.75rem;
+}
+
+/* select */
+.edit-select {
+  height: 3rem;
+  width: 100%;
+  background: var(--edit-input-bg);
+  border: 1px solid var(--edit-input-border);
+  border-radius: 0.75rem;
+  padding: 0 0.75rem;
+  color: var(--edit-text);
+}
+
+/* botão salvar */
+.edit-button {
+  height: 3rem;
+  width: 100%;
+  border-radius: 1rem;
+  font-weight: 800;
+  box-shadow: 0 4px 6px -1px var(--edit-shadow);
+  background: var(--edit-primary);
+  color: #3a2000;
+}

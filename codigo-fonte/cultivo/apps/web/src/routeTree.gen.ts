@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TodosRouteImport } from './routes/todos'
 import { Route as SignupRouteImport } from './routes/signup'
-import { Route as LoginTestRouteImport } from './routes/loginTest'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotRouteImport } from './routes/forgot'
 import { Route as EditusersRouteImport } from './routes/editusers'
@@ -25,11 +24,6 @@ const TodosRoute = TodosRouteImport.update({
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginTestRoute = LoginTestRouteImport.update({
-  id: '/loginTest',
-  path: '/loginTest',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -58,7 +52,6 @@ export interface FileRoutesByFullPath {
   '/editusers': typeof EditusersRoute
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
-  '/loginTest': typeof LoginTestRoute
   '/signup': typeof SignupRoute
   '/todos': typeof TodosRoute
 }
@@ -67,7 +60,6 @@ export interface FileRoutesByTo {
   '/editusers': typeof EditusersRoute
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
-  '/loginTest': typeof LoginTestRoute
   '/signup': typeof SignupRoute
   '/todos': typeof TodosRoute
 }
@@ -77,36 +69,20 @@ export interface FileRoutesById {
   '/editusers': typeof EditusersRoute
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
-  '/loginTest': typeof LoginTestRoute
   '/signup': typeof SignupRoute
   '/todos': typeof TodosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/editusers'
-    | '/forgot'
-    | '/login'
-    | '/loginTest'
-    | '/signup'
-    | '/todos'
+  fullPaths: '/' | '/editusers' | '/forgot' | '/login' | '/signup' | '/todos'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/editusers'
-    | '/forgot'
-    | '/login'
-    | '/loginTest'
-    | '/signup'
-    | '/todos'
+  to: '/' | '/editusers' | '/forgot' | '/login' | '/signup' | '/todos'
   id:
     | '__root__'
     | '/'
     | '/editusers'
     | '/forgot'
     | '/login'
-    | '/loginTest'
     | '/signup'
     | '/todos'
   fileRoutesById: FileRoutesById
@@ -116,7 +92,6 @@ export interface RootRouteChildren {
   EditusersRoute: typeof EditusersRoute
   ForgotRoute: typeof ForgotRoute
   LoginRoute: typeof LoginRoute
-  LoginTestRoute: typeof LoginTestRoute
   SignupRoute: typeof SignupRoute
   TodosRoute: typeof TodosRoute
 }
@@ -135,13 +110,6 @@ declare module '@tanstack/react-router' {
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/loginTest': {
-      id: '/loginTest'
-      path: '/loginTest'
-      fullPath: '/loginTest'
-      preLoaderRoute: typeof LoginTestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -180,7 +148,6 @@ const rootRouteChildren: RootRouteChildren = {
   EditusersRoute: EditusersRoute,
   ForgotRoute: ForgotRoute,
   LoginRoute: LoginRoute,
-  LoginTestRoute: LoginTestRoute,
   SignupRoute: SignupRoute,
   TodosRoute: TodosRoute,
 }

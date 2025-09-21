@@ -1,55 +1,42 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 
+// Listar todos os usuários
 export const list = query({
   args: {},
   handler: async (ctx) => {
     return await ctx.db
-      .query("usuario")
-      .withIndex("by_criado_em")
-      .order("desc")
+      .query("users")
       .collect();
   },
 });
 
+// Listar apenas produtores rurais
 export const listProdutores = query({
   args: {},
   handler: async (ctx) => {
     return await ctx.db
-      .query("usuario")
-      .withIndex("by_criado_em")
+      .query("users")
       .filter((q) => q.eq("tipo_usuario", "Produtor Rural"))
-      .order("desc")
       .collect();
   },
 });
 
-// export const listRepresentantes = query({
-//   args: {},
-//   handler: async (ctx) => {
-//     return await ctx.db
-//       .query("usuario")
-//       .withIndex("by_criado_em")
-//       .filter((q) => q.eq("tipo_usuario", "Representante"))
-//       .order("desc")
-//       .collect();
-//   },
-// });
-
-//       .filter((q) => q.eq("tipo_usuario", "Produtor Rural"))
-//       .order("desc")
-//       .collect();
-//   },
-// });
-
+// READ
 export const getById = query({
-  args: { id: v.id("usuario") },
-  handler: async (ctx, { id }) => ctx.db.get(id),
+  args: { id: v.id("users") },
+  handler: async (ctx, { id }) => {
+    const user = await ctx.db.get(id);
+    if (!user) return null;
+    const { passwordHash, ...safe } = user;
+    return safe;
+  },
 });
 
+// CREATE
 export const create = mutation({
   args: {
-    nome: v.string(),
+    name: v.string(),
     email: v.string(),
     senha_hash: v.optional(v.string()),
     telefone: v.optional(v.string()),
@@ -66,7 +53,7 @@ export const create = mutation({
     const email = args.email.trim().toLowerCase();
 
     const exists = await ctx.db
-      .query("usuario")
+      .query("users")
       .withIndex("by_email", (q) => q.eq("email", email))
       .first();
     if (exists) throw new Error("E-mail já cadastrado.");
@@ -76,8 +63,8 @@ export const create = mutation({
       args.tipo_usuario === "Representante"  ? "representante" :
       args.tipo_usuario ?? "membro";
 
-    const id = await ctx.db.insert("usuario", {
-      nome: args.nome.trim(),
+    const id = await ctx.db.insert("users", {
+      name: args.name.trim(),
       email,
       senha_hash: args.senha_hash,
       telefone: args.telefone,
@@ -88,18 +75,19 @@ export const create = mutation({
       estado: args.estado,
       bio: args.bio,
       foto_url: args.foto_url,
-      criado_em: Date.now(),
-      atualizado_em: Date.now(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
     });
 
     return id;
   },
 });
 
+// UPDATE
 export const update = mutation({
   args: {
-    id: v.id("usuario"),
-    nome: v.optional(v.string()),
+    id: v.id("users"),
+    name: v.optional(v.string()),
     email: v.optional(v.string()),
     senha_hash: v.optional(v.string()), // (se trocar senha via Action)
     telefone: v.optional(v.string()),
@@ -115,9 +103,9 @@ export const update = mutation({
     const u = await ctx.db.get(id);
     if (!u) throw new Error("Usuário não encontrado.");
 
-    const patch: Record<string, unknown> = { atualizado_em: Date.now() };
+    const patch: Record<string, unknown> = { updatedAt: Date.now() };
 
-    if (rest.nome !== undefined) patch.nome = rest.nome.trim();
+    if (rest.name !== undefined) patch.name = rest.name.trim();
     if (rest.telefone !== undefined) patch.telefone = rest.telefone;
     if (rest.tipo_usuario !== undefined) patch.tipo_usuario = rest.tipo_usuario;
     if (rest.data_nascimento !== undefined) patch.data_nascimento = rest.data_nascimento;
@@ -131,7 +119,7 @@ export const update = mutation({
       const email = rest.email.trim().toLowerCase();
       if (email !== u.email) {
         const exists = await ctx.db
-          .query("usuario")
+          .query("users")
           .withIndex("by_email", (q) => q.eq("email", email))
           .first();
         if (exists) throw new Error("E-mail já cadastrado.");
@@ -146,8 +134,9 @@ export const update = mutation({
   },
 });
 
+// DELETE
 export const remove = mutation({
-  args: { id: v.id("usuario") },
+  args: { id: v.id("users") },
   handler: async (ctx, { id }) => {
     await ctx.db.delete(id);
     return id;

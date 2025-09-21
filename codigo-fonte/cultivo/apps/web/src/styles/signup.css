@@ -1,14 +1,25 @@
 :root {
-  --cb-bg: #f6efe4;
-  --cb-text: #6b3f33;
-  --cb-muted: #efe6d9;
-  --cb-primary: #f39a18;
-  --cb-success-bg: #e3f7e7;
-  --cb-success-text: #1e7a31;
-  --cb-alert-bg: #fdecec;
-  --cb-alert-border: #f3b4b4;
-  --cb-alert-text: #7d1d1d;
-  --cb-card-shadow: 0 40px 120px rgba(0,0,0,0.20);
+  /* Light mode */
+  --login-bg: #fcf8f1;
+  --login-text-primary: #734338;
+  --login-text-secondary: #558f45;
+  --login-input-bg: #fcf8f1;
+  --login-input-border: #734338;
+  --login-input-focus: #558f45;
+  --login-button-bg: #f99d1c;
+  --login-shadow: rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+  /* Dark mode */
+  --login-bg: #1a1a1a;
+  --login-text-primary: #e5d5c8;
+  --login-text-secondary: #8bbe48;
+  --login-input-bg: #2a2a2a;
+  --login-input-border: #e5d5c8;
+  --login-input-focus: #8bbe48;
+  --login-button-bg: #f99d1c;
+  --login-shadow: rgba(0, 0, 0, 0.3);
 }
 
 /* wrappers */
