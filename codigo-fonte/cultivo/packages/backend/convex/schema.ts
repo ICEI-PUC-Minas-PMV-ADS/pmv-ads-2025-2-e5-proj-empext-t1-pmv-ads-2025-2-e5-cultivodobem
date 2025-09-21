@@ -8,7 +8,7 @@ export default defineSchema({
     name: v.string(),
     tipo_usuario: v.optional(v.union(v.literal("Produtor Rural"), v.literal("Representante"))),
     telefone: v.optional(v.string()),
-    data_nascimento: v.optional(v.string()), // ISO yyyy-mm-dd (string simples já resolve)
+    data_nascimento: v.optional(v.string()),
     cep: v.optional(v.string()),
     cidade: v.optional(v.string()),
     estado: v.optional(v.string()),

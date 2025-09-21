@@ -41,7 +41,7 @@ export const create = mutation({
     senha_hash: v.optional(v.string()),
     telefone: v.optional(v.string()),
     tipo_usuario: v.optional(v.string()),
-    data_nascimento: v.optional(v.string()),  // ISO yyyy-MM-dd
+    data_nascimento: v.optional(v.string()),
     cep: v.optional(v.string()),
     cidade: v.optional(v.string()),
     estado: v.optional(v.string()),
@@ -89,7 +89,7 @@ export const update = mutation({
     id: v.id("users"),
     name: v.optional(v.string()),
     email: v.optional(v.string()),
-    senha_hash: v.optional(v.string()), // (se trocar senha via Action)
+    senha_hash: v.optional(v.string()),
     telefone: v.optional(v.string()),
     tipo_usuario: v.optional(v.string()),
     data_nascimento: v.optional(v.string()),

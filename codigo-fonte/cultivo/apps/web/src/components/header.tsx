@@ -21,7 +21,7 @@ export default function Header() {
 		load();
 		const onStorage = (e: StorageEvent) => { if (e.key === "user") load(); };
 		window.addEventListener("storage", onStorage);
-		// ouvir as mudanças na mesma aba
+		// ouvir as mudanças na mesma aba para exibir o nome do usuário logado
 		const onAuthChanged = () => load();
 		window.addEventListener("auth-changed", onAuthChanged as any);
 		return () => {
