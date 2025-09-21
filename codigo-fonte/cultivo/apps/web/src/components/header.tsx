@@ -7,8 +7,6 @@ export default function Header() {
 		{ to: "/", label: "Home" },
 		{ to: "/todos", label: "Todos" },
 		{ to: "/editusers", label: "Edit Users" },
-		//{ to: "/signup", label: "Sign Up" },
-		//{ to: "/login", label: "Login" },
 	] as const;
 
 	const router = useRouter();

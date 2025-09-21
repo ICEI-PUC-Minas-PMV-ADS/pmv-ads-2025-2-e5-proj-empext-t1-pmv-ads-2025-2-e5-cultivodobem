@@ -1,6 +1,5 @@
-/* ===========================
-   Editar Perfil — Estilos base
-   =========================== */
+/* Estilos específicos para a tela de edituser */
+
 :root{
   --edit-bg: var(--login-bg, #fcf8f1);
   --edit-text: var(--login-text-primary, #734338);
