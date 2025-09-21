@@ -75,3 +75,27 @@
 }
 .signup-close:hover { filter: brightness(0.95); }
 
+/* Avatar do signup: botão por cima da foto e sem “cortar” */
+.signup-avatar{ position: relative; overflow: visible; }
+.signup-avatar img{ position: absolute; inset: 0; z-index: 1; }
+
+/* Camerazinha estilo do edit (pequena, anel branco, canto inferior direito) */
+.signup-avatar-btn{
+  position: absolute; right: -6px; bottom: -6px; z-index: 5;
+  width: 34px; height: 34px; border-radius: 9999px;
+  display: flex; align-items: center; justify-content: center;
+  background: #f39a18; color: #3a2000; border: 2px solid #f6efe4;
+  box-shadow: 0 2px 6px rgba(0,0,0,.18);
+  line-height: 1;
+}
+.signup-avatar-btn:hover{ filter: brightness(.96); }
+
+/* Botão fechar do signup — centralizado e sem distorção */
+.signup-close{
+  width: 32px; height: 32px; border-radius: 9999px;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1; font-weight: 700; font-size: 20px;
+  background: rgba(0,0,0,.06); color: #6b3f33; border: 1px solid rgba(0,0,0,.08);
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+.signup-close:hover{ filter: brightness(.96); }

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Camera } from "lucide-react";
 import "@/styles/signup.css";
 
 export const Route = createFileRoute("/signup")({ component: SignUpRoute });
@@ -177,28 +178,21 @@ function SignUpRoute() {
             </CardHeader>
 
             <CardContent className="px-4 sm:px-6 pb-6">
-              {/* Alerta bonito */}
-              {topError && (
-                <div
-                  role="alert"
-                  className="mb-4 flex items-start gap-2 rounded-xl border px-3 py-2 text-sm font-medium signup-alert"
-                >
-                  <span aria-hidden>⚠️</span>
-                  <span>{topError}</span>
-                </div>
-              )}
-
-              <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <form onSubmit={onSubmit} className="grid grid-cols-1 gap-3 md:grid-cols-2">
                 {/* Avatar */}
                 <div className="md:col-span-2 flex items-center justify-center mb-1">
-                  <div className="relative flex h-24 w-24 items-center justify-center rounded-full"
-                       style={{ background: "#eadfce", color: "#6b3f33" }}>
+                  <div className="signup-avatar flex h-24 w-24 items-center justify-center rounded-full"
+                      style={{ background: "#eadfce", color: "#6b3f33" }}>
                     {!form.foto_url && <span className="text-4xl font-extrabold">{(form.nome?.[0] ?? "U").toUpperCase()}</span>}
-                    {form.foto_url && <img src={form.foto_url} alt="Foto de perfil" className="absolute inset-0 h-full w-full rounded-full object-cover" />}
-                    <button type="button" onClick={() => fileRef.current?.click()}
-                            className="absolute -right-1 bottom-1 flex h-7 w-7 items-center justify-center rounded-full border-2 text-sm"
-                            style={{ background: "#f39a18", color: "#3a2000", borderColor: "#f6efe4" }}
-                            title="Adicionar foto">📷</button>
+                    {form.foto_url && <img src={form.foto_url} alt="Foto de perfil" className="h-full w-full rounded-full object-cover" />}
+                    <button
+                      type="button"
+                      onClick={() => fileRef.current?.click()}
+                      className="signup-avatar-btn"
+                      title="Adicionar foto" aria-label="Adicionar foto"
+                    >
+                      <Camera size={16}/>
+                    </button>
                   </div>
                   <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={onPickPhoto} />
                 </div>
@@ -246,7 +240,6 @@ function SignUpRoute() {
                     type="date"
                     value={form.data_nascimento}
                     onChange={(e) => set("data_nascimento", e.target.value)}
-                    className={errClass("data_nascimento")}
                     style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
                   />
                   {errors.data_nascimento && <p className="text-xs text-red-600">{errors.data_nascimento}</p>}

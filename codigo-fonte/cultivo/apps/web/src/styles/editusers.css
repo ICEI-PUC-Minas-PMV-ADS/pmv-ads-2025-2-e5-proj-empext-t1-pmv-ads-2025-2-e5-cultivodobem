@@ -1,4 +1,7 @@
-:root {
+/* ===========================
+   Editar Perfil — Estilos base
+   =========================== */
+:root{
   --edit-bg: var(--login-bg, #fcf8f1);
   --edit-text: var(--login-text-primary, #734338);
   --edit-input-bg: var(--login-input-bg, #fcf8f1);
@@ -7,84 +10,51 @@
   --edit-shadow: var(--login-shadow, rgba(0,0,0,0.1));
 }
 
-/* container de página */
-.edit-container {
-  min-height: calc(100dvh - 56px);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  background: var(--edit-bg);
-  color: var(--edit-text);
+/* Página: apenas a página rola (sem scroll interno no card) */
+.edit-container{
+  width:100%;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:1rem 1rem 2.5rem; /* respiro no final */
+  background:var(--edit-bg);
+  color:var(--edit-text);
 }
 
-/* card */
-.edit-card {
-  width: 100%;
-  max-width: 28rem;
-  border: 0;
-  border-radius: 1.5rem;
-  box-shadow: 0 40px 120px rgba(0,0,0,0.20);
-  background: var(--edit-bg);
-  color: var(--edit-text);
+/* Card principal */
+.edit-card{
+  width:100%;
+  max-width:28rem;
+  border:0;
+  border-radius:1.5rem;
+  box-shadow:0 40px 120px rgba(0,0,0,0.20);
+  background:var(--edit-bg);
+  color:var(--edit-text);
+  overflow:visible;            /* sem rolagem interna */
 }
 
-/* título */
-.edit-title {
-  text-align: center;
-  font-weight: 800;
-  color: var(--edit-text);
-}
+/* Título (se usar) */
+.edit-title{ text-align:center; font-weight:800; color:var(--edit-text); }
 
-/* avatar */
-.edit-avatar {
-  background: #eadfce;
-  color: var(--edit-text);
+/* Avatar e seus elementos */
+.edit-avatar{
+  position:relative;           /* para posicionar o botão da câmera */
+  background:#eadfce;
+  color:var(--edit-text);
+  overflow:visible !important; /* botão pode “sair” um pouco para fora */
 }
-
-/* inputs */
-.edit-input {
-  height: 3rem;
-  background: var(--edit-input-bg);
-  border: 1px solid var(--edit-input-border);
-  border-radius: 0.75rem;
-}
-
-/* select */
-.edit-select {
-  height: 3rem;
-  width: 100%;
-  background: var(--edit-input-bg);
-  border: 1px solid var(--edit-input-border);
-  border-radius: 0.75rem;
-  padding: 0 0.75rem;
-  color: var(--edit-text);
-}
-
-/* botão salvar */
-.edit-button {
-  height: 3rem;
-  width: 100%;
-  border-radius: 1rem;
-  font-weight: 800;
-  box-shadow: 0 4px 6px -1px var(--edit-shadow);
-  background: var(--edit-primary);
-  color: #3a2000;
-}
-
-/* botão da camerazinha estilo mock */
+.edit-avatar img{ position:absolute; inset:0; z-index:1; }
 .edit-avatar-btn{
-  position:absolute; right:-4px; bottom:-4px; z-index:2;
+  position:absolute; right:-6px; bottom:-6px; z-index:5; /* sempre sobre a foto */
   width:34px; height:34px; border-radius:9999px;
   display:flex; align-items:center; justify-content:center;
   background:#f39a18; color:#3a2000; border:2px solid #f6efe4; /* anel branco */
   box-shadow:0 2px 6px rgba(0,0,0,.18);
-  line-height:1; /* sem estourar */
+  line-height:1;
 }
 .edit-avatar-btn:hover{ filter:brightness(.96); }
 
-/* Botão fechar (X) do editar */
+/* Fechar (X) */
 .edit-close{
   position:absolute; left:.75rem; top:.75rem; z-index:10;
   width:32px; height:32px; border-radius:9999px;
@@ -96,83 +66,54 @@
 }
 .edit-close:hover{ filter:brightness(.96); }
 
-/* Faz o card rolar se a viewport for pequena e evita cortar o final */
-.edit-card {
-  max-height: calc(100dvh - 2rem);
-  overflow: visible;
+/* Campos */
+.edit-input{
+  height:3rem;
+  background:var(--edit-input-bg);
+  border:1px solid var(--edit-input-border);
+  border-radius:.75rem;
+}
+.edit-select{
+  height:3rem; width:100%;
+  background:var(--edit-input-bg);
+  border:1px solid var(--edit-input-border);
+  border-radius:.75rem;
+  padding:0 .75rem;
+  color:var(--edit-text);
 }
 
-/* Dá um espacinho no fim pra não “encostar” nos botões */
-.edit-container{ padding-bottom:2rem; }
-
-/* Um pouquinho mais de espaço no fundo pro botão não encostar */
-.edit-card .card-content,
-.edit-button {
-  margin-bottom: 0.25rem;
+/* Botões */
+.edit-button{
+  height:3rem; width:100%;
+  border-radius:1rem; font-weight:800;
+  box-shadow:0 4px 6px -1px var(--edit-shadow);
+  background:var(--edit-primary); color:#3a2000;
 }
 
-/* Botão outline destrutivo */
+/* Outline destrutivo (igual ao mock) */
 .btn-danger-outline{
   background:#f6efe4 !important;
-  color:#c2410c !important; /* tom avermelhado terroso */
-  border:2px solid #e6b8b0 !important; /* contorno suave */
+  color:#c2410c !important;
+  border:2px solid #e6b8b0 !important;
 }
 .btn-danger-outline:hover{
   background:#fdece7 !important;
   border-color:#e25f4c !important;
 }
 
-
-/* página rola; nada de scroll interno no card */
-.edit-container{
-  min-height: auto;
-  width: 100%;
-  display: flex;
-  align-items: flex-start;     /* <-- antes estava center */
-  justify-content: center;
-  padding: 1rem 1rem 2.5rem;   /* respiro no final */
-  background: var(--edit-bg);
-  color: var(--edit-text);
+/* ---- Modal actions: força largura e cores corretas ---- */
+.modal-actions .btn-danger-solid{
+  background:#e04f37 !important;   
+  color:#fff !important;
+  border:2px solid #d8442c !important;
+  box-shadow:0 2px 6px rgba(0,0,0,.12);
+}
+.modal-actions .btn-danger-solid:hover{
+  filter:brightness(.96);
 }
 
-/* remove limites/scroll do card */
-.edit-card{
-  width: 100%;
-  max-width: 28rem;
-  border: 0;
-  border-radius: 1.5rem;
-  box-shadow: 0 40px 120px rgba(0,0,0,0.20);
-  background: var(--edit-bg);
-  color: var(--edit-text);
-  max-height: none;            /* <-- remove o calc(100dvh - 2rem) */
-  overflow: visible;           /* <-- sem scroll interno */
+.btn-secondary-soft{
+  background:#f6efe4 !important;   
+  color:#6b3f33 !important;
+  border:1px solid #eadfce !important;
 }
-
-/* camerazinha estilo mock + X redondinho (mantém) */
-.edit-avatar-btn{
-  position:absolute; right:-4px; bottom:-4px; z-index:2;
-  width:34px; height:34px; border-radius:9999px;
-  display:flex; align-items:center; justify-content:center;
-  background:#f39a18; color:#3a2000; border:2px solid #f6efe4;
-  box-shadow:0 2px 6px rgba(0,0,0,.18);
-  line-height:1;
-}
-.edit-avatar-btn:hover{ filter:brightness(.96); }
-
-.edit-close{
-  position:absolute; left:.75rem; top:.75rem; z-index:10;
-  width:32px; height:32px; border-radius:9999px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:20px; font-weight:700; line-height:1;
-  background:rgba(0,0,0,.06);
-  color:#6b3f33; border:1px solid rgba(0,0,0,.08);
-  box-shadow:0 2px 8px rgba(0,0,0,.15);
-}
-
-/* avatar não corta o botão; img fica por baixo; botão por cima */
-.edit-avatar{ overflow: visible !important; position: relative; }
-.edit-avatar img{ position: absolute; inset: 0; z-index: 1; }
-.edit-avatar-btn{ z-index: 5; }  /* acima da imagem */
-.edit-avatar-btn{ right:-6px; bottom:-6px; }
-
-  

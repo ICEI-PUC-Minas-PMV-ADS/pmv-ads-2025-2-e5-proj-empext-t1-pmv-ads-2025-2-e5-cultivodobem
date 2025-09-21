@@ -1,15 +1,15 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, useRef } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../../packages/backend/convex/_generated/api.js";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Camera, Trash2, ImagePlus } from "lucide-react";
 import "@/styles/editusers.css";
 
-// Modal simples controlado (sem libs)
+/** Modal simples controlado (sem lib externa) */
 function Modal({
   open, onClose, title, children,
 }: { open: boolean; onClose: () => void; title?: string; children: React.ReactNode }) {
@@ -19,6 +19,7 @@ function Modal({
       <div
         className="w-[90%] max-w-sm rounded-2xl border p-4 shadow-xl"
         style={{ background: "var(--edit-bg)", borderColor: "#eadfce", color: "var(--edit-text)" }}
+        role="dialog" aria-modal="true" aria-label={title}
       >
         <div className="mb-2 flex items-center justify-between">
           <h3 className="text-base font-semibold">{title}</h3>
@@ -30,21 +31,23 @@ function Modal({
   );
 }
 
-
-export const Route = createFileRoute("/editusers")({
-  component: EditUserRoute,
-});
-
+export const Route = createFileRoute("/editusers")({ component: EditUserRoute });
 
 function EditUserRoute() {
-  const stored = typeof window !== "undefined" ? localStorage.getItem("user") : null;
-  const currentUserId = stored ? (JSON.parse(stored)?._id ?? null) : null;
-  const user = useQuery(api.user.getById, currentUserId ? { id: currentUserId } : "skip");
-  const update = useMutation(api.user.update);
-  const remove = useMutation(api.user.remove);
+  // ----- infra / hooks -------------------------------------------------------
   const nav = useNavigate();
   const fileRef = useRef<HTMLInputElement | null>(null);
 
+  // usuário logado salvo no localStorage (id para buscar no Convex)
+  const stored = typeof window !== "undefined" ? localStorage.getItem("user") : null;
+  const currentUserId = stored ? (JSON.parse(stored)?._id ?? null) : null;
+
+  // queries/mutations do Convex
+  const user   = useQuery(api.user.getById, currentUserId ? { id: currentUserId } : "skip");
+  const update = useMutation(api.user.update);
+  const remove = useMutation(api.user.remove);
+
+  // ----- estado do formulário ------------------------------------------------
   const [form, setForm] = useState({
     name: "",
     tipo_usuario: "Produtor Rural",
@@ -54,9 +57,10 @@ function EditUserRoute() {
     cidade: "",
     estado: "",
     bio: "",
-    foto_url: "",
+    foto_url: "", 
   });
 
+  // carrega dados do usuário quando a query retornar
   useEffect(() => {
     if (user) {
       setForm({
@@ -68,21 +72,24 @@ function EditUserRoute() {
         cidade: user.cidade ?? "",
         estado: user.estado ?? "",
         bio: user.bio ?? "",
-        foto_url: user.foto_url ?? "",  
+        foto_url: user.foto_url ?? "",
       });
     }
   }, [user]);
 
-  const [photoModalOpen, setPhotoModalOpen] = useState(false);
+  // ----- estado dos modais ---------------------------------------------------
+  const [photoModalOpen,  setPhotoModalOpen]  = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
+  // selecionar nova foto (gera preview local)
   function onPickPhoto(ev: React.ChangeEvent<HTMLInputElement>) {
-  const f = ev.target.files?.[0];
-  if (!f) return;
-  const url = URL.createObjectURL(f);
-  setForm((prev) => ({ ...prev, foto_url: url }));
+    const f = ev.target.files?.[0];
+    if (!f) return;
+    const url = URL.createObjectURL(f);
+    setForm((prev) => ({ ...prev, foto_url: url }));
   }
 
-
+  // salvar alterações
   async function onSave(e: React.FormEvent) {
     e.preventDefault();
     if (!currentUserId) return;
@@ -97,19 +104,14 @@ function EditUserRoute() {
       cidade: form.cidade || undefined,
       estado: form.estado || undefined,
       bio: form.bio || undefined,
+      // ATENÇÃO: enviar exatamente o valor atual ("", blob:... ou URL) para permitir limpar
       foto_url: form.foto_url,
     });
 
-    // Atualiza sessão (header)
+    // atualiza sessão (header) — preserva outros campos
     const saved = JSON.parse(localStorage.getItem("user") || "null");
     if (saved) {
-      // const next = {
-      //   ...saved,
-      //   name: form.name,
-      //   foto_url: form.foto_url || saved.foto_url,
-      // };
       const next: any = { ...saved, name: form.name };
-      // se veio "", limpa; se veio uma URL, atualiza; se ficar undefined, mantém
       if (form.foto_url !== undefined) next.foto_url = form.foto_url;
       localStorage.setItem("user", JSON.stringify(next));
       window.dispatchEvent(new Event("auth-changed"));
@@ -118,22 +120,18 @@ function EditUserRoute() {
     toast.success("Perfil atualizado com sucesso!");
   }
 
-
   if (user === undefined) {
-    return (
-      <div className="flex h-[60vh] items-center justify-center">
-        Carregando…
-      </div>
-    );
+    return <div className="flex h-[60vh] items-center justify-center">Carregando…</div>;
   }
 
-  // Avatar com a inicial do nome
+  // inicial do nome (mostrada quando não há foto)
   const initial = (user?.name?.[0] ?? "U").toUpperCase();
 
+  // ----- UI ------------------------------------------------------------------
   return (
     <div className="edit-container px-4">
       <Card className="edit-card relative">
-        {/* Close (X) */}
+        {/* Fechar */}
         <button
           type="button"
           onClick={() => nav({ to: "/login" })}
@@ -145,76 +143,72 @@ function EditUserRoute() {
         </button>
 
         <CardContent>
-        {/* Avatar */}
-        <div className="relative mx-auto mb-4 mt-1 flex h-24 w-24 items-center justify-center rounded-full edit-avatar overflow-hidden">
-          {!form.foto_url && (
-            <span className="text-4xl font-extrabold">{initial}</span>
-          )}
-          {form.foto_url && (
-            <img
-              src={form.foto_url}
-              alt="Foto do perfil"
-              className="absolute inset-0 h-full w-full rounded-full object-cover"
+          {/* Avatar */}
+          <div className="relative mx-auto mb-4 mt-1 flex h-24 w-24 items-center justify-center rounded-full edit-avatar">
+            {!form.foto_url && <span className="text-4xl font-extrabold">{initial}</span>}
+            {form.foto_url && (
+              <img
+                src={form.foto_url}
+                alt="Foto do perfil"
+                className="absolute inset-0 h-full w-full rounded-full object-cover"
+              />
+            )}
+
+            {/* Camerazinha (abre o modal de opções) */}
+            <button
+              type="button"
+              onClick={() => setPhotoModalOpen(true)}
+              className="edit-avatar-btn"
+              title="Alterar foto" aria-label="Alterar foto"
+            >
+              <Camera size={16}/>
+            </button>
+
+            {/* input de arquivo oculto */}
+            <input
+              ref={fileRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={onPickPhoto}
             />
-          )}
-
-          {/* Botão da câmera (agora funcional) */}
-          <button
-            type="button"
-            onClick={() => setPhotoModalOpen(true)}
-            className="edit-avatar-btn"
-            title="Alterar foto" aria-label="Alterar foto"
-          >
-            <Camera size={16}/>
-          </button>
-
-          {/* input de arquivo oculto */}
-          <input
-            ref={fileRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={onPickPhoto}
-          />
-        </div>
-
-        {/* Modal de opções da foto */}
-        <Modal open={photoModalOpen} onClose={() => setPhotoModalOpen(false)} title="Foto de perfil">
-          <p className="mb-2 opacity-80">O que você deseja fazer?</p>
-
-          <div className="grid gap-2">
-            <Button
-              onClick={() => { setPhotoModalOpen(false); fileRef.current?.click(); }}
-              className="w-full font-semibold"
-            >
-              <ImagePlus size={18} className="mr-2" /> Adicionar/Alterar foto
-            </Button>
-
-            <Button
-              variant="destructive"
-              onClick={() => {
-                setForm((p) => ({ ...p, foto_url: "" }));
-                if (fileRef.current) fileRef.current.value = "";
-                setPhotoModalOpen(false);
-              }}
-              className="w-full font-semibold"
-            >
-              <Trash2 size={18} className="mr-2" /> Remover foto
-            </Button>
           </div>
 
-          <div className="mt-3 text-right">
-            <Button variant="secondary" onClick={() => setPhotoModalOpen(false)}>Cancelar</Button>
-          </div>
-        </Modal>
+          {/* Modal da Foto */}
+          <Modal open={photoModalOpen} onClose={() => setPhotoModalOpen(false)} title="Foto de perfil">
+            <p className="mb-2 opacity-80">O que você deseja fazer?</p>
 
+            <div className="grid gap-2">
+              <Button
+                onClick={() => { setPhotoModalOpen(false); fileRef.current?.click(); }}
+                className="w-full font-semibold"
+              >
+                <ImagePlus size={18} className="mr-2" /> Adicionar/Alterar foto
+              </Button>
 
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  setForm((p) => ({ ...p, foto_url: "" })); // limpa preview
+                  if (fileRef.current) fileRef.current.value = ""; // reseta input
+                  setPhotoModalOpen(false);
+                }}
+                className="w-full font-semibold"
+              >
+                <Trash2 size={18} className="mr-2" /> Remover foto
+              </Button>
+            </div>
+
+            <div className="mt-3 text-right">
+              <Button variant="secondary" onClick={() => setPhotoModalOpen(false)}>Cancelar</Button>
+            </div>
+          </Modal>
+
+          {/* Formulário */}
           <form onSubmit={onSave} className="space-y-3">
-            {/* NOME */}
+            {/* Nome */}
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold" style={{ color: "#6b3f33" }}>
-                Nome Completo
-              </label>
+              <label className="text-sm font-semibold" style={{ color: "#6b3f33" }}>Nome Completo</label>
               <Input
                 placeholder="Seu nome"
                 value={form.name}
@@ -222,12 +216,10 @@ function EditUserRoute() {
                 className="edit-input"
               />
             </div>
-            
-            {/* EMAIL */}
+
+            {/* Email (somente leitura) */}
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold" style={{ color: "#6b3f33" }}>
-                Email
-              </label>
+              <label className="text-sm font-semibold" style={{ color: "#6b3f33" }}>Email</label>
               <Input
                 value={user?.email ?? ""}
                 disabled
@@ -235,25 +227,20 @@ function EditUserRoute() {
                 style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
               />
             </div>
-            
-            {/* DATA DE NASCIMENTO E CEP*/}
+
+            {/* Data de nascimento & CEP */}
             <div className="grid grid-cols-2 gap-2">
               <div className="space-y-1.5">
-                <label className="text-sm font-semibold" style={{ color: "#6b3f33" }}>
-                  Data de Nascimento
-                </label>
+                <label className="text-sm font-semibold" style={{ color: "#6b3f33" }}>Data de Nascimento</label>
                 <Input
-                  placeholder="yyyy-MM-dd"
+                  type="date"
                   value={form.data_nascimento}
                   onChange={(e) => setForm({ ...form, data_nascimento: e.target.value })}
-                  className="h-12 rounded-xl border"
                   style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-semibold" style={{ color: "#6b3f33" }}>
-                  CEP
-                </label>
+                <label className="text-sm font-semibold" style={{ color: "#6b3f33" }}>CEP</label>
                 <Input
                   placeholder="00000-000"
                   value={form.cep}
@@ -275,7 +262,7 @@ function EditUserRoute() {
               />
             </div>
 
-            {/* Estado e Cidade */}
+            {/* Estado & Cidade */}
             <div className="grid grid-cols-2 gap-2">
               <div className="space-y-1.5">
                 <label className="text-sm font-semibold">Estado</label>
@@ -297,11 +284,9 @@ function EditUserRoute() {
               </div>
             </div>
 
-            {/* TIPO DE CONTA */}
+            {/* Tipo de conta */}
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold" style={{ color: "#6b3f33" }}>
-                Tipo de Conta
-              </label>
+              <label className="text-sm font-semibold" style={{ color: "#6b3f33" }}>Tipo de Conta</label>
               <select
                 className="edit-select"
                 value={form.tipo_usuario}
@@ -324,37 +309,55 @@ function EditUserRoute() {
               />
             </div>
 
-                        {/* AÇÕES */}
-            <Button
-              type="submit"
-              className="edit-button"
-            >
-              Salvar Alterações
-            </Button>
+            {/* Ações */}
+            <Button type="submit" className="edit-button">Salvar Alterações</Button>
 
+            {/* Excluir conta — abre modal de confirmação */}
             <div className="mt-2">
-            <Button
-              type="button"
-              className="w-full rounded-xl font-semibold btn-danger-outline"
-              onClick={async () => {
-                if (!currentUserId) return;
-                const ok = window.confirm("Tem certeza que deseja excluir sua conta? Essa ação não pode ser desfeita.");
-                if (!ok) return;
-                await remove({ id: currentUserId });
-                localStorage.removeItem("user");
-                window.dispatchEvent(new Event("auth-changed"));
-                toast.success("Conta excluída com sucesso.");
-                nav({ to: "/login" });
-              }}
-            >
-              <Trash2 size={18} className="mr-2" />
-              Excluir conta
-            </Button>
-          </div>
-
+              <Button
+                type="button"
+                className="w-full rounded-xl font-semibold btn-danger-outline"
+                onClick={() => setDeleteModalOpen(true)}
+              >
+                <Trash2 size={18} className="mr-2" />
+                Excluir conta
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>
+
+      {/* Modal de confirmação — Excluir conta */}
+      <Modal open={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} title="Excluir conta">
+        <p className="mb-3">Tem certeza que deseja excluir sua conta? Essa ação não pode ser desfeita.</p>
+
+        <div className="modal-actions mt-3 flex flex-wrap items-center justify-end gap-2">
+          <Button
+            variant="secondary"
+            className="w-auto px-4 btn-secondary-soft"
+            onClick={() => setDeleteModalOpen(false)}
+          >
+            Cancelar
+          </Button>
+
+          <Button
+            className="w-auto px-4 btn-danger-solid"
+            onClick={async () => {
+              if (!currentUserId) return;
+              await remove({ id: currentUserId });
+              localStorage.removeItem("user");
+              window.dispatchEvent(new Event("auth-changed"));
+              toast.success("Conta excluída com sucesso.");
+              setDeleteModalOpen(false);
+              nav({ to: "/login" });
+            }}
+          >
+            <Trash2 size={18} className="mr-2" />
+            Excluir
+          </Button>
+        </div>
+      </Modal>
+
     </div>
   );
 }
