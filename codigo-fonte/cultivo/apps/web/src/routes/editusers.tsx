@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, useRef } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../../packages/backend/convex/_generated/api.js";
@@ -12,11 +12,15 @@ export const Route = createFileRoute("/editusers")({
   component: EditUserRoute,
 });
 
+const nav = useNavigate();
+
+
 function EditUserRoute() {
   const stored = typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const currentUserId = stored ? (JSON.parse(stored)?._id ?? null) : null;
   const user = useQuery(api.user.getById, currentUserId ? { id: currentUserId } : "skip");
   const update = useMutation(api.user.update);
+  const remove = useMutation(api.user.remove);
   const fileRef = useRef<HTMLInputElement | null>(null);
 
   const [form, setForm] = useState({
@@ -47,6 +51,14 @@ function EditUserRoute() {
     }
   }, [user]);
 
+  function onPickPhoto(ev: React.ChangeEvent<HTMLInputElement>) {
+  const f = ev.target.files?.[0];
+  if (!f) return;
+  const url = URL.createObjectURL(f);
+  setForm((prev) => ({ ...prev, foto_url: url }));
+  }
+
+
   async function onSave(e: React.FormEvent) {
     e.preventDefault();
     if (!currentUserId) return;
@@ -62,6 +74,16 @@ function EditUserRoute() {
       bio: form.bio || undefined,
       foto_url: form.foto_url || undefined,
     });
+    const saved = JSON.parse(localStorage.getItem("user") || "null");
+    if (saved) {
+      const next = { 
+        ...saved, 
+        name: form.name, 
+        foto_url: form.foto_url || saved.foto_url
+      };
+      localStorage.setItem("user", JSON.stringify(next));
+      window.dispatchEvent(new Event("auth-changed"));
+    }
     toast.success("Perfil atualizado com sucesso!");
     // atualiza sessão no header
     const saved = JSON.parse(localStorage.getItem("user") || "null");
@@ -85,7 +107,17 @@ function EditUserRoute() {
 
   return (
     <div className="edit-container px-4">
-      <Card className="edit-card">
+      <Card className="edit-card relative">
+        {/* Close (X) */}
+        <button
+          type="button"
+          onClick={() => nav({ to: "/login" })}
+          className="edit-close absolute left-3 top-3"
+          aria-label="Fechar"
+          title="Fechar"
+        >
+          ×
+        </button>
         <CardHeader className="pb-2">
           <div className="flex items-center gap-2">
             <Link to="/login" className="text-lg" style={{ color: "#6b3f33" }}>
@@ -98,18 +130,40 @@ function EditUserRoute() {
         </CardHeader>
 
         <CardContent>
-          {/* Avatar */}
-          <div className="relative mx-auto mb-4 mt-1 flex h-24 w-24 items-center justify-center rounded-full edit-avatar">
+        {/* Avatar */}
+        <div className="relative mx-auto mb-4 mt-1 flex h-24 w-24 items-center justify-center rounded-full edit-avatar overflow-hidden">
+          {!form.foto_url && (
             <span className="text-4xl font-extrabold">{initial}</span>
-            {/* Botão de câmera decorativo */}
-            <div
-              className="absolute -right-1 bottom-2 flex h-7 w-7 items-center justify-center rounded-full border-2 text-sm"
-              style={{ background: "#f39a18", color: "#3a2000", borderColor: "#f6efe4" }}
-              title="Alterar foto (em breve)"
-            >
-              📷
-            </div>
-          </div>
+          )}
+          {form.foto_url && (
+            <img
+              src={form.foto_url}
+              alt="Foto do perfil"
+              className="absolute inset-0 h-full w-full rounded-full object-cover"
+            />
+          )}
+
+          {/* Botão da câmera (agora funcional) */}
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            className="absolute -right-1 bottom-2 flex h-7 w-7 items-center justify-center rounded-full border-2 text-sm"
+            style={{ background: "#f39a18", color: "#3a2000", borderColor: "#f6efe4" }}
+            title="Alterar foto"
+            aria-label="Alterar foto"
+          >
+            📷
+          </button>
+
+          {/* input de arquivo oculto */}
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={onPickPhoto}
+          />
+        </div>
 
           <form onSubmit={onSave} className="space-y-3">
             {/* NOME */}
@@ -226,30 +280,34 @@ function EditUserRoute() {
               />
             </div>
 
-            {/* Foto (mock simples com URL) */}
-            <div className="space-y-1.5">
-              <label className="text-sm font-semibold">Foto (URL)</label>
-              <div className="flex gap-2">
-                <Input
-                  placeholder="https://…"
-                  value={form.foto_url}
-                  onChange={(e) => setForm({ ...form, foto_url: e.target.value })}
-                  className="edit-input"
-                />
-                <Button type="button" onClick={() => fileRef.current?.click()} className="edit-button" style={{ width: "auto" }}>
-                  Upload
-                </Button>
-                <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={() => toast.info("Upload: implementar storage futuramente")} />
-              </div>
-            </div>
-
-            {/* AÇÕES */}
+                        {/* AÇÕES */}
             <Button
               type="submit"
               className="edit-button"
             >
               Salvar Alterações
             </Button>
+
+            <div className="mt-2">
+              <Button
+                type="button"
+                variant="destructive"
+                className="w-full rounded-xl border font-semibold"
+                onClick={async () => {
+                  if (!currentUserId) return;
+                  const ok = window.confirm("Tem certeza que deseja excluir sua conta? Essa ação não pode ser desfeita.");
+                  if (!ok) return;
+                  await remove({ id: currentUserId });
+                  localStorage.removeItem("user");
+                  window.dispatchEvent(new Event("auth-changed"));
+                  toast.success("Conta excluída com sucesso.");
+                  nav({ to: "/signup" });
+                }}
+              >
+                Excluir conta
+              </Button>
+            </div>
+
           </form>
         </CardContent>
       </Card>

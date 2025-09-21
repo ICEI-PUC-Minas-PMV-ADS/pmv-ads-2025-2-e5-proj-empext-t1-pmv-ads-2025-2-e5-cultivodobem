@@ -159,10 +159,11 @@ function SignUpRoute() {
             className="relative my-6 w-full max-w-[520px] md:max-w-[720px] rounded-3xl border-0 shadow-[0_40px_120px_rgba(0,0,0,0.20)]"
             style={{ background: "#f6efe4", color: "#6b3f33" }}
           >
-            {/* X */}
+            {/* Close (X) */}
             <button
               type="button"
               onClick={() => nav({ to: "/login" })}
+              className="signup-close absolute left-3 top-3"
               title="Fechar"
               aria-label="Fechar"
             >
