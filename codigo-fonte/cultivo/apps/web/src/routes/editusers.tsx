@@ -6,13 +6,34 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { Camera, Trash2, ImagePlus } from "lucide-react";
 import "@/styles/editusers.css";
+
+// Modal simples controlado (sem libs)
+function Modal({
+  open, onClose, title, children,
+}: { open: boolean; onClose: () => void; title?: string; children: React.ReactNode }) {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+      <div
+        className="w-[90%] max-w-sm rounded-2xl border p-4 shadow-xl"
+        style={{ background: "var(--edit-bg)", borderColor: "#eadfce", color: "var(--edit-text)" }}
+      >
+        <div className="mb-2 flex items-center justify-between">
+          <h3 className="text-base font-semibold">{title}</h3>
+          <button className="edit-close" onClick={onClose} aria-label="Fechar">×</button>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}
+
 
 export const Route = createFileRoute("/editusers")({
   component: EditUserRoute,
 });
-
-const nav = useNavigate();
 
 
 function EditUserRoute() {
@@ -21,6 +42,7 @@ function EditUserRoute() {
   const user = useQuery(api.user.getById, currentUserId ? { id: currentUserId } : "skip");
   const update = useMutation(api.user.update);
   const remove = useMutation(api.user.remove);
+  const nav = useNavigate();
   const fileRef = useRef<HTMLInputElement | null>(null);
 
   const [form, setForm] = useState({
@@ -51,6 +73,8 @@ function EditUserRoute() {
     }
   }, [user]);
 
+  const [photoModalOpen, setPhotoModalOpen] = useState(false);
+
   function onPickPhoto(ev: React.ChangeEvent<HTMLInputElement>) {
   const f = ev.target.files?.[0];
   if (!f) return;
@@ -62,6 +86,7 @@ function EditUserRoute() {
   async function onSave(e: React.FormEvent) {
     e.preventDefault();
     if (!currentUserId) return;
+
     await update({
       id: currentUserId,
       name: form.name || undefined,
@@ -72,27 +97,27 @@ function EditUserRoute() {
       cidade: form.cidade || undefined,
       estado: form.estado || undefined,
       bio: form.bio || undefined,
-      foto_url: form.foto_url || undefined,
+      foto_url: form.foto_url,
     });
+
+    // Atualiza sessão (header)
     const saved = JSON.parse(localStorage.getItem("user") || "null");
     if (saved) {
-      const next = { 
-        ...saved, 
-        name: form.name, 
-        foto_url: form.foto_url || saved.foto_url
-      };
+      // const next = {
+      //   ...saved,
+      //   name: form.name,
+      //   foto_url: form.foto_url || saved.foto_url,
+      // };
+      const next: any = { ...saved, name: form.name };
+      // se veio "", limpa; se veio uma URL, atualiza; se ficar undefined, mantém
+      if (form.foto_url !== undefined) next.foto_url = form.foto_url;
       localStorage.setItem("user", JSON.stringify(next));
       window.dispatchEvent(new Event("auth-changed"));
     }
+
     toast.success("Perfil atualizado com sucesso!");
-    // atualiza sessão no header
-    const saved = JSON.parse(localStorage.getItem("user") || "null");
-    if (saved) {
-      const next = { ...saved, name: form.name };
-      localStorage.setItem("user", JSON.stringify(next));
-      window.dispatchEvent(new Event("auth-changed"));
-    }
   }
+
 
   if (user === undefined) {
     return (
@@ -118,16 +143,6 @@ function EditUserRoute() {
         >
           ×
         </button>
-        <CardHeader className="pb-2">
-          <div className="flex items-center gap-2">
-            <Link to="/login" className="text-lg" style={{ color: "#6b3f33" }}>
-              ←
-            </Link>
-            <CardTitle className="mx-auto text-lg edit-title">
-              Editar Perfil
-            </CardTitle>
-          </div>
-        </CardHeader>
 
         <CardContent>
         {/* Avatar */}
@@ -146,13 +161,11 @@ function EditUserRoute() {
           {/* Botão da câmera (agora funcional) */}
           <button
             type="button"
-            onClick={() => fileRef.current?.click()}
-            className="absolute -right-1 bottom-2 flex h-7 w-7 items-center justify-center rounded-full border-2 text-sm"
-            style={{ background: "#f39a18", color: "#3a2000", borderColor: "#f6efe4" }}
-            title="Alterar foto"
-            aria-label="Alterar foto"
+            onClick={() => setPhotoModalOpen(true)}
+            className="edit-avatar-btn"
+            title="Alterar foto" aria-label="Alterar foto"
           >
-            📷
+            <Camera size={16}/>
           </button>
 
           {/* input de arquivo oculto */}
@@ -164,6 +177,37 @@ function EditUserRoute() {
             onChange={onPickPhoto}
           />
         </div>
+
+        {/* Modal de opções da foto */}
+        <Modal open={photoModalOpen} onClose={() => setPhotoModalOpen(false)} title="Foto de perfil">
+          <p className="mb-2 opacity-80">O que você deseja fazer?</p>
+
+          <div className="grid gap-2">
+            <Button
+              onClick={() => { setPhotoModalOpen(false); fileRef.current?.click(); }}
+              className="w-full font-semibold"
+            >
+              <ImagePlus size={18} className="mr-2" /> Adicionar/Alterar foto
+            </Button>
+
+            <Button
+              variant="destructive"
+              onClick={() => {
+                setForm((p) => ({ ...p, foto_url: "" }));
+                if (fileRef.current) fileRef.current.value = "";
+                setPhotoModalOpen(false);
+              }}
+              className="w-full font-semibold"
+            >
+              <Trash2 size={18} className="mr-2" /> Remover foto
+            </Button>
+          </div>
+
+          <div className="mt-3 text-right">
+            <Button variant="secondary" onClick={() => setPhotoModalOpen(false)}>Cancelar</Button>
+          </div>
+        </Modal>
+
 
           <form onSubmit={onSave} className="space-y-3">
             {/* NOME */}
@@ -289,24 +333,24 @@ function EditUserRoute() {
             </Button>
 
             <div className="mt-2">
-              <Button
-                type="button"
-                variant="destructive"
-                className="w-full rounded-xl border font-semibold"
-                onClick={async () => {
-                  if (!currentUserId) return;
-                  const ok = window.confirm("Tem certeza que deseja excluir sua conta? Essa ação não pode ser desfeita.");
-                  if (!ok) return;
-                  await remove({ id: currentUserId });
-                  localStorage.removeItem("user");
-                  window.dispatchEvent(new Event("auth-changed"));
-                  toast.success("Conta excluída com sucesso.");
-                  nav({ to: "/signup" });
-                }}
-              >
-                Excluir conta
-              </Button>
-            </div>
+            <Button
+              type="button"
+              className="w-full rounded-xl font-semibold btn-danger-outline"
+              onClick={async () => {
+                if (!currentUserId) return;
+                const ok = window.confirm("Tem certeza que deseja excluir sua conta? Essa ação não pode ser desfeita.");
+                if (!ok) return;
+                await remove({ id: currentUserId });
+                localStorage.removeItem("user");
+                window.dispatchEvent(new Event("auth-changed"));
+                toast.success("Conta excluída com sucesso.");
+                nav({ to: "/login" });
+              }}
+            >
+              <Trash2 size={18} className="mr-2" />
+              Excluir conta
+            </Button>
+          </div>
 
           </form>
         </CardContent>
