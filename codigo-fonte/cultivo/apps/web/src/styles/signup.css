@@ -1,0 +1,103 @@
+/* Estilos específicos para a tela de signup */
+
+:root {
+  /* Light mode */
+  --login-bg: #fcf8f1;
+  --login-text-primary: #734338;
+  --login-text-secondary: #558f45;
+  --login-input-bg: #fcf8f1;
+  --login-input-border: #734338;
+  --login-input-focus: #558f45;
+  --login-button-bg: #f99d1c;
+  --login-shadow: rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+  /* Dark mode */
+  --login-bg: #1a1a1a;
+  --login-text-primary: #e5d5c8;
+  --login-text-secondary: #8bbe48;
+  --login-input-bg: #2a2a2a;
+  --login-input-border: #e5d5c8;
+  --login-input-focus: #8bbe48;
+  --login-button-bg: #f99d1c;
+  --login-shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* wrappers */
+.signup-backdrop { background: rgba(0,0,0,.5); }
+.signup-surface  { background: var(--cb-bg); color: var(--cb-text); }
+
+/* card */
+.signup-card {
+  background: var(--cb-bg);
+  color: var(--cb-text);
+  box-shadow: var(--cb-card-shadow);
+  border: 0;
+}
+
+/* close btn */
+.signup-close {
+  color: var(--cb-text);
+  background: var(--cb-muted);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* success modal */
+.signup-success-ring { background: var(--cb-success-bg); color: var(--cb-success-text); }
+
+/* alert */
+.signup-alert { background: var(--cb-alert-bg); border-color: var(--cb-alert-border); color: var(--cb-alert-text); }
+
+/* primary button */
+.signup-primary {
+  background: var(--cb-primary);
+  color: #3a2000;
+}
+
+/* Close (X) no modal de signup — fixa no canto e não herda estilos */
+.signup-close {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  z-index: 20;
+
+  width: 32px;
+  height: 32px;
+  line-height: 28px;
+  text-align: center;
+  border-radius: 9999px;
+  font-size: 20px;
+  font-weight: 700;
+
+  background: rgba(0,0,0,0.06);
+  color: #6b3f33;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.signup-close:hover { filter: brightness(0.95); }
+
+/* Avatar do signup: botão por cima da foto e sem “cortar” */
+.signup-avatar{ position: relative; overflow: visible; }
+.signup-avatar img{ position: absolute; inset: 0; z-index: 1; }
+
+/* Camerazinha estilo do edit (pequena, anel branco, canto inferior direito) */
+.signup-avatar-btn{
+  position: absolute; right: -6px; bottom: -6px; z-index: 5;
+  width: 34px; height: 34px; border-radius: 9999px;
+  display: flex; align-items: center; justify-content: center;
+  background: #f39a18; color: #3a2000; border: 2px solid #f6efe4;
+  box-shadow: 0 2px 6px rgba(0,0,0,.18);
+  line-height: 1;
+}
+.signup-avatar-btn:hover{ filter: brightness(.96); }
+
+/* Botão fechar do signup — centralizado e sem distorção */
+.signup-close{
+  width: 32px; height: 32px; border-radius: 9999px;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1; font-weight: 700; font-size: 20px;
+  background: rgba(0,0,0,.06); color: #6b3f33; border: 1px solid rgba(0,0,0,.08);
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+.signup-close:hover{ filter: brightness(.96); }

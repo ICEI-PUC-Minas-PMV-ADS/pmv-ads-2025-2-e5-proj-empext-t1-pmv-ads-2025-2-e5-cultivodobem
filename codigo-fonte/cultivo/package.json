@@ -16,7 +16,10 @@
     "dev:server": "turbo -F @my-cultivoapp/backend dev",
     "dev:setup": "turbo -F @my-cultivoapp/backend dev:setup"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^3.0.2"
+  },
   "devDependencies": {
     "turbo": "^2.5.4",
     "@biomejs/biome": "^2.2.0"
