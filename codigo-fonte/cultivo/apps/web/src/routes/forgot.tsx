@@ -27,7 +27,9 @@ export const Route = createFileRoute("/forgot")({
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <button type="submit">Enviar link de recuperação</button>
+          <button className="w-full py-2 bg-[#558f45] text-white rounded-md">
+            Enviar link de recuperação
+          </button>
         </form>
 
         {mensagem && <p className="mensagem">{mensagem}</p>}

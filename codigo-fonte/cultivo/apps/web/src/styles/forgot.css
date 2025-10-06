@@ -38,7 +38,7 @@ input {
   font-size: 14px;
 }
 
-button {
+/* button {
   width: 100%;
   padding: 10px;
   background-color: #558f45; 
@@ -48,7 +48,7 @@ button {
   font-size: 15px;
   cursor: pointer;
   transition: 0.2s;
-}
+} */
 
 .link {
   margin-top: 12px;

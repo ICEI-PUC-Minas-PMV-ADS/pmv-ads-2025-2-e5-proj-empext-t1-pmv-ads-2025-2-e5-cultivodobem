@@ -9,18 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TodosRouteImport } from './routes/todos'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotRouteImport } from './routes/forgot'
 import { Route as EditusersRouteImport } from './routes/editusers'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GroupsIndexRouteImport } from './routes/groups/index'
+import { Route as GroupsParticipatingRouteImport } from './routes/groups/participating'
+import { Route as GroupsOwnedRouteImport } from './routes/groups/owned'
+import { Route as GroupsJoinRouteImport } from './routes/groups/join'
 
-const TodosRoute = TodosRouteImport.update({
-  id: '/todos',
-  path: '/todos',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
@@ -46,6 +44,26 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GroupsIndexRoute = GroupsIndexRouteImport.update({
+  id: '/groups/',
+  path: '/groups/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GroupsParticipatingRoute = GroupsParticipatingRouteImport.update({
+  id: '/groups/participating',
+  path: '/groups/participating',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GroupsOwnedRoute = GroupsOwnedRouteImport.update({
+  id: '/groups/owned',
+  path: '/groups/owned',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GroupsJoinRoute = GroupsJoinRouteImport.update({
+  id: '/groups/join',
+  path: '/groups/join',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -53,7 +71,10 @@ export interface FileRoutesByFullPath {
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/todos': typeof TodosRoute
+  '/groups/join': typeof GroupsJoinRoute
+  '/groups/owned': typeof GroupsOwnedRoute
+  '/groups/participating': typeof GroupsParticipatingRoute
+  '/groups': typeof GroupsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -61,7 +82,10 @@ export interface FileRoutesByTo {
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/todos': typeof TodosRoute
+  '/groups/join': typeof GroupsJoinRoute
+  '/groups/owned': typeof GroupsOwnedRoute
+  '/groups/participating': typeof GroupsParticipatingRoute
+  '/groups': typeof GroupsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -70,13 +94,34 @@ export interface FileRoutesById {
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/todos': typeof TodosRoute
+  '/groups/join': typeof GroupsJoinRoute
+  '/groups/owned': typeof GroupsOwnedRoute
+  '/groups/participating': typeof GroupsParticipatingRoute
+  '/groups/': typeof GroupsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/editusers' | '/forgot' | '/login' | '/signup' | '/todos'
+  fullPaths:
+    | '/'
+    | '/editusers'
+    | '/forgot'
+    | '/login'
+    | '/signup'
+    | '/groups/join'
+    | '/groups/owned'
+    | '/groups/participating'
+    | '/groups'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/editusers' | '/forgot' | '/login' | '/signup' | '/todos'
+  to:
+    | '/'
+    | '/editusers'
+    | '/forgot'
+    | '/login'
+    | '/signup'
+    | '/groups/join'
+    | '/groups/owned'
+    | '/groups/participating'
+    | '/groups'
   id:
     | '__root__'
     | '/'
@@ -84,7 +129,10 @@ export interface FileRouteTypes {
     | '/forgot'
     | '/login'
     | '/signup'
-    | '/todos'
+    | '/groups/join'
+    | '/groups/owned'
+    | '/groups/participating'
+    | '/groups/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,18 +141,14 @@ export interface RootRouteChildren {
   ForgotRoute: typeof ForgotRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
-  TodosRoute: typeof TodosRoute
+  GroupsJoinRoute: typeof GroupsJoinRoute
+  GroupsOwnedRoute: typeof GroupsOwnedRoute
+  GroupsParticipatingRoute: typeof GroupsParticipatingRoute
+  GroupsIndexRoute: typeof GroupsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/todos': {
-      id: '/todos'
-      path: '/todos'
-      fullPath: '/todos'
-      preLoaderRoute: typeof TodosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/signup': {
       id: '/signup'
       path: '/signup'
@@ -140,6 +184,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/groups/': {
+      id: '/groups/'
+      path: '/groups'
+      fullPath: '/groups'
+      preLoaderRoute: typeof GroupsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/groups/participating': {
+      id: '/groups/participating'
+      path: '/groups/participating'
+      fullPath: '/groups/participating'
+      preLoaderRoute: typeof GroupsParticipatingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/groups/owned': {
+      id: '/groups/owned'
+      path: '/groups/owned'
+      fullPath: '/groups/owned'
+      preLoaderRoute: typeof GroupsOwnedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/groups/join': {
+      id: '/groups/join'
+      path: '/groups/join'
+      fullPath: '/groups/join'
+      preLoaderRoute: typeof GroupsJoinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -149,7 +221,10 @@ const rootRouteChildren: RootRouteChildren = {
   ForgotRoute: ForgotRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
-  TodosRoute: TodosRoute,
+  GroupsJoinRoute: GroupsJoinRoute,
+  GroupsOwnedRoute: GroupsOwnedRoute,
+  GroupsParticipatingRoute: GroupsParticipatingRoute,
+  GroupsIndexRoute: GroupsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

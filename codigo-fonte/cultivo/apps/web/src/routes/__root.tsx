@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import "../index.css";
+import SubHeader from "@/components/subHeader";
 
 export interface RouterAppContext {}
 
@@ -50,6 +51,7 @@ function RootComponent() {
 			>
 				<div className="grid grid-rows-[auto_1fr] h-svh">
 					<Header />
+					<SubHeader />
 					{isFetching ? <Loader /> : <Outlet />}
 				</div>
 				<Toaster richColors />

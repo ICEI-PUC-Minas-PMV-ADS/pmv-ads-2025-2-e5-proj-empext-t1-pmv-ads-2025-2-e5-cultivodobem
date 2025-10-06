@@ -1,0 +1,6 @@
+.groups-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.group-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-radius: 8px; background: var(--card-bg, #fff); border: 1px solid #e9e6e1; }
+.group-name { font-weight: 600; }
+.group-desc { font-size: 0.9rem; color: #6b6b6b; }
+.group-stock { font-size: 0.85rem; color: #4a4a4a; margin-top: 4px; }
+.group-actions { display: flex; gap: 8px; }

@@ -32,7 +32,7 @@ function LoginComponent() {
       localStorage.setItem("user", JSON.stringify(user));
       window.dispatchEvent(new Event("auth-changed"));
       toast.success("Login realizado com sucesso!");
-      router.navigate({ to: "/todos" });
+      router.navigate({ to: "/" });
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Erro ao fazer login");
     } finally {
