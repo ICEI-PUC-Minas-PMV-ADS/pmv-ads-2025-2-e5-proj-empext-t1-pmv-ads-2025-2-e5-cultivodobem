@@ -49,7 +49,7 @@ function RootComponent() {
 				disableTransitionOnChange
 				storageKey="vite-ui-theme"
 			>
-				<div className="grid grid-rows-[auto_1fr] h-svh">
+				<div>
 					<Header />
 					<SubHeader />
 					{isFetching ? <Loader /> : <Outlet />}

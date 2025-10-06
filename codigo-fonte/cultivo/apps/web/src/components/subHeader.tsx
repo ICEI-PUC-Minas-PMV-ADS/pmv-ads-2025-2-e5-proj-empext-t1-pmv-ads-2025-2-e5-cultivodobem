@@ -8,7 +8,7 @@ export default function SubHeader() {
     const router = useRouter();
 
     return (
-        <div className="pr-10 pl-10 pt-2">
+        <div className="pr-10 pl-10 pt-2 h-4">
            <button className="flex items-center gap-1 px-2 py-1" onClick={() => router.navigate({ to: '/' })}>
                 <MoveLeft />
                 Voltar
