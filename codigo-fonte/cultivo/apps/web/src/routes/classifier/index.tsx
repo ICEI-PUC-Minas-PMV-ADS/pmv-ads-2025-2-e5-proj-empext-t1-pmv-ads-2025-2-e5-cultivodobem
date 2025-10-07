@@ -1,21 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Upload } from "lucide-react";
 import { useState, type FormEvent, type ChangeEvent } from "react";
-import { getUserIdFromLocalStorage } from "@/lib/utils";
-import { useMutation } from "convex/react";
+import { ensureAuthenticated, getUserIdFromLocalStorage } from "@/lib/utils";
+import { useAction, useMutation } from "convex/react";
 import { api } from "../../../../../packages/backend/convex/_generated/api";
 import { Skeleton } from "@/components/ui/skeleton";
+import axios from "axios";
 
 export const Route = createFileRoute("/classifier/")({
-  component: RouteComponent,
+  component: ClassifySample,
+  beforeLoad: ensureAuthenticated,
 });
 
-function RouteComponent() {
+function ClassifySample() {
   const generateUploadUrl = useMutation(api.upload.generateUploadUrl);
   const sendImage = useMutation(api.upload.sendImage);
+  const classifySample = useAction(api.classifier.classifySample);
 
   const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [analysis, setAnalysis] = useState<any>(null);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -25,21 +29,36 @@ function RouteComponent() {
   const handleSendImage = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const userId = getUserIdFromLocalStorage();
+    if (!selectedImage) return;
+
     setLoading(true);
-    const postUrl = await generateUploadUrl();
+    try {
+      const userId = getUserIdFromLocalStorage();
+      setLoading(true);
 
-    const result = await fetch(postUrl, {
-      method: "POST",
-      headers: { "Content-Type": selectedImage!.type },
-      body: selectedImage,
-    });
+      const { url } = await generateUploadUrl();
 
-    const { storageId } = await result.json();
-    await sendImage({ storageId, userId: userId });
+      const response = await axios.post(url, selectedImage, {
+        headers: {
+          "Content-Type": selectedImage.type,
+        },
+      });
 
-    setSelectedImage(null);
-    setLoading(false);
+      const storageId = response.data.storageId;
+      await sendImage({ storageId, userId });
+      const analysis = await classifySample({
+        storageId,
+        fileType: selectedImage.type,
+        userId,
+      });
+      setAnalysis(analysis);
+
+      setSelectedImage(null);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -87,17 +106,26 @@ function RouteComponent() {
               Selecionar arquivo (jpeg, png, jpg)
             </span>
           </label>
-          {selectedImage && loading ? (
-            <Skeleton className="w-full h-10 rounded-lg" />
-          ) : (
-            <input
-              type="submit"
-              value="Classificar"
-              className="bg-cultivo-green-dark text-white rounded-lg py-2 px-4 cursor-pointer"
-              disabled={loading}
-            />
-          )}
+          {selectedImage &&
+            (loading ? (
+              <Skeleton className="w-full h-10 rounded-lg" />
+            ) : (
+              <input
+                type="submit"
+                value="Classificar"
+                className="bg-cultivo-green-dark text-white rounded-lg py-2 px-4 cursor-pointer"
+                disabled={loading}
+              />
+            ))}
         </form>
+        {analysis && (
+          <div className="flex flex-col gap-2 p-4 rounded-lg bg-white border border-cultivo-background-darker mt-6 w-full md:max-w-[540px]">
+            <h2 className="font-bold text-xl text-cultivo-primary">Análise</h2>
+            <pre className="flex-1 overflow-y-auto">
+              {JSON.stringify(analysis, null, 2)}
+            </pre>
+          </div>
+        )}
       </div>
     </div>
   );

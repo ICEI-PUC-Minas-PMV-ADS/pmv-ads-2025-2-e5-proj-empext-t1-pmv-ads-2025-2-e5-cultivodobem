@@ -1,0 +1,55 @@
+{
+  "type": "OBJECT",
+  "properties": {
+    "laudoTecnico": {
+      "type": "OBJECT",
+      "properties": {
+        "resumoAmostra": {
+          "type": "OBJECT",
+          "properties": {
+            "totalGraosIdentificados": { "type": "NUMBER" },
+            "totalGraosDefeituosos": { "type": "NUMBER" }
+          },
+          "required": ["totalGraosIdentificados", "totalGraosDefeituosos"]
+        },
+        "detalhamentoDefeitos": {
+          "type": "OBJECT",
+          "properties": {
+            "defeitosGraves": {
+              "type": "OBJECT",
+              "properties": {
+                "mofado": { "type": "NUMBER" },
+                "ardido": { "type": "NUMBER" },
+                "germinado": { "type": "NUMBER" },
+                "carunchado_e_atacado_por_lagartas": { "type": "NUMBER" }
+              },
+              "required": [
+                "mofado",
+                "ardido",
+                "germinado",
+                "carunchado_e_atacado_por_lagartas"
+              ]
+            },
+            "defeitosLeves": {
+              "type": "OBJECT",
+              "properties": {
+                "amassado": { "type": "NUMBER" },
+                "danificado": { "type": "NUMBER" },
+                "imaturo": { "type": "NUMBER" },
+                "quebrado_ou_partido": { "type": "NUMBER" }
+              },
+              "required": [
+                "amassado",
+                "danificado",
+                "imaturo",
+                "quebrado_ou_partido"
+              ]
+            }
+          }
+        },
+        "observacoes": { "type": "STRING" }
+      }
+    }
+  },
+  "required": ["laudoTecnico"]
+}

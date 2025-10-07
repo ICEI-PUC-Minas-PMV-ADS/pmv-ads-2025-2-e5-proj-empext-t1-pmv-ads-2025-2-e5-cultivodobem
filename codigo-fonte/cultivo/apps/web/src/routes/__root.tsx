@@ -7,7 +7,6 @@ import {
   createRootRouteWithContext,
   useRouterState,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import "../index.css";
 import TabNavigation from "@/components/tab-navigation";
 import HeaderNavigation from "@/components/header-navigation";

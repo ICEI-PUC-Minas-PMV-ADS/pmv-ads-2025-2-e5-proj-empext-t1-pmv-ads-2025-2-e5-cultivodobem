@@ -1,8 +1,10 @@
+import { ensureAuthenticated } from "@/lib/utils";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ScanLine, PackagePlus, ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: HomeComponent,
+  beforeLoad: ensureAuthenticated,
 });
 
 function HomeComponent() {

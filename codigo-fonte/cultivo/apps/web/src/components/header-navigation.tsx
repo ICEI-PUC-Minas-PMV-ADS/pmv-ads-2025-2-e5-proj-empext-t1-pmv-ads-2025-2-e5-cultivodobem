@@ -74,9 +74,9 @@ export default function HeaderNavigation() {
               <span className="text-sm">
                 Olá, <strong>{sessionUser.name ?? sessionUser.email}</strong>
               </span>
-              <button className="flex flex-row justify-center items-center gap-2 bg-cultivo-secondary text-cultivo-primary rounded-lg p-2">
+              <button className="flex flex-row justify-center items-center gap-2 bg-cultivo-secondary text-white rounded-lg p-2 cursor-pointer">
                 Sair
-                <LogOut width={16} height={16} />
+                <LogOut width={14} height={14} />
               </button>
             </>
           ) : (
