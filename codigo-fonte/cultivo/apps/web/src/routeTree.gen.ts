@@ -21,6 +21,7 @@ import { Route as ClassifierIndexRouteImport } from './routes/classifier/index'
 import { Route as GroupsParticipatingRouteImport } from './routes/groups/participating'
 import { Route as GroupsOwnedRouteImport } from './routes/groups/owned'
 import { Route as GroupsJoinRouteImport } from './routes/groups/join'
+import { Route as GroupsGroupIdRouteImport } from './routes/groups/$groupId'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -82,6 +83,11 @@ const GroupsJoinRoute = GroupsJoinRouteImport.update({
   path: '/groups/join',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GroupsGroupIdRoute = GroupsGroupIdRouteImport.update({
+  id: '/groups/$groupId',
+  path: '/groups/$groupId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -91,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
   '/signup': typeof SignupRoute
+  '/groups/$groupId': typeof GroupsGroupIdRoute
   '/groups/join': typeof GroupsJoinRoute
   '/groups/owned': typeof GroupsOwnedRoute
   '/groups/participating': typeof GroupsParticipatingRoute
@@ -105,6 +112,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
   '/signup': typeof SignupRoute
+  '/groups/$groupId': typeof GroupsGroupIdRoute
   '/groups/join': typeof GroupsJoinRoute
   '/groups/owned': typeof GroupsOwnedRoute
   '/groups/participating': typeof GroupsParticipatingRoute
@@ -120,6 +128,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
   '/signup': typeof SignupRoute
+  '/groups/$groupId': typeof GroupsGroupIdRoute
   '/groups/join': typeof GroupsJoinRoute
   '/groups/owned': typeof GroupsOwnedRoute
   '/groups/participating': typeof GroupsParticipatingRoute
@@ -136,6 +145,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/menu'
     | '/signup'
+    | '/groups/$groupId'
     | '/groups/join'
     | '/groups/owned'
     | '/groups/participating'
@@ -150,6 +160,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/menu'
     | '/signup'
+    | '/groups/$groupId'
     | '/groups/join'
     | '/groups/owned'
     | '/groups/participating'
@@ -164,6 +175,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/menu'
     | '/signup'
+    | '/groups/$groupId'
     | '/groups/join'
     | '/groups/owned'
     | '/groups/participating'
@@ -179,6 +191,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   MenuRoute: typeof MenuRoute
   SignupRoute: typeof SignupRoute
+  GroupsGroupIdRoute: typeof GroupsGroupIdRoute
   GroupsJoinRoute: typeof GroupsJoinRoute
   GroupsOwnedRoute: typeof GroupsOwnedRoute
   GroupsParticipatingRoute: typeof GroupsParticipatingRoute
@@ -272,6 +285,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GroupsJoinRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/groups/$groupId': {
+      id: '/groups/$groupId'
+      path: '/groups/$groupId'
+      fullPath: '/groups/$groupId'
+      preLoaderRoute: typeof GroupsGroupIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -283,6 +303,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   MenuRoute: MenuRoute,
   SignupRoute: SignupRoute,
+  GroupsGroupIdRoute: GroupsGroupIdRoute,
   GroupsJoinRoute: GroupsJoinRoute,
   GroupsOwnedRoute: GroupsOwnedRoute,
   GroupsParticipatingRoute: GroupsParticipatingRoute,

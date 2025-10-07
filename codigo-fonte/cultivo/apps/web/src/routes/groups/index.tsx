@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { Input } from "@/components/ui/input";
@@ -62,7 +62,7 @@ function RouteComponent() {
 
       <section className="mb-6 rounded-lg border p-4">
         <h2 className="mb-2 font-medium">Criar novo grupo</h2>
-        <form className="grid gap-2" onSubmit={onCreate}>
+        <form className=" gap-2" onSubmit={onCreate}>
           <Input
             placeholder="Nome do grupo"
             value={form.name}
@@ -97,48 +97,67 @@ function RouteComponent() {
         <ul className="groups-list">
           {groups?.map((g: any) => (
             <li key={g._id} className="group-item">
-              <div>
-                <div className="group-name">{g.name}</div>
-                <div className="group-desc">{g.description}</div>
-                <div className="group-stock">Estoque: {g.stock}</div>
-                {g.participantsFull && g.participantsFull.length > 0 && (
-                  <div className="mt-2">
-                    <div className="text-sm font-semibold">Participantes:</div>
-                    <ul className="ml-2">
-                      {g.participantsFull.map((p: any) => (
-                        <li key={p._id} className="text-sm">
-                          {p.name ?? p.email} ({p._id})
-                        </li>
-                      ))}
-                    </ul>
+              <div className="flex justify-between items-start">
+                <Link
+                  to="/groups/$groupId"
+                  params={{ groupId: g._id }}
+                  className="flex-1 block hover:bg-gray-50 transition-colors"
+                >
+                  <div>
+                    <div className="group-name">{g.name}</div>
+                    <div className="group-desc">{g.description}</div>
+                    <div className="group-stock">Estoque: {g.stock}</div>
+                    {g.participantsFull && g.participantsFull.length > 0 && (
+                      <div className="mt-2">
+                        <div className="text-sm font-semibold">
+                          Participantes:
+                        </div>
+                        <ul className="ml-2">
+                          {g.participantsFull.map((p: any) => (
+                            <li key={p._id} className="text-sm">
+                              {p.name ?? p.email} ({p._id})
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-              <div className="group-actions">
-                <button
-                  onClick={() => {
-                    setEditGroup(g);
-                    setEditing(true);
-                  }}
-                >
-                  Editar
-                </button>
-                <button onClick={() => onDelete(g._id)}>Excluir</button>
-                <button
-                  onClick={async () => {
-                    const url = `${window.location.origin}/groups/join?groupId=${g._id}`;
-                    try {
-                      await navigator.clipboard.writeText(url);
-                      alert(
-                        "Link copiado para a área de transferência:\n" + url
-                      );
-                    } catch (e) {
-                      prompt("Copie o link abaixo:", url);
-                    }
-                  }}
-                >
-                  Compartilhar
-                </button>
+                </Link>
+                <div className="group-actions">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setEditGroup(g);
+                      setEditing(true);
+                    }}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onDelete(g._id);
+                    }}
+                  >
+                    Excluir
+                  </button>
+                  <button
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      const url = `${window.location.origin}/groups/join?groupId=${g._id}`;
+                      try {
+                        await navigator.clipboard.writeText(url);
+                        alert(
+                          "Link copiado para a área de transferência:\n" + url
+                        );
+                      } catch (e) {
+                        prompt("Copie o link abaixo:", url);
+                      }
+                    }}
+                  >
+                    Compartilhar
+                  </button>
+                </div>
               </div>
             </li>
           ))}
@@ -199,10 +218,11 @@ function RouteComponent() {
                 }))
               }
             />
-            <div className="space-y-2">
-              <div className="text-sm font-medium">Participantes</div>
-              <ul className="ml-2">
-                {(editGroup.participantsFull ?? []).map((p: any) => (
+            {(editGroup.participantsFull ?? []).map((p: any) => (
+              <div className="space-y-2">
+                {}
+                <div className="text-sm font-medium">Participantes</div>
+                <ul className="ml-2">
                   <li
                     key={p._id}
                     className="flex items-center justify-between gap-2"
@@ -227,36 +247,9 @@ function RouteComponent() {
                       Remover
                     </Button>
                   </li>
-                ))}
-              </ul>
-
-              <div className="grid grid-cols-3 gap-2">
-                <Input
-                  placeholder="ID do usuário"
-                  value={editGroup.newParticipant ?? ""}
-                  onChange={(e) =>
-                    setEditGroup((g: any) => ({
-                      ...g,
-                      newParticipant: e.target.value,
-                    }))
-                  }
-                />
-                <div />
-                <Button
-                  onClick={async () => {
-                    const userId = editGroup.newParticipant;
-                    if (!userId) return alert("Informe o id do usuário");
-                    await addParticipant({ groupId: editGroup._id, userId });
-                    const refreshed =
-                      groups?.find((gg: any) => gg._id === editGroup._id) ??
-                      null;
-                    setEditGroup(refreshed);
-                  }}
-                >
-                  Adicionar participante
-                </Button>
+                </ul>
               </div>
-            </div>
+            ))}
             <div className="flex justify-end gap-2 mt-2">
               <Button
                 type="button"
