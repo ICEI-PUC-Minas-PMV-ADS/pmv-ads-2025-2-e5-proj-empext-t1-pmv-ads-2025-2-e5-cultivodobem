@@ -9,7 +9,9 @@ export default defineSchema({
     email: v.string(),
     passwordHash: v.string(),
     name: v.string(),
-    tipo_usuario: v.optional(v.union(v.literal("Produtor Rural"), v.literal("Representante"))),
+    tipo_usuario: v.optional(
+      v.union(v.literal("Produtor Rural"), v.literal("Representante"))
+    ),
     telefone: v.optional(v.string()),
     data_nascimento: v.optional(v.string()),
     cep: v.optional(v.string()),
@@ -19,7 +21,8 @@ export default defineSchema({
     foto_url: v.optional(v.string()),
     createdAt: v.number(),
     updatedAt: v.optional(v.number()),
-  }).index("by_email", ["email"])
+  })
+    .index("by_email", ["email"])
     .index("by_createdAt", ["createdAt"]),
 
   settings: defineTable({
@@ -68,7 +71,8 @@ export default defineSchema({
     createdAt: v.number(),
     status: v.union(v.literal("pending"), v.literal("rejected")),
     userId: v.id("users"),
-  }).index("by_user", ["userId"])
+  })
+    .index("by_user", ["userId"])
     .index("by_group", ["groupId"])
     .index("by_buyer", ["buyerId"]),
 
@@ -85,11 +89,13 @@ export default defineSchema({
     content: v.string(),
     image: v.optional(v.string()),
     createdAt: v.number(),
-    coments: v.array(v.object({
-      userId: v.id("users"),
-      content: v.string(),
-      createdAt: v.number(),
-    })),
+    coments: v.array(
+      v.object({
+        userId: v.id("users"),
+        content: v.string(),
+        createdAt: v.number(),
+      })
+    ),
   }).index("by_user", ["userId"]),
 
   ratings: defineTable({
@@ -104,5 +110,11 @@ export default defineSchema({
     text: v.string(),
     completed: v.boolean(),
     userId: v.optional(v.id("users")),
+  }).index("by_user", ["userId"]),
+
+  beanSampleImages: defineTable({
+    storageId: v.id("_storage"),
+    userId: v.id("users"),
+    createdAt: v.number(),
   }).index("by_user", ["userId"]),
 });

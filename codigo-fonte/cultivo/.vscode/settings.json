@@ -1,0 +1,9 @@
+{
+  "tailwindCSS.includeLanguages": {
+    "javascript": "javascript",
+    "javascriptreact": "javascript",
+    "typescript": "typescript",
+    "typescriptreact": "typescript"
+  },
+  "editor.formatOnSave": true
+}
