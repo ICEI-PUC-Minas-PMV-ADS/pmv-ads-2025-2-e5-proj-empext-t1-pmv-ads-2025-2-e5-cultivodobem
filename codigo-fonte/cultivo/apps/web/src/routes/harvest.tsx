@@ -23,15 +23,21 @@ function HarvestScreen() {
   ];
 
   return (
-    <div className="flex flex-col pt-18">
-      <button className="flex flex-row justify-center items-center w-[80%] mx-auto mb-8 bg-cultivo-secondary gap-2 px-6 py-3 rounded-lg text-cultivo-primary font-bold hover:cursor-pointer hover:opacity-90 transition">
+    <div className="screen flex flex-col items-center p-4">
+      <h1 className="font-bold text-2xl text-cultivo-primary text-center">
+        Minhas Colheitas
+      </h1>
+      <button className="flex flex-row justify-center items-center w-full md:max-w-md bg-cultivo-green-dark gap-2 px-6 py-3 rounded-lg text-white font-bold mt-6">
         <Plus />
         Registrar Nova Colheita
       </button>
       {harvests.map((harvest) => (
         <a
           key={harvest.id}
-          className="bg-white rounded-lg p-4 mb-4 mx-auto w-[80%] h-[124px] drop-shadow-md drop-shadow-black/30 hover:drop-shadow-black/50 hover:cursor-pointer transition"
+          className="flex flex-col p-4 md:max-w-md rounded-lg bg-white border border-cultivo-background-darker mt-6 w-full"
+          style={{
+            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+          }}
         >
           <h3 className="text-xl text-cultivo-primary font-bold">
             Colheita de {harvest.date}

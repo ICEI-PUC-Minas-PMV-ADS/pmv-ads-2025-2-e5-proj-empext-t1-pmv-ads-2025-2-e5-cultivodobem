@@ -1,4 +1,6 @@
+import HeaderNavigation from "@/components/header-navigation";
 import Loader from "@/components/loader";
+import TabNavigation from "@/components/tab-navigation";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import {
@@ -8,8 +10,6 @@ import {
   useRouterState,
 } from "@tanstack/react-router";
 import "../index.css";
-import TabNavigation from "@/components/tab-navigation";
-import HeaderNavigation from "@/components/header-navigation";
 
 export interface RouterAppContext {}
 
@@ -18,11 +18,11 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
   head: () => ({
     meta: [
       {
-        title: "my-cultivoapp",
+        title: "Cultivo do Bem",
       },
       {
         name: "description",
-        content: "my-cultivoapp is a web application",
+        content: "Aplicação web do Cultivo do Bem",
       },
     ],
     links: [

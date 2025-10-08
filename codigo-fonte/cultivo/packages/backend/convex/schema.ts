@@ -1,8 +1,5 @@
-import { group } from "console";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
-import { title } from "process";
-import { use } from "react";
 
 export default defineSchema({
   users: defineTable({
@@ -46,10 +43,12 @@ export default defineSchema({
     imageId: v.id("_storage"),
     userId: v.id("users"),
     createdAt: v.number(),
-    report: v.object({
+    classification: v.object({
       summary: v.object({
-        totalBeans: v.number(),
-        totalDefectiveBeans: v.number(),
+        species: v.string(),
+        type: v.number(),
+        defectiveBeansPercentage: v.number(),
+        explanation: v.string(),
       }),
       details: v.object({
         graveDefects: v.object({
@@ -65,7 +64,12 @@ export default defineSchema({
           broken_or_split: v.number(),
         }),
       }),
-      observations: v.optional(v.string()),
+    }),
+    colorimetry: v.object({
+      averageL: v.number(),
+      standardDeviation: v.number(),
+      classification: v.string(),
+      finalScore: v.number(),
     }),
   }).index("by_user", ["userId"]),
 

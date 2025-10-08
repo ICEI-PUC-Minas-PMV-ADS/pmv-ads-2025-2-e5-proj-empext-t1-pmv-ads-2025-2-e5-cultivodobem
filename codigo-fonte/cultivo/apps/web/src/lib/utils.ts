@@ -1,6 +1,6 @@
+import { redirect } from "@tanstack/react-router";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { redirect } from "@tanstack/react-router";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

@@ -1,30 +1,26 @@
-import { mutation } from "./_generated/server";
 import { v } from "convex/values";
+import { mutation, query } from "./_generated/server";
 
 export const generateUploadUrl = mutation({
   handler: async (ctx) => {
-    const url = await ctx.storage.generateUploadUrl();
-    return { url };
+    return await ctx.storage.generateUploadUrl();
   },
 });
 
 export const sendImage = mutation({
   args: { storageId: v.id("_storage"), userId: v.id("users") },
   handler: async (ctx, args) => {
-    const id = await ctx.db.insert("beanSampleImages", {
+    return await ctx.db.insert("beanSampleImages", {
       storageId: args.storageId,
       userId: args.userId,
       createdAt: Date.now(),
     });
-
-    return { id };
   },
 });
 
-export const getFileUrl = mutation({
+export const getFileUrl = query({
   args: { fileId: v.id("_storage") },
   handler: async (ctx, { fileId }) => {
-    const url = await ctx.storage.getUrl(fileId);
-    return { url };
+    return await ctx.storage.getUrl(fileId);
   },
 });

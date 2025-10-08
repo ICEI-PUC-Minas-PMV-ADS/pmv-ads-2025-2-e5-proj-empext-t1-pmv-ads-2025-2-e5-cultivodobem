@@ -5,5 +5,8 @@
     "typescript": "typescript",
     "typescriptreact": "typescript"
   },
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "always"
+  }
 }

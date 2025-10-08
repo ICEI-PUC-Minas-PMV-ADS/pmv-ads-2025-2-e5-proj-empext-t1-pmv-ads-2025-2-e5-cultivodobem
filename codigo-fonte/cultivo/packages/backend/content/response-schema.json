@@ -1,55 +1,73 @@
 {
   "type": "OBJECT",
   "properties": {
-    "laudoTecnico": {
+    "classification": {
       "type": "OBJECT",
       "properties": {
-        "resumoAmostra": {
+        "summary": {
           "type": "OBJECT",
           "properties": {
-            "totalGraosIdentificados": { "type": "NUMBER" },
-            "totalGraosDefeituosos": { "type": "NUMBER" }
+            "species": { "type": "STRING" },
+            "type": { "type": "NUMBER" },
+            "defectiveBeansPercentage": { "type": "NUMBER" },
+            "explanation": { "type": "STRING" }
           },
-          "required": ["totalGraosIdentificados", "totalGraosDefeituosos"]
+          "required": [
+            "species",
+            "type",
+            "defectiveBeansPercentage",
+            "explanation"
+          ]
         },
-        "detalhamentoDefeitos": {
+        "details": {
           "type": "OBJECT",
           "properties": {
-            "defeitosGraves": {
+            "graveDefects": {
               "type": "OBJECT",
               "properties": {
-                "mofado": { "type": "NUMBER" },
-                "ardido": { "type": "NUMBER" },
-                "germinado": { "type": "NUMBER" },
-                "carunchado_e_atacado_por_lagartas": { "type": "NUMBER" }
+                "molded": { "type": "NUMBER" },
+                "burned": { "type": "NUMBER" },
+                "germinated": { "type": "NUMBER" },
+                "chapped_and_attacked_by_caterpillars": { "type": "NUMBER" }
               },
               "required": [
-                "mofado",
-                "ardido",
-                "germinado",
-                "carunchado_e_atacado_por_lagartas"
+                "molded",
+                "burned",
+                "germinated",
+                "chapped_and_attacked_by_caterpillars"
               ]
             },
-            "defeitosLeves": {
+            "lightDefects": {
               "type": "OBJECT",
               "properties": {
-                "amassado": { "type": "NUMBER" },
-                "danificado": { "type": "NUMBER" },
-                "imaturo": { "type": "NUMBER" },
-                "quebrado_ou_partido": { "type": "NUMBER" }
+                "crushed": { "type": "NUMBER" },
+                "damaged": { "type": "NUMBER" },
+                "immature": { "type": "NUMBER" },
+                "broken_or_split": { "type": "NUMBER" }
               },
-              "required": [
-                "amassado",
-                "danificado",
-                "imaturo",
-                "quebrado_ou_partido"
-              ]
+              "required": ["crushed", "damaged", "immature", "broken_or_split"]
             }
-          }
-        },
-        "observacoes": { "type": "STRING" }
-      }
+          },
+          "required": ["graveDefects", "lightDefects"]
+        }
+      },
+      "required": ["summary", "details"]
+    },
+    "colorimetry": {
+      "type": "OBJECT",
+      "properties": {
+        "averageL": { "type": "NUMBER" },
+        "standardDeviation": { "type": "NUMBER" },
+        "classification": { "type": "STRING" },
+        "finalScore": { "type": "NUMBER" }
+      },
+      "required": [
+        "averageL",
+        "standardDeviation",
+        "classification",
+        "finalScore"
+      ]
     }
   },
-  "required": ["laudoTecnico"]
+  "required": ["classification", "colorimetry"]
 }

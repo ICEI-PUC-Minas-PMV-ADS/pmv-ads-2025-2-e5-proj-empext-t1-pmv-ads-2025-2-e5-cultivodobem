@@ -1,4 +1,4 @@
-# my-cultivoapp
+# cultivodobemwebapp
 
 This project was created with [cultivoStack](https://github.com/AmanVarshney01/create-cultivostack), a modern TypeScript stack that combines React, TanStack Router, Convex, and more.
 
@@ -40,14 +40,10 @@ npm run dev
 Open [http://localhost:3001](http://localhost:3001) in your browser to see the web application.
 Your app will connect to the Convex cloud backend automatically.
 
-
-
-
-
 ## Project Structure
 
 ```
-my-cultivoapp/
+cultivodobemwebapp/
 ├── apps/
 │   ├── web/         # Frontend application (React + TanStack Router)
 ├── packages/

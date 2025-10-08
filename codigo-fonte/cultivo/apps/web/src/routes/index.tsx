@@ -1,6 +1,6 @@
 import { ensureAuthenticated } from "@/lib/utils";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ScanLine, PackagePlus, ChevronRight } from "lucide-react";
+import { ScanLine } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: HomeComponent,
@@ -9,8 +9,8 @@ export const Route = createFileRoute("/")({
 
 function HomeComponent() {
   return (
-    <div className="w-full h-screen flex flex-col items-center p-6 pt-18 bg-cultivo-background">
-      <h1 className="font-bold text-xl text-cultivo-primary text-center">
+    <div className="screen flex flex-col items-center p-4">
+      <h1 className="font-bold text-2xl text-cultivo-primary text-center">
         Painel
       </h1>
       <div
@@ -26,7 +26,7 @@ function HomeComponent() {
           R$ 385,00
         </span>
         <span className="text-sm text-cultivo-muted text-center">
-          Atualizado hoje às 19:35
+          Atualizado hoje às 19:35 (dados mockados)
         </span>
       </div>
 
@@ -39,13 +39,13 @@ function HomeComponent() {
         <h2 className="font-bold text-xl text-cultivo-primary">
           Ações rápidas
         </h2>
-        <Link
+        {/* <Link
           to="/harvest"
           className="flex flex-row justify-center items-center gap-2 bg-cultivo-secondary text-cultivo-primary rounded-lg p-2"
         >
           <PackagePlus />
           Registrar Colheita
-        </Link>
+        </Link> */}
         <Link
           to="/classifier"
           className="flex flex-row justify-center items-center gap-2 bg-white border border-cultivo-green-dark text-cultivo-green-dark rounded-lg p-2"
@@ -55,7 +55,7 @@ function HomeComponent() {
         </Link>
       </div>
 
-      <div
+      {/* <div
         className="flex flex-col gap-4 p-4 rounded-lg bg-white border border-cultivo-background-darker mt-6 w-full md:max-w-[540px]"
         style={{
           boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
@@ -80,7 +80,7 @@ function HomeComponent() {
         >
           Ver todas
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 }

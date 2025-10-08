@@ -1,11 +1,11 @@
 import { useLocation } from "@tanstack/react-router";
-import { House, Users, Archive, Menu } from "lucide-react";
+import { Archive, House, Menu, Users } from "lucide-react";
 
 export default function TabNavigation() {
   const location = useLocation();
   const items = [
     { name: "Painel", icon: House, href: "/" },
-    { name: "Meu Grupo", icon: Users, href: "/group" },
+    { name: "Grupo", icon: Users, href: "/groups" },
     { name: "Colheitas", icon: Archive, href: "/harvest" },
     { name: "Menu", icon: Menu, href: "/menu" },
   ];

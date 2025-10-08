@@ -4,13 +4,15 @@ import {
   GoogleGenAI,
   Part,
 } from "@google/genai";
-import { Id } from "./_generated/dataModel";
-import { action, mutation } from "./_generated/server";
+import { Buffer } from "buffer/";
 import { v } from "convex/values";
+import analysisBriefing from "../content/briefing-analysis";
+import colorimetryBriefing from "../content/briefing-colorimetry";
 import responseSchema from "../content/response-schema.json";
-import briefing from "../content/briefing";
-import { Buffer } from "buffer/"; // note: the trailing slash is important!
+import { Analysis } from "../content/types";
 import { api } from "./_generated/api";
+import { Id } from "./_generated/dataModel";
+import { action } from "./_generated/server";
 
 const classificationManualId = process.env
   .CLASSIFICATION_MANUAL_ID as Id<"_storage">;
@@ -53,8 +55,8 @@ export const classifySample = action({
         response.arrayBuffer()
       );
 
-      const briefingParts: Part[] = [
-        { text: briefing },
+      const analysisBriefingParts: Part[] = [
+        { text: analysisBriefing },
         {
           inlineData: {
             mimeType: "application/pdf",
@@ -70,6 +72,8 @@ export const classifySample = action({
         { text: "A amostra a ser classificada é a seguinte:" },
       ];
 
+      const colorimetryBriefingParts: Part[] = [{ text: colorimetryBriefing }];
+
       const model = "gemini-2.5-flash";
 
       const config: GenerateContentConfig = {
@@ -78,7 +82,7 @@ export const classifySample = action({
       };
 
       const contents: Content[] = [
-        { role: "user", parts: briefingParts },
+        { role: "user", parts: analysisBriefingParts },
         {
           role: "user",
           parts: [
@@ -90,6 +94,7 @@ export const classifySample = action({
             },
           ],
         },
+        { role: "user", parts: colorimetryBriefingParts },
       ];
 
       const response = await gemini.models.generateContent({
@@ -98,68 +103,24 @@ export const classifySample = action({
         contents,
       });
 
-      const promptResult = JSON.parse(response.text || "{}");
+      const promptResult: Analysis = JSON.parse(response.text || "{}");
 
-      ctx.runMutation(api.classifier.saveAnalysis, {
-        analysis: {
+      const id: Id<"analysis"> = await ctx.runMutation(
+        api.analysis.saveAnalysis,
+        {
           imageId: storageId,
           userId: userId,
-          report: {
-            summary: {
-              totalBeans:
-                promptResult.laudoTecnico.resumoAmostra.totalGraosIdentificados,
-              totalDefectiveBeans:
-                promptResult.laudoTecnico.resumoAmostra.totalGraosDefeituosos,
-            },
-            details: {
-              graveDefects:
-                promptResult.laudoTecnico.detalhamentoDefeitos.defeitosGraves,
-              lightDefects:
-                promptResult.laudoTecnico.detalhamentoDefeitos.defeitosLeves,
-            },
-            observations: promptResult.laudoTecnico.observacoes,
-          },
-        },
-      });
+          createdAt: Date.now(),
+          classification: promptResult.classification,
+          colorimetry: promptResult.colorimetry,
+        }
+      );
 
-      return promptResult;
+      return id;
     } catch (error) {
       console.log({ error });
 
       return null;
     }
-  },
-});
-
-export const saveAnalysis = mutation({
-  args: {
-    analysis: v.object({
-      imageId: v.id("_storage"),
-      userId: v.id("users"),
-      report: v.object({
-        summary: v.object({
-          totalBeans: v.number(),
-          totalDefectiveBeans: v.number(),
-        }),
-        details: v.object({
-          graveDefects: v.object({
-            molded: v.number(),
-            burned: v.number(),
-            germinated: v.number(),
-            chapped_and_attacked_by_caterpillars: v.number(),
-          }),
-          lightDefects: v.object({
-            crushed: v.number(),
-            damaged: v.number(),
-            immature: v.number(),
-            broken_or_split: v.number(),
-          }),
-        }),
-        observations: v.optional(v.string()),
-      }),
-    }),
-  },
-  handler: async (ctx, { analysis }) => {
-    await ctx.db.insert("analysis", { ...analysis, createdAt: Date.now() });
   },
 });
