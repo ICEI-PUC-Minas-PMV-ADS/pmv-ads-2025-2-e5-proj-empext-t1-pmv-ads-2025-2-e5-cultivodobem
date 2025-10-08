@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotRouteImport } from './routes/forgot'
+import { Route as FeedRouteImport } from './routes/feed'
 import { Route as EditusersRouteImport } from './routes/editusers'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GroupsIndexRouteImport } from './routes/groups/index'
@@ -33,6 +34,11 @@ const LoginRoute = LoginRouteImport.update({
 const ForgotRoute = ForgotRouteImport.update({
   id: '/forgot',
   path: '/forgot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeedRoute = FeedRouteImport.update({
+  id: '/feed',
+  path: '/feed',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EditusersRoute = EditusersRouteImport.update({
@@ -74,6 +80,7 @@ const GroupsGroupIdRoute = GroupsGroupIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/editusers': typeof EditusersRoute
+  '/feed': typeof FeedRoute
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/editusers': typeof EditusersRoute
+  '/feed': typeof FeedRoute
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
@@ -99,6 +107,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/editusers': typeof EditusersRoute
+  '/feed': typeof FeedRoute
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
@@ -113,6 +122,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/editusers'
+    | '/feed'
     | '/forgot'
     | '/login'
     | '/signup'
@@ -125,6 +135,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/editusers'
+    | '/feed'
     | '/forgot'
     | '/login'
     | '/signup'
@@ -137,6 +148,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/editusers'
+    | '/feed'
     | '/forgot'
     | '/login'
     | '/signup'
@@ -150,6 +162,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   EditusersRoute: typeof EditusersRoute
+  FeedRoute: typeof FeedRoute
   ForgotRoute: typeof ForgotRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
@@ -181,6 +194,13 @@ declare module '@tanstack/react-router' {
       path: '/forgot'
       fullPath: '/forgot'
       preLoaderRoute: typeof ForgotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feed': {
+      id: '/feed'
+      path: '/feed'
+      fullPath: '/feed'
+      preLoaderRoute: typeof FeedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/editusers': {
@@ -238,6 +258,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   EditusersRoute: EditusersRoute,
+  FeedRoute: FeedRoute,
   ForgotRoute: ForgotRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,

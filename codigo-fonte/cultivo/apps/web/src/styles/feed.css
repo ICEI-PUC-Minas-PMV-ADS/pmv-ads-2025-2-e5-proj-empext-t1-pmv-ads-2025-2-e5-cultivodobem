@@ -1,0 +1,255 @@
+/* Feed Styles */
+.feed-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.post-card {
+  background: var(--card-bg, #fff);
+  border: 1px solid var(--border-color, #e5e5e5);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease;
+}
+
+.post-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.post-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.post-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color, #333);
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: var(--text-muted, #666);
+  margin-bottom: 1rem;
+}
+
+.post-meta svg {
+  width: 16px;
+  height: 16px;
+}
+
+.post-content {
+  color: var(--text-color, #333);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.post-content p {
+  margin-bottom: 0.75rem;
+}
+
+.post-content p:last-child {
+  margin-bottom: 0;
+}
+
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color, #e5e5e5);
+}
+
+.post-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border: none;
+  background: transparent;
+  color: var(--text-muted, #666);
+  cursor: pointer;
+  border-radius: 4px;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.post-action-btn:hover {
+  background-color: var(--hover-bg, #f5f5f5);
+  color: var(--text-color, #333);
+}
+
+.post-action-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Search Bar */
+.feed-search {
+  margin-bottom: 2rem;
+}
+
+.feed-search-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.feed-search-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color, #e5e5e5);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease;
+}
+
+.feed-search-input:focus {
+  outline: none;
+  border-color: var(--primary-color, #007bff);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+.feed-search-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color, #007bff);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.feed-search-btn:hover {
+  background-color: var(--primary-hover, #0056b3);
+}
+
+/* Loading States */
+.feed-loading {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.post-skeleton {
+  background: var(--skeleton-bg, #f6f6f6);
+  border-radius: 6px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Empty States */
+.feed-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted, #666);
+}
+
+.feed-empty-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 1rem;
+  opacity: 0.5;
+}
+
+/* Error States */
+.feed-error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+}
+
+.feed-error-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .post-card {
+    background: var(--card-bg-dark, #1f1f1f);
+    border-color: var(--border-color-dark, #333);
+    color: var(--text-color-dark, #e5e5e5);
+  }
+
+  .post-title {
+    color: var(--text-color-dark, #e5e5e5);
+  }
+
+  .post-content {
+    color: var(--text-color-dark, #e5e5e5);
+  }
+
+  .post-meta {
+    color: var(--text-muted-dark, #999);
+  }
+
+  .post-action-btn {
+    color: var(--text-muted-dark, #999);
+  }
+
+  .post-action-btn:hover {
+    background-color: var(--hover-bg-dark, #333);
+    color: var(--text-color-dark, #e5e5e5);
+  }
+
+  .feed-search-input {
+    background: var(--input-bg-dark, #1f1f1f);
+    border-color: var(--border-color-dark, #333);
+    color: var(--text-color-dark, #e5e5e5);
+  }
+
+  .feed-error {
+    background-color: #451a1a;
+    border-color: #7f1d1d;
+    color: #fca5a5;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .feed-container {
+    padding: 0.75rem;
+  }
+
+  .post-card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .post-title {
+    font-size: 1.125rem;
+  }
+
+  .feed-search-form {
+    flex-direction: column;
+  }
+
+  .feed-search-btn {
+    width: 100%;
+  }
+}

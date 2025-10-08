@@ -16,6 +16,7 @@ import type {
 import type * as auth from "../auth.js";
 import type * as group from "../group.js";
 import type * as healthCheck from "../healthCheck.js";
+import type * as postComments from "../postComments.js";
 import type * as register from "../register.js";
 import type * as todos from "../todos.js";
 import type * as user from "../user.js";
@@ -32,6 +33,7 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   group: typeof group;
   healthCheck: typeof healthCheck;
+  postComments: typeof postComments;
   register: typeof register;
   todos: typeof todos;
   user: typeof user;
