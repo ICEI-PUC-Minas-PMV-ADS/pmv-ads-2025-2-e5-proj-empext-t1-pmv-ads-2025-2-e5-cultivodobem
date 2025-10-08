@@ -39,6 +39,46 @@ export default defineSchema({
     createdAt: v.number(),
   }).index("by_user", ["userId"]),
 
+  analysis: defineTable({
+    imageId: v.id("_storage"),
+    userId: v.id("users"),
+    createdAt: v.number(),
+    classification: v.object({
+      summary: v.object({
+        species: v.string(),
+        type: v.number(),
+        defectiveBeansPercentage: v.number(),
+        explanation: v.string(),
+      }),
+      details: v.object({
+        graveDefects: v.object({
+          molded: v.number(),
+          burned: v.number(),
+          germinated: v.number(),
+          chapped_and_attacked_by_caterpillars: v.number(),
+        }),
+        lightDefects: v.object({
+          crushed: v.number(),
+          damaged: v.number(),
+          immature: v.number(),
+          broken_or_split: v.number(),
+        }),
+      }),
+    }),
+    colorimetry: v.object({
+      averageL: v.number(),
+      standardDeviation: v.number(),
+      classification: v.string(),
+      finalScore: v.number(),
+    }),
+  }).index("by_user", ["userId"]),
+
+  beanSampleImages: defineTable({
+    storageId: v.id("_storage"),
+    userId: v.id("users"),
+    createdAt: v.number(),
+  }).index("by_user", ["userId"]),
+
   harvests: defineTable({
     date: v.string(),
     quantity: v.number(),
@@ -80,33 +120,12 @@ export default defineSchema({
     createdAt: v.number(),
   }).index("by_user", ["userId"]),
 
-  posts: defineTable({
-    userId: v.id("users"),
-    title: v.string(),
-    content: v.string(),
-    image: v.optional(v.string()),
-    createdAt: v.number(),
-    coments: v.array(
-      v.object({
-        userId: v.id("users"),
-        content: v.string(),
-        createdAt: v.number(),
-      })
-    ),
-  }).index("by_user", ["userId"]),
-
   ratings: defineTable({
     userId: v.id("users"),
     rating: v.number(),
     comment: v.optional(v.string()),
     userRatedId: v.id("users"),
     createdAt: v.number(),
-  }).index("by_user", ["userId"]),
-
-  todos: defineTable({
-    text: v.string(),
-    completed: v.boolean(),
-    userId: v.optional(v.id("users")),
   }).index("by_user", ["userId"]),
 
   postComments: defineTable({

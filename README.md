@@ -1,5 +1,7 @@
 # CULTIVO DO BEM WEB
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2d17cb93-f389-491a-9d5c-16ccdf033adf/deploy-status)](https://app.netlify.com/projects/cultivodobem/deploys)
+
 `ANÁLISE E DESENVOLVIMENTO DE SISTEMAS`
 
 `PROJETO: DESENVOLVIMENTO DE UM SISTEMA SOCIOTÉCNICO INOVADOR`

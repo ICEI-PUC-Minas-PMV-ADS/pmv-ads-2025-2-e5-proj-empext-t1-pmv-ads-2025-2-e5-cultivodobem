@@ -1,17 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans:
-    "Inter", "Geist", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --color-cultivo-background: #fcf8f1;
+  --color-cultivo-background-darker: #f5e8d6;
+  --color-cultivo-primary: #734338;
+  --color-cultivo-secondary: #f99d1c;
+  --color-cultivo-green-dark: #558f45;
+  --color-cultivo-green-light: #8bbe48;
+  --color-cultivo-muted: #b3a291;
 }
 
 html,
 body {
   @apply bg-white dark:bg-gray-950;
+
+  font-family: "Nunito Sans", sans-serif;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
@@ -19,14 +26,6 @@ body {
 }
 
 :root {
-  /* Cores personalizadas do Cultivo do Bem */
-  --cultivo-white: #fcf8f1;
-  --cultivo-background: #f5e8d6;
-  --cultivo-primary: #734338;
-  --cultivo-secondary: #f99d1c;
-  --cultivo-green-dark: #558f45;
-  --cultivo-green-light: #8bbe48;
-
   /* Variáveis padrão do shadcn/ui */
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -94,80 +93,79 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-} */
-
-:root {
+}
+*/ :root {
   /* Espaçamento e raio padrão */
   --radius: 0.75rem;
 
   /* --- Paleta Cultivo do Bem (claro) --- */
-  --background: #FCF8F1;              /* bg da página */
-  --foreground: #6B3F33;              /* texto principal */
+  --background: #fcf8f1; /* bg da página */
+  --foreground: #6b3f33; /* texto principal */
 
-  --card: #F6EFE4;
-  --card-foreground: #6B3F33;
+  --card: #f6efe4;
+  --card-foreground: #6b3f33;
 
-  --popover: #F6EFE4;
-  --popover-foreground: #6B3F33;
+  --popover: #f6efe4;
+  --popover-foreground: #6b3f33;
 
-  --primary: #F39A18;                 /* laranja principal */
-  --primary-foreground: #3A2000;      /* texto em cima do primário */
+  --primary: #f39a18; /* laranja principal */
+  --primary-foreground: #3a2000; /* texto em cima do primário */
 
   /* Secundária em tom sutil de verde */
-  --secondary: #E9F5EB;               /* fundo sutil p/ botões/labels “secundários” */
-  --secondary-foreground: #2D7A31;    /* texto/ícone verde */
+  --secondary: #e9f5eb; /* fundo sutil p/ botões/labels “secundários” */
+  --secondary-foreground: #2d7a31; /* texto/ícone verde */
 
-  --muted: #F3E8D9;                   /* superfícies neutras */
-  --muted-foreground: #9A7B6A;
+  --muted: #f3e8d9; /* superfícies neutras */
+  --muted-foreground: #9a7b6a;
 
-  --accent: #EDE2D3;                   /* realces suaves */
-  --accent-foreground: #6B3F33;
+  --accent: #ede2d3; /* realces suaves */
+  --accent-foreground: #6b3f33;
 
-  --destructive: #E24D4D;
+  --destructive: #e24d4d;
 
-  --border: #EADFCE;                   /* bordas/inputs */
-  --input: #EADFCE;
-  --ring: #F39A18;                     /* foco */
+  --border: #eadfce; /* bordas/inputs */
+  --input: #eadfce;
+  --ring: #f39a18; /* foco */
 
   /* Cores de gráficos (opcional) */
-  --chart-1: #F39A18;
-  --chart-2: #2D7A31;
-  --chart-3: #6B3F33;
-  --chart-4: #8BBE48;
-  --chart-5: #558F45;
+  --chart-1: #f39a18;
+  --chart-2: #2d7a31;
+  --chart-3: #6b3f33;
+  --chart-4: #8bbe48;
+  --chart-5: #558f45;
 
   /* Sidebar (se usar) */
-  --sidebar: #FCF8F1;
-  --sidebar-foreground: #6B3F33;
-  --sidebar-primary: #F39A18;
-  --sidebar-primary-foreground: #3A2000;
-  --sidebar-accent: #E9F5EB;
-  --sidebar-accent-foreground: #2D7A31;
-  --sidebar-border: #EADFCE;
-  --sidebar-ring: #F39A18;
+  --sidebar: #fcf8f1;
+  --sidebar-foreground: #6b3f33;
+  --sidebar-primary: #f39a18;
+  --sidebar-primary-foreground: #3a2000;
+  --sidebar-accent: #e9f5eb;
+  --sidebar-accent-foreground: #2d7a31;
+  --sidebar-border: #eadfce;
+  --sidebar-ring: #f39a18;
 }
 
 .dark {
   /* --- Paleta Cultivo do Bem (escuro) --- */
-  --background: #1D1714;
-  --foreground: #F4ECE3;
+  --background: #1d1714;
+  --foreground: #f4ece3;
 
-  --card: #261D18;
-  --card-foreground: #F4ECE3;
+  --card: #261d18;
+  --card-foreground: #f4ece3;
 
-  --popover: #261D18;
-  --popover-foreground: #F4ECE3;
+  --popover: #261d18;
+  --popover-foreground: #f4ece3;
 
-  --primary: #FFB13E;
-  --primary-foreground: #2A1400;
+  --primary: #ffb13e;
+  --primary-foreground: #2a1400;
 
-  --secondary: #203B25;
-  --secondary-foreground: #D6F1DB;
+  --secondary: #203b25;
+  --secondary-foreground: #d6f1db;
 
-  --muted: #2A221D;
-  --muted-foreground: #BFAEA3;
+  --muted: #2a221d;
+  --muted-foreground: #bfaea3;
 
-  --accent: #2A221
+  --accent: #2A221;
 }
 
 @theme inline {
@@ -214,5 +212,17 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+.screen {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 80px;
+  background-color: var(--color-cultivo-background);
+
+  @media (max-width: 768px) {
+    padding-bottom: 100px;
   }
 }
