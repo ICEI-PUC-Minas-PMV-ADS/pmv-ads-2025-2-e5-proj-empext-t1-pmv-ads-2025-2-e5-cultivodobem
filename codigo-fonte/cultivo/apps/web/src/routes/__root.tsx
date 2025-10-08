@@ -1,7 +1,6 @@
 import HeaderNavigation from "@/components/header-navigation";
 import Loader from "@/components/loader";
 import TabNavigation from "@/components/tab-navigation";
-import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import {
   HeadContent,
@@ -42,17 +41,17 @@ function RootComponent() {
   return (
     <>
       <HeadContent />
-      <ThemeProvider
+      {/* <ThemeProvider
         attribute="class"
         defaultTheme="dark"
         disableTransitionOnChange
         storageKey="vite-ui-theme"
-      >
-        <HeaderNavigation />
-        {isFetching ? <Loader /> : <Outlet />}
-        <TabNavigation />
-        <Toaster richColors />
-      </ThemeProvider>
+      > */}
+      <HeaderNavigation />
+      {isFetching ? <Loader /> : <Outlet />}
+      <TabNavigation />
+      <Toaster richColors />
+      {/* </ThemeProvider> */}
       {/* <TanStackRouterDevtools position="bottom-left" /> */}
     </>
   );
