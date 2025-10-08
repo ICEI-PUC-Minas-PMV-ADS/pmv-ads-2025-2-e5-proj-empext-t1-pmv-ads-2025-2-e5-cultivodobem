@@ -1,19 +1,19 @@
-import { useState } from "react";
-import { Card } from "@/components/ui/card";
+import { Comments } from "@/components/Comments";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { strapiService } from "@/services/strapi";
+import type { StrapiPost } from "@/types/strapi";
+import { useQuery } from "convex/react";
 import {
-  MessageCircle,
   Calendar,
-  User,
   ChevronDown,
   ChevronUp,
+  MessageCircle,
+  User,
 } from "lucide-react";
-import { useQuery } from "convex/react";
-import type { StrapiPost } from "@/types/strapi";
-import type { Id } from "../../../../packages/backend/convex/_generated/dataModel";
+import { useState } from "react";
 import { api } from "../../../../packages/backend/convex/_generated/api.js";
-import { strapiService } from "@/services/strapi";
-import { Comments } from "@/components/Comments";
+import type { Id } from "../../../../packages/backend/convex/_generated/dataModel";
 
 interface PostCardProps {
   readonly post: StrapiPost;
@@ -63,16 +63,79 @@ export function PostCard({ post, currentUserId }: PostCardProps) {
     });
   };
 
+  // Função para renderizar mídia (imagem ou vídeo)
+  const renderMedia = (media: any, index: number) => {
+    const isVideo = media.mime?.startsWith("video/");
+
+    return (
+      <div
+        key={media.id || index}
+        className="aspect-square overflow-hidden rounded-lg"
+      >
+        {isVideo ? (
+          <video
+            src={strapiService.getImageUrl(media.url)}
+            className="w-full h-full object-cover"
+            controls
+            preload="metadata"
+            title={media.alternativeText || `Vídeo ${index + 1}`}
+          >
+            <track kind="captions" srcLang="pt" label="Português" />
+            Seu navegador não suporta vídeos.
+          </video>
+        ) : (
+          <button
+            type="button"
+            className="w-full h-full focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg"
+            onClick={() =>
+              window.open(strapiService.getImageUrl(media.url), "_blank")
+            }
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                window.open(strapiService.getImageUrl(media.url), "_blank");
+              }
+            }}
+            title={
+              media.alternativeText
+                ? `Abrir imagem: ${media.alternativeText}`
+                : `Abrir Imagem ${index + 1}`
+            }
+          >
+            <img
+              src={strapiService.getImageUrl(media.url)}
+              alt={media.alternativeText || `Imagem ${index + 1}`}
+              className="w-full h-full object-cover hover:scale-105 transition-transform"
+            />
+          </button>
+        )}
+      </div>
+    );
+  };
+
   return (
     <Card className="mb-6 overflow-hidden">
-      {/* Imagem de capa */}
+      {/* Mídia de capa (imagem ou vídeo) */}
       {post.cover && (
         <div className="aspect-video overflow-hidden">
-          <img
-            src={strapiService.getImageUrl(post.cover.url)}
-            alt={post.cover.alternativeText || post.title}
-            className="w-full h-full object-cover"
-          />
+          {post.cover.mime?.startsWith("video/") ? (
+            <video
+              src={strapiService.getImageUrl(post.cover.url)}
+              className="w-full h-full object-cover"
+              controls
+              preload="metadata"
+              title={post.cover.alternativeText || post.title}
+            >
+              <track kind="captions" srcLang="pt" label="Português" />
+              Seu navegador não suporta vídeos.
+            </video>
+          ) : (
+            <img
+              src={strapiService.getImageUrl(post.cover.url)}
+              alt={post.cover.alternativeText || post.title}
+              className="w-full h-full object-cover"
+            />
+          )}
         </div>
       )}
 
@@ -107,6 +170,27 @@ export function PostCard({ post, currentUserId }: PostCardProps) {
         <div className="prose dark:prose-invert max-w-none mb-4">
           {renderContent(post.description || "")}
         </div>
+
+        {/* Galeria de mídias adicionais */}
+        {((post.media && post.media.length > 0) ||
+          (post.gallery && post.gallery.length > 0) ||
+          (post.files && post.files.length > 0)) && (
+          <div className="mb-4">
+            <h3 className="font-semibold mb-2 text-gray-900 dark:text-gray-100">
+              Galeria
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              {/* Renderizar media */}
+              {post.media?.map((media, index) => renderMedia(media, index))}
+
+              {/* Renderizar gallery */}
+              {post.gallery?.map((media, index) => renderMedia(media, index))}
+
+              {/* Renderizar files */}
+              {post.files?.map((media, index) => renderMedia(media, index))}
+            </div>
+          </div>
+        )}
 
         {/* Ações do post */}
         <div className="flex items-center gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">

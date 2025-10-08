@@ -77,6 +77,10 @@ export interface StrapiPost {
   author?: StrapiAuthor;
   category?: StrapiCategory;
   blocks: any[];
+  // Campos opcionais para múltiplas mídias (caso existam no seu Strapi)
+  media?: StrapiImage[];
+  gallery?: StrapiImage[];
+  files?: StrapiImage[];
 }
 
 export interface StrapiResponse<T> {

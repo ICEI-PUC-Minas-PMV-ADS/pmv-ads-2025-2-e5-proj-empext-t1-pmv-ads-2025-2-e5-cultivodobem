@@ -41,6 +41,7 @@ export default function HeaderNavigation() {
       : [
           { to: "/groups", label: "Grupo" },
           { to: "/harvest", label: "Colheitas" },
+          { to: "/feed", label: "Feed" },
           { to: "/menu", label: "Menu" },
         ]
     : [

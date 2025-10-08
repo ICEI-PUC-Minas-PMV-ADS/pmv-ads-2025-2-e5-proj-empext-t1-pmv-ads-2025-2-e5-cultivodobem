@@ -19,12 +19,57 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* Estilos para mídia (imagens e vídeos) */
 .post-image {
   width: 100%;
   height: 200px;
   object-fit: cover;
   border-radius: 6px;
   margin-bottom: 1rem;
+}
+
+.post-video {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  background-color: #000;
+}
+
+.post-video:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Estilos para galeria de mídias */
+.media-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.media-gallery-item {
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 6px;
+  position: relative;
+}
+
+.media-gallery video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.media-gallery img:hover {
+  transform: scale(1.05);
 }
 
 .post-title {
