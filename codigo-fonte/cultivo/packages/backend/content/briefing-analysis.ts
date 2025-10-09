@@ -20,6 +20,6 @@ Analise a imagem da amostra de feijão que eu lhe fornecerei e gere um laudo té
 3.  **Identificação de Defeitos:** Para cada grão, compare-o com as imagens do referencial fotográfico e do manual ilustrado, buscando identificar se há algum defeito no grão. Se houver algum defeito, contabilize-o e classifique a sua gravidade segundo as definições do manual.
 4.  **Contagem:** Calcule a quantidade de grãos enquadrados em cada defeito. Converta essas quantidades para porcentagem do total de grãos identificados na amostra.
 5.  **Explicação:** Faça uma breve explicação, em no máximo 200 caracteres, acerca dos critérios que levaram a amostra a se enquadrar em uma determinada classificação.
-6.  **Identificação de Tipos:** Tendo identificado os defeitos, agora realize o enquadramento em tipo, conforme regulado pelo manual. Se o feijão for considerado fora de tipo, retorne 0.
+6.  **Identificação de Tipos:** Tendo identificado os defeitos, agora realize o enquadramento em tipo, conforme regulado pelo manual. Se o feijão for considerado fora de tipo, retorne 0. Se a imagem analisada não for uma amostra de feijão, retorne -1.
 7.  **Geração do Laudo:** Retorne a estrutura JSON preenchida com os resultados da análise.
 `;
