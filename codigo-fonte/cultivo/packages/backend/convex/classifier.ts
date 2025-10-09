@@ -14,11 +14,6 @@ import { api } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
 import { action } from "./_generated/server";
 
-const classificationManualId = process.env
-  .CLASSIFICATION_MANUAL_ID as Id<"_storage">;
-const photographicReferenceId = process.env
-  .PHOTOGRAPHIC_REFERENCE_ID as Id<"_storage">;
-
 const gemini = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export const classifySample = action({
@@ -29,46 +24,20 @@ export const classifySample = action({
   },
   handler: async (ctx, { storageId, fileType, userId }) => {
     const imageUrl = await ctx.storage.getUrl(storageId);
-    const classificationManualUrl = await ctx.storage.getUrl(
-      classificationManualId
-    );
-    const photographicReferenceUrl = await ctx.storage.getUrl(
-      photographicReferenceId
-    );
 
     if (!imageUrl) {
-      throw Error("Image URL is required");
-    }
-
-    if (!classificationManualUrl || !photographicReferenceUrl) {
-      throw Error("Classification manual and photographic could not be found");
+      return {
+        error: "Image URL is required",
+      };
     }
 
     try {
-      const classificationManual = await fetch(classificationManualUrl).then(
-        (response) => response.arrayBuffer()
-      );
-      const photographicReference = await fetch(photographicReferenceUrl).then(
-        (response) => response.arrayBuffer()
-      );
       const sample = await fetch(imageUrl).then((response) =>
         response.arrayBuffer()
       );
 
       const analysisBriefingParts: Part[] = [
         { text: analysisBriefing },
-        {
-          inlineData: {
-            mimeType: "application/pdf",
-            data: Buffer.from(classificationManual).toString("base64"),
-          },
-        },
-        {
-          inlineData: {
-            mimeType: "application/pdf",
-            data: Buffer.from(photographicReference).toString("base64"),
-          },
-        },
         { text: "A amostra a ser classificada é a seguinte:" },
       ];
 
@@ -105,6 +74,14 @@ export const classifySample = action({
 
       const promptResult: Analysis = JSON.parse(response.text || "{}");
 
+      const notBean = promptResult.classification.summary.type === -1;
+
+      if (notBean) {
+        return {
+          error: "The image is not a bean sample",
+        };
+      }
+
       const id: Id<"analysis"> = await ctx.runMutation(
         api.analysis.saveAnalysis,
         {
@@ -116,11 +93,13 @@ export const classifySample = action({
         }
       );
 
-      return id;
+      return { id };
     } catch (error) {
-      console.log({ error });
+      console.error(error);
 
-      return null;
+      return {
+        error: "Error classifying sample",
+      };
     }
   },
 });

@@ -73,12 +73,20 @@ function ClassifySample() {
 
       setImageStorageId(storageId);
       setSelectedImage(image);
-    } catch (error) {
-      console.error(error);
-      toast.error("Erro ao salvar imagem", {
-        position: "top-right",
-        duration: 3000,
-      });
+    } catch (error: any) {
+      console.log(error.message);
+
+      if (error === "The image is not a bean sample") {
+        toast.error("A imagem selecionada não é uma amostra de feijão", {
+          position: "top-right",
+          duration: 3000,
+        });
+      } else {
+        toast.error("Erro ao salvar imagem", {
+          position: "top-right",
+          duration: 3000,
+        });
+      }
     } finally {
       setUploading(false);
     }
@@ -92,24 +100,31 @@ function ClassifySample() {
 
       const userId = getUserIdFromLocalStorage();
 
-      const id = await classifySample({
+      const { id, error } = await classifySample({
         storageId: imageStorageId,
         fileType: selectedImage.type,
         userId,
       });
 
-      if (!id) {
+      if (error === "The image is not a bean sample") {
+        toast.error("A imagem selecionada não é uma amostra de feijão", {
+          position: "top-right",
+          duration: 3000,
+        });
+        return;
+      } else if (error || !id) {
         throw new Error("Failed to classify sample");
       }
 
-      setProcessing(false);
       router.navigate({ to: "/classifier/$id", params: { id } });
     } catch (error) {
       console.error(error);
+
       toast.error("Erro ao classificar amostra", {
         position: "top-right",
         duration: 3000,
       });
+    } finally {
       setProcessing(false);
     }
   };

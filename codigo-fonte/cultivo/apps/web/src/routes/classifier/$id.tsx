@@ -127,7 +127,7 @@ function ViewSampleClassification() {
 
   const getTypeTextStyle = (value: string) => {
     if (value === "Fora de tipo") return "text-red-600";
-    if (value === "1") return "text-cultivo-green-dark";
+    if (value === "Tipo 1") return "text-cultivo-green-dark";
     return "text-cultivo-secondary";
   };
 
