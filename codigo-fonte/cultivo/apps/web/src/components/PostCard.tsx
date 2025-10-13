@@ -1,15 +1,21 @@
-import { Comments } from "@/components/Comments";
+import { CommentsList } from "@/components/CommentsList";
+import { CommentsInput } from "@/components/CommentsInput";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { strapiService } from "@/services/strapi";
 import type { StrapiPost } from "@/types/strapi";
 import { useQuery } from "convex/react";
 import {
-  Calendar,
-  ChevronDown,
-  ChevronUp,
+  Heart,
+  MessageSquare,
+  Share2,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
   MessageCircle,
   User,
+  Calendar,
+  X,
 } from "lucide-react";
 import { useState } from "react";
 import { api } from "../../../../packages/backend/convex/_generated/api.js";
@@ -17,16 +23,29 @@ import type { Id } from "../../../../packages/backend/convex/_generated/dataMode
 
 interface PostCardProps {
   readonly post: StrapiPost;
-  readonly currentUserId?: Id<"users"> | undefined;
+  readonly currentUserId?: Id<"users">;
 }
 
 export function PostCard({ post, currentUserId }: PostCardProps) {
-  const [showComments, setShowComments] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   // Buscar número de comentários
   const commentCount = useQuery(api.postComments.countCommentsByPostId, {
     strapiPostId: post.id.toString(),
   });
+
+  // Função para abrir/fechar sidebar de comentários
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Evitar abrir comentários se clicou em botões, links ou inputs
+    const target = e.target as HTMLElement;
+    const isInteractiveElement = target.closest(
+      'button, a, input, video, [role="button"]'
+    );
+
+    if (!isInteractiveElement) {
+      setShowSidebar(!showSidebar);
+    }
+  };
 
   // Função para formatar data
   const formatDate = (dateString: string) => {
@@ -47,7 +66,7 @@ export function PostCard({ post, currentUserId }: PostCardProps) {
     return paragraphs.map((paragraph) => {
       const paragraphId = `paragraph-${paragraph.slice(0, 20)}-${Math.random()}`;
       return (
-        <p key={paragraphId} className="mb-3 last:mb-0">
+        <p key={paragraphId} className="mb-0 last:mb-0">
           {paragraph.split("\n").map((line) => {
             const lineId = `line-${line.slice(0, 10)}-${Math.random()}`;
             return (
@@ -114,112 +133,177 @@ export function PostCard({ post, currentUserId }: PostCardProps) {
   };
 
   return (
-    <Card className="mb-6 overflow-hidden">
-      {/* Mídia de capa (imagem ou vídeo) */}
-      {post.cover && (
-        <div className="aspect-video overflow-hidden">
-          {post.cover.mime?.startsWith("video/") ? (
-            <video
-              src={strapiService.getImageUrl(post.cover.url)}
-              className="w-full h-full object-cover"
-              controls
-              preload="metadata"
-              title={post.cover.alternativeText || post.title}
-            >
-              <track kind="captions" srcLang="pt" label="Português" />
-              Seu navegador não suporta vídeos.
-            </video>
-          ) : (
-            <img
-              src={strapiService.getImageUrl(post.cover.url)}
-              alt={post.cover.alternativeText || post.title}
-              className="w-full h-full object-cover"
-            />
-          )}
+    <div className="mb-1 flex gap-4 items-stretch">
+      {/* Card Principal do Post */}
+      <Card
+        className={`${
+          showSidebar ? "flex-1 max-w-[600px]" : "w-full"
+        } h-[600px] overflow-hidden cursor-pointer py-2 hover:shadow-lg flex flex-col ${
+          showSidebar ? "ring-2 ring-green-500 ring-opacity-20" : ""
+        }`}
+        onClick={handleCardClick}
+      >
+        {/* Header do Post - Informações principais no topo */}
+        <div className="flex-shrink-0 p-2 pb-0">
+          {/* Título */}
+          <h2 className="text-lg font-bold mb-0 text-gray-900 dark:text-gray-100 leading-tight">
+            {post.title}
+          </h2>
+
+          {/* Meta informações */}
+          <div className="flex flex-wrap items-center gap-1 text-xs mb-0">
+            {post.author && (
+              <div className="flex items-center gap-1 text-gray-700 dark:text-gray-300">
+                <User className="w-3 h-3" />
+                <span className="font-medium">{post.author.name}</span>
+              </div>
+            )}
+
+            <div className="flex items-center gap-1 text-gray-600 dark:text-gray-400">
+              <Calendar className="w-3 h-3" />
+              <span>{formatDate(post.publishedAt)}</span>
+            </div>
+
+            {post.category && (
+              <div className="px-1.5 py-0.5 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded text-[10px] font-medium">
+                {post.category.name}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Área de conteúdo com scroll - inclui mídia de capa */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="pb-4">
+            {/* Mídia de capa (imagem ou vídeo) */}
+            {post.cover && (
+              <div className="aspect-video overflow-hidden">
+                {post.cover.mime?.startsWith("video/") ? (
+                  <video
+                    src={strapiService.getImageUrl(post.cover.url)}
+                    className="w-full h-full object-cover"
+                    controls
+                    preload="metadata"
+                    title={post.cover.alternativeText || post.title}
+                  >
+                    <track kind="captions" srcLang="pt" label="Português" />
+                    Seu navegador não suporta vídeos.
+                  </video>
+                ) : (
+                  <img
+                    src={strapiService.getImageUrl(post.cover.url)}
+                    alt={post.cover.alternativeText || post.title}
+                    className="w-full h-full object-cover"
+                  />
+                )}
+              </div>
+            )}
+
+            <div className="p-2 pt-2">
+              {/* Conteúdo */}
+              <div className="prose dark:prose-invert max-w-none mb-1 text-sm">
+                {renderContent(post.description || "")}
+              </div>
+
+              {/* Galeria de mídias adicionais */}
+              {((post.media && post.media.length > 0) ||
+                (post.gallery && post.gallery.length > 0) ||
+                (post.files && post.files.length > 0)) && (
+                <div className="mb-1">
+                  <h3 className="font-semibold mb-0 text-gray-900 dark:text-gray-100 text-sm">
+                    Galeria
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                    {/* Renderizar media */}
+                    {post.media?.map((media, index) =>
+                      renderMedia(media, index)
+                    )}
+
+                    {/* Renderizar gallery */}
+                    {post.gallery?.map((media, index) =>
+                      renderMedia(media, index)
+                    )}
+
+                    {/* Renderizar files */}
+                    {post.files?.map((media, index) =>
+                      renderMedia(media, index)
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer fixo do post com informação de comentários */}
+        <div className="flex-shrink-0 p-2 pt-0 bg-white dark:bg-gray-900">
+          <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-gray-700">
+            <div className="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-400">
+              <MessageCircle className="w-3 h-3 text-green-600" />
+              <span>
+                {(() => {
+                  if (commentCount === 0 || commentCount === undefined) {
+                    return "Clique para comentar";
+                  }
+                  const label =
+                    commentCount === 1 ? "comentário" : "comentários";
+                  return `${commentCount} ${label}`;
+                })()}
+              </span>
+            </div>
+
+            {/* Indicador de que é clicável */}
+            <div className="text-[10px] text-gray-400 dark:text-gray-500 flex items-center gap-1">
+              <span>Clique no card para comentar</span>
+              <MessageCircle className="w-2 h-2" />
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      {/* Sidebar de Comentários */}
+      {showSidebar && (
+        <div className="w-80 flex-shrink-0">
+          <Card className="h-[600px] flex flex-col overflow-hidden">
+            {/* Header */}
+            <div className="p-2 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-1">
+                  <MessageCircle className="w-3 h-3 text-green-600" />
+                  Comentários
+                </h3>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowSidebar(false);
+                  }}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Lista de Comentários - Área Scrollável */}
+            <div className="flex-1 overflow-y-auto p-2">
+              <CommentsList
+                strapiPostId={post.id.toString()}
+                currentUserId={currentUserId}
+              />
+            </div>
+
+            {/* Input para Novo Comentário - Fixo na Base */}
+            <div className="border-t border-gray-200 dark:border-gray-700 p-2 flex-shrink-0 bg-gray-50 dark:bg-gray-800">
+              <CommentsInput
+                strapiPostId={post.id.toString()}
+                currentUserId={currentUserId}
+              />
+            </div>
+          </Card>
         </div>
       )}
-
-      <div className="p-6">
-        {/* Título */}
-        <h2 className="text-xl font-bold mb-3 text-gray-900 dark:text-gray-100">
-          {post.title}
-        </h2>
-
-        {/* Meta informações */}
-        <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-4">
-          <div className="flex items-center gap-1">
-            <Calendar className="w-4 h-4" />
-            <span>{formatDate(post.publishedAt)}</span>
-          </div>
-
-          {post.author && (
-            <div className="flex items-center gap-1">
-              <User className="w-4 h-4" />
-              <span>{post.author.name}</span>
-            </div>
-          )}
-
-          {post.category && (
-            <div className="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded text-xs font-medium">
-              {post.category.name}
-            </div>
-          )}
-        </div>
-
-        {/* Conteúdo */}
-        <div className="prose dark:prose-invert max-w-none mb-4">
-          {renderContent(post.description || "")}
-        </div>
-
-        {/* Galeria de mídias adicionais */}
-        {((post.media && post.media.length > 0) ||
-          (post.gallery && post.gallery.length > 0) ||
-          (post.files && post.files.length > 0)) && (
-          <div className="mb-4">
-            <h3 className="font-semibold mb-2 text-gray-900 dark:text-gray-100">
-              Galeria
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-              {/* Renderizar media */}
-              {post.media?.map((media, index) => renderMedia(media, index))}
-
-              {/* Renderizar gallery */}
-              {post.gallery?.map((media, index) => renderMedia(media, index))}
-
-              {/* Renderizar files */}
-              {post.files?.map((media, index) => renderMedia(media, index))}
-            </div>
-          </div>
-        )}
-
-        {/* Ações do post */}
-        <div className="flex items-center gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setShowComments(!showComments)}
-            className="flex items-center gap-2 text-gray-500 hover:text-gray-700"
-          >
-            <MessageCircle className="w-4 h-4" />
-            <span>{commentCount ?? 0} comentários</span>
-            {showComments ? (
-              <ChevronUp className="w-4 h-4" />
-            ) : (
-              <ChevronDown className="w-4 h-4" />
-            )}
-          </Button>
-        </div>
-
-        {/* Seção de comentários */}
-        {showComments && (
-          <div className="pt-4 border-t border-gray-200 dark:border-gray-700 mt-4">
-            <Comments
-              strapiPostId={post.id.toString()}
-              currentUserId={currentUserId}
-            />
-          </div>
-        )}
-      </div>
-    </Card>
+    </div>
   );
 }
