@@ -2,9 +2,8 @@
   "name": "@cultivodobemwebapp/backend",
   "version": "1.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "convex": "npx convex dev"
+    "dev": "convex dev",
+    "dev:setup": "convex dev --configure --until-success"
   },
   "author": "",
   "license": "ISC",

@@ -15,6 +15,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as HarvestRouteImport } from './routes/harvest'
 import { Route as ForgotRouteImport } from './routes/forgot'
 import { Route as EditusersRouteImport } from './routes/editusers'
+import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GroupsIndexRouteImport } from './routes/groups/index'
 import { Route as ClassifierIndexRouteImport } from './routes/classifier/index'
@@ -52,6 +53,11 @@ const ForgotRoute = ForgotRouteImport.update({
 const EditusersRoute = EditusersRouteImport.update({
   id: '/editusers',
   path: '/editusers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -97,6 +103,7 @@ const ClassifierIdRoute = ClassifierIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/editusers': typeof EditusersRoute
   '/forgot': typeof ForgotRoute
   '/harvest': typeof HarvestRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/editusers': typeof EditusersRoute
   '/forgot': typeof ForgotRoute
   '/harvest': typeof HarvestRoute
@@ -130,6 +138,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/editusers': typeof EditusersRoute
   '/forgot': typeof ForgotRoute
   '/harvest': typeof HarvestRoute
@@ -148,6 +157,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/assistant'
     | '/editusers'
     | '/forgot'
     | '/harvest'
@@ -164,6 +174,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/assistant'
     | '/editusers'
     | '/forgot'
     | '/harvest'
@@ -180,6 +191,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/assistant'
     | '/editusers'
     | '/forgot'
     | '/harvest'
@@ -197,6 +209,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssistantRoute: typeof AssistantRoute
   EditusersRoute: typeof EditusersRoute
   ForgotRoute: typeof ForgotRoute
   HarvestRoute: typeof HarvestRoute
@@ -254,6 +267,13 @@ declare module '@tanstack/react-router' {
       path: '/editusers'
       fullPath: '/editusers'
       preLoaderRoute: typeof EditusersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -317,6 +337,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssistantRoute: AssistantRoute,
   EditusersRoute: EditusersRoute,
   ForgotRoute: ForgotRoute,
   HarvestRoute: HarvestRoute,
