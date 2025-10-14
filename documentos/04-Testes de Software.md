@@ -92,7 +92,82 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
 
 ### ETAPA 4
 
-Criar casos de teste da etapa 4
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-010 - S<br>Teste completo da funcionalidade de feed (RF-010)</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verificar todas as funcionalidades do feed: acesso, cadastro via Strapi, comentários e filtros.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">Lucas Guimarães</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Sucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-010: Permitir que o Produtor Rural visualize conteúdos educativos<br>RF-015: Permitir que o Usuário comente conteúdos educativos</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      <strong>Cadastro de conteúdo via Strapi:</strong><br>
+      1. Acessar painel administrativo Strapi<br>
+      2. Navegar para "Content Types" → "Posts"<br>
+      3. Criar novo post com título, autor e descrição<br>
+      4. Publicar o conteúdo<br><br>
+      <strong>Acesso ao feed:</strong><br>
+      5. Fazer login na plataforma<br>
+      6. Navegar para a seção "Feed"<br>
+      7. Verificar carregamento dos conteúdos<br><br>
+      <strong>Filtrar conteúdos:</strong><br>
+      8. Usar a barra de busca no feed<br>
+      9. Inserir termo de pesquisa<br>
+      10. Verificar resultados filtrados<br><br>
+      <strong>Adicionar comentários:</strong><br>
+      11. Clicar em um post do feed<br>
+      12. Verificar abertura da sidebar de comentários<br>
+      13. Digitar comentário no campo<br>
+      14. Enviar comentário
+      </td>
+  </tr>
+    <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>
+      - Conteúdo criado no Strapi deve aparecer no feed<br>
+      - Feed deve exibir título, autor, data e conteúdo das publicações<br>
+      - Sistema deve filtrar conteúdos conforme busca<br>
+      - Comentário deve ser salvo e aparecer na lista de comentários
+    </td>
+  </tr>
+</table>
+
+## Evidências de Desenvolvimento - ETAPA 4
+
+### Responsável pelo desenvolvimento:
+
+Lucas Guimarães
+
+### Evidências:
+
+- [x] Implementação do componente Feed com integração Strapi
+- [x] Sistema de comentários com Convex backend
+- [x] Funcionalidade de busca e filtro
+- [x] Layout responsivo com sidebar para comentários
+
+## Evidências de Teste - ETAPA 4
+
+### Responsável pelos testes:
+
+Matheus Castelliano
+
+### Testes realizados:
+
+- [ ] CT-010: Teste completo da funcionalidade de feed (RF-010)
 
 # Evidências de Testes de Software
 

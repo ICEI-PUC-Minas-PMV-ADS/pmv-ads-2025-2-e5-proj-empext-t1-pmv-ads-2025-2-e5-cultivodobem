@@ -133,7 +133,7 @@ export function PostCard({ post, currentUserId }: PostCardProps) {
   };
 
   return (
-    <div className="mb-1 flex gap-4 items-stretch">
+    <div className="mb-4 flex gap-6 items-stretch">
       {/* Card Principal do Post */}
       <Card
         className={`${

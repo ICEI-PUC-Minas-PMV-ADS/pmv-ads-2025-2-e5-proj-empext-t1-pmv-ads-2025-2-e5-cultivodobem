@@ -51,7 +51,7 @@ export default function HeaderNavigation() {
       ];
 
   return (
-    <div className="fixed top-0 left-0 right-0 bg-white h-16">
+    <div className="fixed top-0 left-0 right-0 bg-white h-16 z-50">
       <div className="flex flex-row items-center justify-between px-2 py-1 h-full">
         <nav className="flex gap-4 items-center">
           <Link to="/">
