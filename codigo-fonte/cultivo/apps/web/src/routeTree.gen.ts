@@ -16,6 +16,7 @@ import { Route as HarvestRouteImport } from './routes/harvest'
 import { Route as ForgotRouteImport } from './routes/forgot'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as EditusersRouteImport } from './routes/editusers'
+import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GroupsIndexRouteImport } from './routes/groups/index'
 import { Route as ClassifierIndexRouteImport } from './routes/classifier/index'
@@ -58,6 +59,11 @@ const FeedRoute = FeedRouteImport.update({
 const EditusersRoute = EditusersRouteImport.update({
   id: '/editusers',
   path: '/editusers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -103,6 +109,7 @@ const ClassifierIdRoute = ClassifierIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/editusers': typeof EditusersRoute
   '/feed': typeof FeedRoute
   '/forgot': typeof ForgotRoute
@@ -120,6 +127,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/editusers': typeof EditusersRoute
   '/feed': typeof FeedRoute
   '/forgot': typeof ForgotRoute
@@ -138,6 +146,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/editusers': typeof EditusersRoute
   '/feed': typeof FeedRoute
   '/forgot': typeof ForgotRoute
@@ -157,6 +166,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/assistant'
     | '/editusers'
     | '/feed'
     | '/forgot'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/assistant'
     | '/editusers'
     | '/feed'
     | '/forgot'
@@ -191,6 +202,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/assistant'
     | '/editusers'
     | '/feed'
     | '/forgot'
@@ -209,6 +221,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssistantRoute: typeof AssistantRoute
   EditusersRoute: typeof EditusersRoute
   FeedRoute: typeof FeedRoute
   ForgotRoute: typeof ForgotRoute
@@ -276,6 +289,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EditusersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -337,6 +357,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssistantRoute: AssistantRoute,
   EditusersRoute: EditusersRoute,
   FeedRoute: FeedRoute,
   ForgotRoute: ForgotRoute,

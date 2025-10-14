@@ -15,6 +15,7 @@ import type {
 } from "convex/server";
 import type * as analysis from "../analysis.js";
 import type * as auth from "../auth.js";
+import type * as chat from "../chat.js";
 import type * as classifier from "../classifier.js";
 import type * as group from "../group.js";
 import type * as postComments from "../postComments.js";
@@ -33,6 +34,7 @@ import type * as user from "../user.js";
 declare const fullApi: ApiFromModules<{
   analysis: typeof analysis;
   auth: typeof auth;
+  chat: typeof chat;
   classifier: typeof classifier;
   group: typeof group;
   postComments: typeof postComments;

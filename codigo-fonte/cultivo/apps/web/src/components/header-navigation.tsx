@@ -42,6 +42,7 @@ export default function HeaderNavigation() {
           { to: "/groups", label: "Grupo" },
           { to: "/harvest", label: "Colheitas" },
           { to: "/feed", label: "Feed" },
+          { to: "/assistant", label: "Assistente Virtual" },
           { to: "/menu", label: "Menu" },
         ]
     : [
@@ -79,7 +80,7 @@ export default function HeaderNavigation() {
               <span className="max-md:hidden">
                 Olá, <strong>{sessionUser.name ?? sessionUser.email}</strong>
               </span>
-              <button className="flex flex-row justify-center items-center gap-2 bg-cultivo-secondary text-white font-medium rounded-lg py-1 px-2 cursor-pointer">
+              <button className="flex flex-row justify-center items-center gap-2 bg-cultivo-secondary text-white font-medium rounded-lg py-1 px-2 cursor-pointer" onClick={logout}>
                 Sair
                 <LogOut width={14} height={14} />
               </button>

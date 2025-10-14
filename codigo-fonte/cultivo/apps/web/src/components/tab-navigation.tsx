@@ -1,4 +1,4 @@
-import { useLocation } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { Archive, House, Menu, Users } from "lucide-react";
 
 export default function TabNavigation() {
@@ -16,14 +16,14 @@ export default function TabNavigation() {
         const selected = item.href === location.pathname;
 
         return (
-          <a
+          <Link
             key={item.name}
-            href={item.href}
+            to={item.href}
             className={`flex flex-col items-center ${selected ? "text-cultivo-green-dark" : "text-cultivo-primary"}`}
           >
             {<item.icon className="mb-1" />}
             {item.name}
-          </a>
+          </Link>
         );
       })}
     </nav>
