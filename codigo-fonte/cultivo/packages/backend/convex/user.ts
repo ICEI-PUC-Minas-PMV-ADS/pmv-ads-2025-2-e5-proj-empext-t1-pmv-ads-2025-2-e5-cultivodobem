@@ -66,9 +66,9 @@ export const create = mutation({
     const id = await ctx.db.insert("users", {
       name: args.name.trim(),
       email,
-      senha_hash: args.senha_hash,
+      passwordHash: args.senha_hash,
       telefone: args.telefone,
-      tipo_usuario: tipo,
+      tipo_usuario: tipo as "Produtor Rural" | "Representante",
       data_nascimento: args.data_nascimento,
       cep: args.cep,
       cidade: args.cidade,
@@ -89,47 +89,61 @@ export const update = mutation({
     id: v.id("users"),
     name: v.optional(v.string()),
     email: v.optional(v.string()),
+    senha_atual: v.optional(v.string()),
     senha_hash: v.optional(v.string()),
-    telefone: v.optional(v.string()),
-    tipo_usuario: v.optional(v.string()),
+    tipo_usuario: v.optional(
+      v.union(v.literal("Produtor Rural"), v.literal("Representante"))
+    ),
     data_nascimento: v.optional(v.string()),
     cep: v.optional(v.string()),
+    telefone: v.optional(v.string()),
     cidade: v.optional(v.string()),
     estado: v.optional(v.string()),
     bio: v.optional(v.string()),
-    foto_url: v.optional(v.string()),
+    foto_url: v.optional(v.string())
   },
-  handler: async (ctx, { id, ...rest }) => {
-    const u = await ctx.db.get(id);
-    if (!u) throw new Error("Usuário não encontrado.");
+  handler: async (ctx, args) => {
+    const user = await ctx.db.get(id);
+    if (!user) throw new Error("Usuário não encontrado.");
 
-    const patch: Record<string, unknown> = { updatedAt: Date.now() };
+    // Preparar dados para atualização
+    const updateData: any = {};
 
-    if (rest.name !== undefined) patch.name = rest.name.trim();
-    if (rest.telefone !== undefined) patch.telefone = rest.telefone;
-    if (rest.tipo_usuario !== undefined) patch.tipo_usuario = rest.tipo_usuario;
-    if (rest.data_nascimento !== undefined) patch.data_nascimento = rest.data_nascimento;
-    if (rest.cep !== undefined) patch.cep = rest.cep;
-    if (rest.cidade !== undefined) patch.cidade = rest.cidade;
-    if (rest.estado !== undefined) patch.estado = rest.estado;
-    if (rest.bio !== undefined) patch.bio = rest.bio;
-    if (rest.foto_url !== undefined) patch.foto_url = rest.foto_url;
+    // Copiar campos básicos se fornecidos
+    if (args.name) updateData.name = args.name;
+    if (args.email) updateData.email = args.email;
+    if (args.tipo_usuario) updateData.tipo_usuario = args.tipo_usuario;
+    if (args.data_nascimento) updateData.data_nascimento = args.data_nascimento;
+    if (args.cep) updateData.cep = args.cep;
+    if (args.telefone) updateData.telefone = args.telefone;
+    if (args.cidade) updateData.cidade = args.cidade;
+    if (args.estado) updateData.estado = args.estado;
+    if (args.bio) updateData.bio = args.bio;
+    if ('foto_url' in args) updateData.foto_url = args.foto_url;
 
-    if (rest.email !== undefined) {
-      const email = rest.email.trim().toLowerCase();
-      if (email !== u.email) {
-        const exists = await ctx.db
-          .query("users")
-          .withIndex("by_email", (q) => q.eq("email", email))
-          .first();
-        if (exists) throw new Error("E-mail já cadastrado.");
-      }
-      patch.email = email;
+    // Verificar e-mail único
+    if (args.email && args.email !== user.email) {
+      const dup = await ctx.db
+        .query("users")
+        .withIndex("by_email", q => q.eq("email", args.email))
+        .first();
+      if (dup && dup._id !== id) throw new Error("E-mail já está em uso.");
     }
 
-    if (rest.senha_hash !== undefined) patch.senha_hash = rest.senha_hash;
+    // Troca de senha (opcional)
+    if (args.senha_atual || args.senha_hash) {
+      if (!args.senha_atual || !args.senha_hash) {
+        throw new Error("Informe a senha atual e a nova senha.");
+      }
+      if (!user.passwordHash) throw new Error("Usuário não possui senha cadastrada.");
+      if (args.senha_atual !== user.passwordHash) {
+        throw new Error("Senha atual incorreta.");
+      }
+      updateData.passwordHash = args.senha_hash;
+    }
 
-    await ctx.db.patch(id, patch);
+    updateData.updatedAt = Date.now();
+    await ctx.db.patch(id, updateData);
     return id;
   },
 });

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Camera, Trash2, ImagePlus } from "lucide-react";
 import "@/styles/editusers.css";
+import { Label } from "../components/ui/label";
 
 /** Modal simples controlado (sem lib externa) */
 function Modal({
@@ -50,6 +51,7 @@ function EditUserRoute() {
   // ----- estado do formulário ------------------------------------------------
   const [form, setForm] = useState({
     name: "",
+    email: "",
     tipo_usuario: "Produtor Rural",
     data_nascimento: "",
     cep: "",
@@ -60,11 +62,18 @@ function EditUserRoute() {
     foto_url: "", 
   });
 
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
   // carrega dados do usuário quando a query retornar
   useEffect(() => {
     if (user) {
       setForm({
         name: user.name ?? "",
+        email: user.email ?? "",
         tipo_usuario: user.tipo_usuario ?? "Produtor Rural",
         data_nascimento: user.data_nascimento ?? "",
         cep: user.cep ?? "",
@@ -94,30 +103,67 @@ function EditUserRoute() {
     e.preventDefault();
     if (!currentUserId) return;
 
-    await update({
-      id: currentUserId,
-      name: form.name || undefined,
-      tipo_usuario: form.tipo_usuario || undefined,
-      data_nascimento: form.data_nascimento || undefined,
-      cep: form.cep || undefined,
-      telefone: form.telefone || undefined,
-      cidade: form.cidade || undefined,
-      estado: form.estado || undefined,
-      bio: form.bio || undefined,
-      // ATENÇÃO: enviar exatamente o valor atual ("", blob:... ou URL) para permitir limpar
-      foto_url: form.foto_url,
-    });
+    try {
+      // Validação da senha se estiver sendo alterada
+      if (passwordForm.newPassword || passwordForm.confirmPassword || passwordForm.currentPassword) {
+        if (!passwordForm.currentPassword) {
+          toast.error("Digite sua senha atual para alterá-la");
+          return;
+        }
+        if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+          toast.error("As senhas não conferem");
+          return;
+        }
+        if (passwordForm.newPassword.length < 6) {
+          toast.error("A nova senha deve ter pelo menos 6 caracteres");
+          return;
+        }
+      }
 
-    // atualiza sessão (header) — preserva outros campos
-    const saved = JSON.parse(localStorage.getItem("user") || "null");
-    if (saved) {
-      const next: any = { ...saved, name: form.name };
-      if (form.foto_url !== undefined) next.foto_url = form.foto_url;
-      localStorage.setItem("user", JSON.stringify(next));
-      window.dispatchEvent(new Event("auth-changed"));
+      // Só envia senha_hash e senha_atual se estiver alterando a senha
+      // Prepara os dados para atualização
+      const updateData: any = {
+        id: currentUserId,
+        name: form.name || undefined,
+        email: form.email || undefined,
+        tipo_usuario: form.tipo_usuario || undefined,
+        data_nascimento: form.data_nascimento || undefined,
+        cep: form.cep || undefined,
+        telefone: form.telefone || undefined,
+        cidade: form.cidade || undefined,
+        estado: form.estado || undefined,
+        bio: form.bio || undefined,
+        foto_url: form.foto_url,
+      };
+
+      // Se estiver alterando senha, inclui os campos de senha
+      if (passwordForm.newPassword || passwordForm.currentPassword) {
+        updateData.senha_hash = passwordForm.newPassword ? btoa(passwordForm.newPassword) : undefined;
+        updateData.senha_atual = passwordForm.currentPassword ? btoa(passwordForm.currentPassword) : undefined;
+      }
+
+      await update(updateData);
+
+      // atualiza sessão (header) — preserva outros campos
+      const saved = JSON.parse(localStorage.getItem("user") || "null");
+      if (saved) {
+        const next: any = { ...saved, name: form.name, email: form.email };
+        if (form.foto_url !== undefined) next.foto_url = form.foto_url;
+        localStorage.setItem("user", JSON.stringify(next));
+        window.dispatchEvent(new Event("auth-changed"));
+      }
+
+      // Limpa o formulário de senha
+      setPasswordForm({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
+
+      toast.success("Perfil atualizado com sucesso!");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Erro ao atualizar perfil");
     }
-
-    toast.success("Perfil atualizado com sucesso!");
   }
 
   if (user === undefined) {
@@ -217,14 +263,51 @@ function EditUserRoute() {
               />
             </div>
 
-            {/* Email (somente leitura) */}
+            {/* Email */}
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold" style={{ color: "#6b3f33" }}>Email</label>
+              <Label>E-mail</Label>
               <Input
-                value={user?.email ?? ""}
-                disabled
-                className="h-12 rounded-xl border opacity-90"
-                style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
+                type="email"
+                placeholder="seu@email.com"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                className="edit-input"
+              />
+            </div>
+
+            {/* Senha atual */}
+            <div className="space-y-1.5">
+              <Label>Senha atual</Label>
+              <Input
+                type="password"
+                placeholder="Digite sua senha atual"
+                value={passwordForm.currentPassword}
+                onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
+                className="edit-input"
+              />
+            </div>
+
+            {/* Nova senha */}
+            <div className="space-y-1.5">
+              <Label>Nova senha</Label>
+              <Input
+                type="password"
+                placeholder="Digite a nova senha"
+                value={passwordForm.newPassword}
+                onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                className="edit-input"
+              />
+            </div>
+
+            {/* Confirmar nova senha */}
+            <div className="space-y-1.5">
+              <Label>Confirmar nova senha</Label>
+              <Input
+                type="password"
+                placeholder="Confirme a nova senha"
+                value={passwordForm.confirmPassword}
+                onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
+                className="edit-input"
               />
             </div>
 
