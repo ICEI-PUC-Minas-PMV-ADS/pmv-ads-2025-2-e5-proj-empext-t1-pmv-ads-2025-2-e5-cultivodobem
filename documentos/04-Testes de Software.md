@@ -132,8 +132,6 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
   </tr>
 </table>
 
-### ETAPA 4
-
 <table>
   <tr>
     <th colspan="2" width="1000">CT-004 - Permitir que o usuário altere seus dados.</th>
@@ -229,6 +227,10 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
   </tr>
 </table>
 
+### ETAPA 4
+
+TESTES A IMPLEMENTAR
+
 # Evidências de Testes de Software
 
 A seguir estão apresentadas as evidências que comprovam o sucesso ou insucesso para cada caso de teste descrito na seção acima.
@@ -239,7 +241,7 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
 
 ### ETAPA 2
 
-// TESTES PARA LOGIN, CADASTRO DE USUÁRIO E RECUPERAÇÃO DE SENHA
+NENHUM TESTE IMPLEMENTADO
 
 <table>
   <tr>
@@ -328,6 +330,39 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
   </tr>
 </table>
 
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-010 - S<br>Teste completo da funcionalidade de feed (RF-010)</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      - Conteúdo criado no Strapi deve aparecer no feed<br>
+      - Feed deve exibir título, autor, data e conteúdo das publicações<br>
+      - Sistema deve filtrar conteúdos conforme busca<br>
+      - Comentário deve ser salvo e aparecer na lista de comentários
+    </td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Lucas Guimarães</td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">08/10/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema está apresentando todas as informações corretamente.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      N/A
+    </td>
+  </tr>
+</table>
+
 ### ETAPA 4
 
 <table>
@@ -385,7 +420,7 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
 
 ### ETAPA 2
 
-// IMPLEMENTAR CASOS DE TESTE DE INSUCESSO PARA LOGIN, CADASTRO DE USUÁRIO E RECUPERAÇÃO DE SENHA
+NENHUM TESTE IMPLEMENTADO
 
 ### ETAPA 3
 
@@ -419,4 +454,4 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
 
 ### ETAPA 4
 
-Colocar evidências de teste da etapa 4
+TESTES A IMPLEMENTAR
