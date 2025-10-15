@@ -39,7 +39,7 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
     <tr>
     <td><strong>Dados de teste</strong></td>
     <td>
-      - Preencher o formulário com no mínimo os campos obrigatórios.<br>
+      Preencher o formulário com dados do usuário, com no mínimo os campos obrigatórios.<br>
   </tr>
     <tr>
     <td><strong>Critérios de êxito</strong></td>
