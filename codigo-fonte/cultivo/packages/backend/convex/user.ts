@@ -5,9 +5,7 @@ import { v } from "convex/values";
 export const list = query({
   args: {},
   handler: async (ctx) => {
-    return await ctx.db
-      .query("users")
-      .collect();
+    return await ctx.db.query("users").collect();
   },
 });
 
@@ -49,7 +47,6 @@ export const create = mutation({
     foto_url: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    const now = Date.now();
     const email = args.email.trim().toLowerCase();
 
     const exists = await ctx.db
@@ -58,15 +55,19 @@ export const create = mutation({
       .first();
     if (exists) throw new Error("E-mail já cadastrado.");
 
-    const tipo =
-      args.tipo_usuario === "Produtor Rural" ? "produtor" :
-      args.tipo_usuario === "Representante"  ? "representante" :
-      args.tipo_usuario ?? "membro";
+    let tipo: string;
+    if (args.tipo_usuario === "Produtor Rural") {
+      tipo = "produtor";
+    } else if (args.tipo_usuario === "Representante") {
+      tipo = "representante";
+    } else {
+      tipo = args.tipo_usuario ?? "membro";
+    }
 
     const id = await ctx.db.insert("users", {
       name: args.name.trim(),
       email,
-      passwordHash: args.senha_hash,
+      passwordHash: args.senha_hash || "",
       telefone: args.telefone,
       tipo_usuario: tipo as "Produtor Rural" | "Representante",
       data_nascimento: args.data_nascimento,
@@ -89,8 +90,6 @@ export const update = mutation({
     id: v.id("users"),
     name: v.optional(v.string()),
     email: v.optional(v.string()),
-    senha_atual: v.optional(v.string()),
-    senha_hash: v.optional(v.string()),
     tipo_usuario: v.optional(
       v.union(v.literal("Produtor Rural"), v.literal("Representante"))
     ),
@@ -100,9 +99,9 @@ export const update = mutation({
     cidade: v.optional(v.string()),
     estado: v.optional(v.string()),
     bio: v.optional(v.string()),
-    foto_url: v.optional(v.string())
+    foto_url: v.optional(v.string()),
   },
-  handler: async (ctx, args) => {
+  handler: async (ctx, { id, ...args }) => {
     const user = await ctx.db.get(id);
     if (!user) throw new Error("Usuário não encontrado.");
 
@@ -119,31 +118,49 @@ export const update = mutation({
     if (args.cidade) updateData.cidade = args.cidade;
     if (args.estado) updateData.estado = args.estado;
     if (args.bio) updateData.bio = args.bio;
-    if ('foto_url' in args) updateData.foto_url = args.foto_url;
+    if ("foto_url" in args) updateData.foto_url = args.foto_url;
 
-    // Verificar e-mail único
+    // Verificar e-mail único se estiver sendo alterado
     if (args.email && args.email !== user.email) {
       const dup = await ctx.db
         .query("users")
-        .withIndex("by_email", q => q.eq("email", args.email))
+        .withIndex("by_email", (q) => q.eq("email", args.email!))
         .first();
       if (dup && dup._id !== id) throw new Error("E-mail já está em uso.");
     }
 
-    // Troca de senha (opcional)
-    if (args.senha_atual || args.senha_hash) {
-      if (!args.senha_atual || !args.senha_hash) {
-        throw new Error("Informe a senha atual e a nova senha.");
-      }
-      if (!user.passwordHash) throw new Error("Usuário não possui senha cadastrada.");
-      if (args.senha_atual !== user.passwordHash) {
-        throw new Error("Senha atual incorreta.");
-      }
-      updateData.passwordHash = args.senha_hash;
-    }
-
     updateData.updatedAt = Date.now();
     await ctx.db.patch(id, updateData);
+    return id;
+  },
+});
+
+// CHANGE PASSWORD
+export const changePassword = mutation({
+  args: {
+    id: v.id("users"),
+    currentPassword: v.string(),
+    newPassword: v.string(),
+  },
+  handler: async (ctx, { id, currentPassword, newPassword }) => {
+    const user = await ctx.db.get(id);
+    if (!user) throw new Error("Usuário não encontrado.");
+
+    // Verificar se a senha atual está correta
+    if (!user.passwordHash) {
+      throw new Error("Usuário não possui senha cadastrada.");
+    }
+
+    if (currentPassword !== user.passwordHash) {
+      throw new Error("Senha atual incorreta.");
+    }
+
+    // Atualizar com a nova senha
+    await ctx.db.patch(id, {
+      passwordHash: newPassword,
+      updatedAt: Date.now(),
+    });
+
     return id;
   },
 });

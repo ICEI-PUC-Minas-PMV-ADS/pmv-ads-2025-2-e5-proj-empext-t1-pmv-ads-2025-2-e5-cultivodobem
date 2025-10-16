@@ -6,25 +6,42 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Camera, Trash2, ImagePlus } from "lucide-react";
+import { Camera, Trash2, ImagePlus, Lock } from "lucide-react";
 import "@/styles/editusers.css";
 import { Label } from "../components/ui/label";
+import { ChangePasswordModal } from "../components/ChangePasswordModal";
 
 /** Modal simples controlado (sem lib externa) */
 function Modal({
-  open, onClose, title, children,
-}: { open: boolean; onClose: () => void; title?: string; children: React.ReactNode }) {
+  open,
+  onClose,
+  title,
+  children,
+}: {
+  open: boolean;
+  onClose: () => void;
+  title?: string;
+  children: React.ReactNode;
+}) {
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div
         className="w-[90%] max-w-sm rounded-2xl border p-4 shadow-xl"
-        style={{ background: "var(--edit-bg)", borderColor: "#eadfce", color: "var(--edit-text)" }}
-        role="dialog" aria-modal="true" aria-label={title}
+        style={{
+          background: "var(--edit-bg)",
+          borderColor: "#eadfce",
+          color: "var(--edit-text)",
+        }}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
       >
         <div className="mb-2 flex items-center justify-between">
           <h3 className="text-base font-semibold">{title}</h3>
-          <button className="edit-close" onClick={onClose} aria-label="Fechar">×</button>
+          <button className="edit-close" onClick={onClose} aria-label="Fechar">
+            ×
+          </button>
         </div>
         {children}
       </div>
@@ -32,7 +49,9 @@ function Modal({
   );
 }
 
-export const Route = createFileRoute("/editusers")({ component: EditUserRoute });
+export const Route = createFileRoute("/editusers")({
+  component: EditUserRoute,
+});
 
 function EditUserRoute() {
   // ----- infra / hooks -------------------------------------------------------
@@ -40,11 +59,15 @@ function EditUserRoute() {
   const fileRef = useRef<HTMLInputElement | null>(null);
 
   // usuário logado salvo no localStorage (id para buscar no Convex)
-  const stored = typeof window !== "undefined" ? localStorage.getItem("user") : null;
+  const stored =
+    typeof window !== "undefined" ? localStorage.getItem("user") : null;
   const currentUserId = stored ? (JSON.parse(stored)?._id ?? null) : null;
 
   // queries/mutations do Convex
-  const user   = useQuery(api.user.getById, currentUserId ? { id: currentUserId } : "skip");
+  const user = useQuery(
+    api.user.getById,
+    currentUserId ? { id: currentUserId } : "skip"
+  );
   const update = useMutation(api.user.update);
   const remove = useMutation(api.user.remove);
 
@@ -59,13 +82,7 @@ function EditUserRoute() {
     cidade: "",
     estado: "",
     bio: "",
-    foto_url: "", 
-  });
-
-  const [passwordForm, setPasswordForm] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
+    foto_url: "",
   });
 
   // carrega dados do usuário quando a query retornar
@@ -87,8 +104,9 @@ function EditUserRoute() {
   }, [user]);
 
   // ----- estado dos modais ---------------------------------------------------
-  const [photoModalOpen,  setPhotoModalOpen]  = useState(false);
+  const [photoModalOpen, setPhotoModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [passwordModalOpen, setPasswordModalOpen] = useState(false);
 
   // selecionar nova foto (gera preview local)
   function onPickPhoto(ev: React.ChangeEvent<HTMLInputElement>) {
@@ -104,23 +122,6 @@ function EditUserRoute() {
     if (!currentUserId) return;
 
     try {
-      // Validação da senha se estiver sendo alterada
-      if (passwordForm.newPassword || passwordForm.confirmPassword || passwordForm.currentPassword) {
-        if (!passwordForm.currentPassword) {
-          toast.error("Digite sua senha atual para alterá-la");
-          return;
-        }
-        if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-          toast.error("As senhas não conferem");
-          return;
-        }
-        if (passwordForm.newPassword.length < 6) {
-          toast.error("A nova senha deve ter pelo menos 6 caracteres");
-          return;
-        }
-      }
-
-      // Só envia senha_hash e senha_atual se estiver alterando a senha
       // Prepara os dados para atualização
       const updateData: any = {
         id: currentUserId,
@@ -136,12 +137,6 @@ function EditUserRoute() {
         foto_url: form.foto_url,
       };
 
-      // Se estiver alterando senha, inclui os campos de senha
-      if (passwordForm.newPassword || passwordForm.currentPassword) {
-        updateData.senha_hash = passwordForm.newPassword ? btoa(passwordForm.newPassword) : undefined;
-        updateData.senha_atual = passwordForm.currentPassword ? btoa(passwordForm.currentPassword) : undefined;
-      }
-
       await update(updateData);
 
       // atualiza sessão (header) — preserva outros campos
@@ -153,21 +148,20 @@ function EditUserRoute() {
         window.dispatchEvent(new Event("auth-changed"));
       }
 
-      // Limpa o formulário de senha
-      setPasswordForm({
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-      });
-
       toast.success("Perfil atualizado com sucesso!");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Erro ao atualizar perfil");
+      toast.error(
+        error instanceof Error ? error.message : "Erro ao atualizar perfil"
+      );
     }
   }
 
   if (user === undefined) {
-    return <div className="flex h-[60vh] items-center justify-center">Carregando…</div>;
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        Carregando…
+      </div>
+    );
   }
 
   // inicial do nome (mostrada quando não há foto)
@@ -191,7 +185,9 @@ function EditUserRoute() {
         <CardContent>
           {/* Avatar */}
           <div className="relative mx-auto mb-4 mt-1 flex h-24 w-24 items-center justify-center rounded-full edit-avatar">
-            {!form.foto_url && <span className="text-4xl font-extrabold">{initial}</span>}
+            {!form.foto_url && (
+              <span className="text-4xl font-extrabold">{initial}</span>
+            )}
             {form.foto_url && (
               <img
                 src={form.foto_url}
@@ -205,9 +201,10 @@ function EditUserRoute() {
               type="button"
               onClick={() => setPhotoModalOpen(true)}
               className="edit-avatar-btn"
-              title="Alterar foto" aria-label="Alterar foto"
+              title="Alterar foto"
+              aria-label="Alterar foto"
             >
-              <Camera size={16}/>
+              <Camera size={16} />
             </button>
 
             {/* input de arquivo oculto */}
@@ -221,12 +218,19 @@ function EditUserRoute() {
           </div>
 
           {/* Modal da Foto */}
-          <Modal open={photoModalOpen} onClose={() => setPhotoModalOpen(false)} title="Foto de perfil">
+          <Modal
+            open={photoModalOpen}
+            onClose={() => setPhotoModalOpen(false)}
+            title="Foto de perfil"
+          >
             <p className="mb-2 opacity-80">O que você deseja fazer?</p>
 
             <div className="grid gap-2">
               <Button
-                onClick={() => { setPhotoModalOpen(false); fileRef.current?.click(); }}
+                onClick={() => {
+                  setPhotoModalOpen(false);
+                  fileRef.current?.click();
+                }}
                 className="w-full font-semibold"
               >
                 <ImagePlus size={18} className="mr-2" /> Adicionar/Alterar foto
@@ -246,7 +250,12 @@ function EditUserRoute() {
             </div>
 
             <div className="mt-3 text-right">
-              <Button variant="secondary" onClick={() => setPhotoModalOpen(false)}>Cancelar</Button>
+              <Button
+                variant="secondary"
+                onClick={() => setPhotoModalOpen(false)}
+              >
+                Cancelar
+              </Button>
             </div>
           </Modal>
 
@@ -254,7 +263,12 @@ function EditUserRoute() {
           <form onSubmit={onSave} className="space-y-3">
             {/* Nome */}
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold" style={{ color: "#6b3f33" }}>Nome Completo</label>
+              <label
+                className="text-sm font-semibold"
+                style={{ color: "#6b3f33" }}
+              >
+                Nome Completo
+              </label>
               <Input
                 placeholder="Seu nome"
                 value={form.name}
@@ -275,55 +289,44 @@ function EditUserRoute() {
               />
             </div>
 
-            {/* Senha atual */}
+            {/* Botão para alterar senha */}
             <div className="space-y-1.5">
-              <Label>Senha atual</Label>
-              <Input
-                type="password"
-                placeholder="Digite sua senha atual"
-                value={passwordForm.currentPassword}
-                onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
-                className="edit-input"
-              />
-            </div>
-
-            {/* Nova senha */}
-            <div className="space-y-1.5">
-              <Label>Nova senha</Label>
-              <Input
-                type="password"
-                placeholder="Digite a nova senha"
-                value={passwordForm.newPassword}
-                onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
-                className="edit-input"
-              />
-            </div>
-
-            {/* Confirmar nova senha */}
-            <div className="space-y-1.5">
-              <Label>Confirmar nova senha</Label>
-              <Input
-                type="password"
-                placeholder="Confirme a nova senha"
-                value={passwordForm.confirmPassword}
-                onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
-                className="edit-input"
-              />
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setPasswordModalOpen(true)}
+                className="w-full"
+              >
+                <Lock size={18} className="mr-2" />
+                Alterar Senha
+              </Button>
             </div>
 
             {/* Data de nascimento & CEP */}
             <div className="grid grid-cols-2 gap-2">
               <div className="space-y-1.5">
-                <label className="text-sm font-semibold" style={{ color: "#6b3f33" }}>Data de Nascimento</label>
+                <label
+                  className="text-sm font-semibold"
+                  style={{ color: "#6b3f33" }}
+                >
+                  Data de Nascimento
+                </label>
                 <Input
                   type="date"
                   value={form.data_nascimento}
-                  onChange={(e) => setForm({ ...form, data_nascimento: e.target.value })}
+                  onChange={(e) =>
+                    setForm({ ...form, data_nascimento: e.target.value })
+                  }
                   style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-semibold" style={{ color: "#6b3f33" }}>CEP</label>
+                <label
+                  className="text-sm font-semibold"
+                  style={{ color: "#6b3f33" }}
+                >
+                  CEP
+                </label>
                 <Input
                   placeholder="00000-000"
                   value={form.cep}
@@ -352,7 +355,9 @@ function EditUserRoute() {
                 <Input
                   placeholder="UF"
                   value={form.estado}
-                  onChange={(e) => setForm({ ...form, estado: e.target.value.toUpperCase() })}
+                  onChange={(e) =>
+                    setForm({ ...form, estado: e.target.value.toUpperCase() })
+                  }
                   className="edit-input"
                 />
               </div>
@@ -369,11 +374,18 @@ function EditUserRoute() {
 
             {/* Tipo de conta */}
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold" style={{ color: "#6b3f33" }}>Tipo de Conta</label>
+              <label
+                className="text-sm font-semibold"
+                style={{ color: "#6b3f33" }}
+              >
+                Tipo de Conta
+              </label>
               <select
                 className="edit-select"
                 value={form.tipo_usuario}
-                onChange={(e) => setForm({ ...form, tipo_usuario: e.target.value as any })}
+                onChange={(e) =>
+                  setForm({ ...form, tipo_usuario: e.target.value as any })
+                }
               >
                 <option>Produtor Rural</option>
                 <option>Representante</option>
@@ -385,7 +397,11 @@ function EditUserRoute() {
               <label className="text-sm font-semibold">Bio</label>
               <textarea
                 className="w-full min-h-[96px] rounded-xl border p-3"
-                style={{ background: "var(--login-input-bg)", borderColor: "var(--login-input-border)", color: "var(--login-text-primary)" }}
+                style={{
+                  background: "var(--login-input-bg)",
+                  borderColor: "var(--login-input-border)",
+                  color: "var(--login-text-primary)",
+                }}
                 value={form.bio}
                 onChange={(e) => setForm({ ...form, bio: e.target.value })}
                 placeholder="Conte um pouco sobre você"
@@ -393,7 +409,9 @@ function EditUserRoute() {
             </div>
 
             {/* Ações */}
-            <Button type="submit" className="edit-button">Salvar Alterações</Button>
+            <Button type="submit" className="edit-button">
+              Salvar Alterações
+            </Button>
 
             {/* Excluir conta — abre modal de confirmação */}
             <div className="mt-2">
@@ -411,8 +429,15 @@ function EditUserRoute() {
       </Card>
 
       {/* Modal de confirmação — Excluir conta */}
-      <Modal open={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} title="Excluir conta">
-        <p className="mb-3">Tem certeza que deseja excluir sua conta? Essa ação não pode ser desfeita.</p>
+      <Modal
+        open={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        title="Excluir conta"
+      >
+        <p className="mb-3">
+          Tem certeza que deseja excluir sua conta? Essa ação não pode ser
+          desfeita.
+        </p>
 
         <div className="modal-actions mt-3 flex flex-wrap items-center justify-end gap-2">
           <Button
@@ -441,6 +466,12 @@ function EditUserRoute() {
         </div>
       </Modal>
 
+      {/* Modal de troca de senha */}
+      <ChangePasswordModal
+        open={passwordModalOpen}
+        onClose={() => setPasswordModalOpen(false)}
+        userId={currentUserId || ""}
+      />
     </div>
   );
 }
