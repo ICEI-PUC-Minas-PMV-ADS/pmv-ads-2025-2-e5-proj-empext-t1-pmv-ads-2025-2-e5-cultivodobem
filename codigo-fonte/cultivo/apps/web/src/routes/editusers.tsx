@@ -174,7 +174,7 @@ function EditUserRoute() {
         {/* Fechar */}
         <button
           type="button"
-          onClick={() => nav({ to: "/login" })}
+          onClick={() => nav({ to: "/menu" })}
           className="edit-close absolute left-3 top-3"
           aria-label="Fechar"
           title="Fechar"

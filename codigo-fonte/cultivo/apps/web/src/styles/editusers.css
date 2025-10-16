@@ -9,22 +9,27 @@
   --edit-shadow: var(--login-shadow, rgba(0,0,0,0.1));
 }
 
-/* Página: apenas a página rola (sem scroll interno no card) */
+/* Página: centraliza o conteúdo verticalmente */
 .edit-container{
-  width:100%;
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
-  padding:1rem 1rem 2.5rem; /* respiro no final */
-  background:var(--edit-bg);
-  color:var(--edit-text);
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: var(--edit-bg);
+  color: var(--edit-text);
+  overflow-y: auto;
 }
 
 /* Card principal */
 .edit-card{
-  width:100%;
-  max-width:28rem;
-  border:0;
+  width: 100%;
+  max-width: 28rem;
+  border: 0;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
   border-radius:1.5rem;
   box-shadow:0 40px 120px rgba(0,0,0,0.20);
   background:var(--edit-bg);
