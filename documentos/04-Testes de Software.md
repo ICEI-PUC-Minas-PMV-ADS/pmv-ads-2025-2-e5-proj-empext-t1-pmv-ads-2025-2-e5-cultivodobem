@@ -4,7 +4,92 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
 
 ### ETAPA 2
 
-// DESCREVER CASOS DE TESTE DE SUCESSO PARA LOGIN E RECUPERAÇÃO DE SENHA
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-002 - Realizar Login com Sucesso</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se um usuário consegue fazer login no sistema com credenciais válidas.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">Matheus Castelliano</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Sucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-002: Permitir que o usuário faça login</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Abrir o website<br>
+      2. Acessar a página de login<br>
+      3. Inserir email válido no campo "Email"<br>
+      4. Inserir senha correta no campo "Senha"<br>
+      5. Clicar no botão "Entrar"<br>
+      6. Verificar redirecionamento para o painel principal
+      </td>
+  </tr>
+    <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Email:</strong> Email de usuário previamente cadastrado<br>
+      - <strong>Senha:</strong> Senha correta do usuário
+    </td>
+  </tr>
+    <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve autenticar o usuário e redirecioná-lo para o painel principal, permitindo acesso às funcionalidades da aplicação.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-002 - I01<br>Login com Credenciais Inválidas</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica o comportamento do sistema quando o usuário tenta fazer login com credenciais inválidas.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">Matheus Castelliano</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Insucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-002: Permitir que o usuário faça login</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Abrir o website<br>
+      2. Acessar a página de login<br>
+      3. Inserir email inválido ou senha incorreta<br>
+      4. Clicar no botão "Entrar"<br>
+      5. Verificar exibição de mensagem de erro
+      </td>
+  </tr>
+    <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Email:</strong> Email inexistente ou senha incorreta<br>
+      - <strong>Exemplos:</strong> usuario@inexistente.com, senha123incorreta
+    </td>
+  </tr>
+    <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir mensagem de erro apropriada e não permitir acesso à aplicação com credenciais inválidas.</td>
+  </tr>
+</table>
 
 <table>
   <tr>
@@ -46,7 +131,6 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
     <td>O sistema deve cadastrar o usuário no banco de dados para que depois ele possa realizar login e utilizar a aplicação.</td>
   </tr>
 </table>
-
 
 ### ETAPA 3
 
@@ -175,11 +259,11 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
 
 <table>
   <tr>
-    <th colspan="2" width="1000">CT-010 - S<br>Teste completo da funcionalidade de feed (RF-010)</th>
+    <th colspan="2" width="1000">CT-010 - Visualização de Conteúdos Educativos (Feed)</th>
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
-    <td>Verificar todas as funcionalidades do feed: acesso, cadastro via Strapi, comentários e filtros.</td>
+    <td>Verificar as funcionalidades básicas do feed: acesso, cadastro via Strapi e filtros.</td>
   </tr>
   <tr>
     <td><strong>Responsável Caso de Teste </strong></td>
@@ -191,7 +275,7 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
   </tr> 
   <tr>
     <td><strong>Requisitos associados</strong></td>
-    <td>RF-010: Permitir que o Produtor Rural visualize conteúdos educativos<br>RF-015: Permitir que o Usuário comente conteúdos educativos</td>
+    <td>RF-010: Permitir que o Produtor Rural visualize conteúdos educativos</td>
   </tr>
   <tr>
     <td><strong>Passos</strong></td>
@@ -204,17 +288,22 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
       <strong>Acesso ao feed:</strong><br>
       5. Fazer login na plataforma<br>
       6. Navegar para a seção "Feed"<br>
-      7. Verificar carregamento dos conteúdos<br><br>
+      7. Verificar carregamento dos conteúdos<br>
+      8. Verificar exibição de título, autor, data e conteúdo<br><br>
       <strong>Filtrar conteúdos:</strong><br>
-      8. Usar a barra de busca no feed<br>
-      9. Inserir termo de pesquisa<br>
-      10. Verificar resultados filtrados<br><br>
-      <strong>Adicionar comentários:</strong><br>
-      11. Clicar em um post do feed<br>
-      12. Verificar abertura da sidebar de comentários<br>
-      13. Digitar comentário no campo<br>
-      14. Enviar comentário
+      9. Usar a barra de busca no feed<br>
+      10. Inserir termo de pesquisa<br>
+      11. Verificar resultados filtrados<br>
+      12. Limpar filtro e verificar retorno de todos os posts
       </td>
+  </tr>
+    <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - Post criado no Strapi com título, descrição e autor<br>
+      - Usuário logado na plataforma<br>
+      - Termo de busca válido para filtro
+    </td>
   </tr>
     <tr>
     <td><strong>Critérios de êxito</strong></td>
@@ -222,7 +311,81 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
       - Conteúdo criado no Strapi deve aparecer no feed<br>
       - Feed deve exibir título, autor, data e conteúdo das publicações<br>
       - Sistema deve filtrar conteúdos conforme busca<br>
-      - Comentário deve ser salvo e aparecer na lista de comentários
+      - Interface deve ser responsiva e acessível
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-015 - Sistema de Comentários e Curtidas em Conteúdos</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verificar todas as funcionalidades de interação: comentários, curtidas, contador e modal de usuários.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">Lucas Guimarães</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Sucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-015: Permitir que o Usuário comente e curta conteúdos educativos</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      <strong>Preparação:</strong><br>
+      1. Fazer login na plataforma<br>
+      2. Navegar para a seção "Feed"<br>
+      3. Verificar que existem posts disponíveis<br><br>
+      <strong>Teste de comentários:</strong><br>
+      4. Clicar em um post do feed<br>
+      5. Verificar abertura da sidebar de comentários<br>
+      6. Digitar comentário no campo de texto<br>
+      7. Enviar comentário<br>
+      8. Verificar que comentário aparece na lista<br>
+      9. Fechar sidebar de comentários<br><br>
+      <strong>Teste de curtir post:</strong><br>
+      10. Identificar um post não curtido (botão coração vazio)<br>
+      11. Clicar no botão "Curtir"<br>
+      12. Verificar mudança visual do botão (coração preenchido em vermelho)<br>
+      13. Verificar incremento do contador de curtidas<br><br>
+      <strong>Teste de descurtir post:</strong><br>
+      14. Clicar novamente no botão "Curtir" do mesmo post<br>
+      15. Verificar volta ao estado original (coração vazio)<br>
+      16. Verificar decremento do contador de curtidas<br><br>
+      <strong>Teste de modal de curtidas:</strong><br>
+      17. Curtir novamente o post<br>
+      18. Clicar no contador de curtidas<br>
+      19. Verificar abertura do modal com lista de usuários<br>
+      20. Verificar que o usuário atual aparece na lista<br>
+      21. Fechar modal clicando fora ou no botão fechar
+      </td>
+  </tr>
+    <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - Usuário logado com permissões para interagir com conteúdos<br>
+      - Posts disponíveis no feed para interação<br>
+      - Texto válido para comentário
+    </td>
+  </tr>
+    <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>
+      - Sidebar de comentários deve abrir/fechar corretamente<br>
+      - Comentários devem ser salvos e exibidos na lista<br>
+      - Botão de curtir deve responder corretamente ao clique<br>
+      - Feedback visual deve ser imediato (coração preenchido/vazio)<br>
+      - Contador de curtidas deve atualizar em tempo real<br>
+      - Estado das interações deve persistir ao recarregar a página<br>
+      - Modal deve mostrar lista correta de usuários que curtiram<br>
+      - Usuário não logado deve ter restrições adequadas
     </td>
   </tr>
 </table>
@@ -281,8 +444,6 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
 
 ### ETAPA 2
 
-NENHUM TESTE IMPLEMENTADO
-
 <table>
   <tr>
     <th colspan="6" width="1000">CT-001 <br>Cadastrar uma conta</th>
@@ -310,7 +471,6 @@ NENHUM TESTE IMPLEMENTADO
     </td>
   </tr>
 </table>
-
 
 ### ETAPA 3
 
@@ -379,8 +539,7 @@ NENHUM TESTE IMPLEMENTADO
     <td colspan="5">
       - Conteúdo criado no Strapi deve aparecer no feed<br>
       - Feed deve exibir título, autor, data e conteúdo das publicações<br>
-      - Sistema deve filtrar conteúdos conforme busca<br>
-      - Comentário deve ser salvo e aparecer na lista de comentários
+      - Sistema deve filtrar conteúdos conforme busca
     </td>
   </tr>
     <tr>
@@ -402,8 +561,6 @@ NENHUM TESTE IMPLEMENTADO
     </td>
   </tr>
 </table>
-
-### ETAPA 4
 
 <table>
   <tr>
@@ -441,6 +598,7 @@ Lucas Guimarães
 
 - [x] Implementação do componente Feed com integração Strapi
 - [x] Sistema de comentários com Convex backend
+- [x] Sistema de curtidas com feedback visual e modal de usuários
 - [x] Funcionalidade de busca e filtro
 - [x] Layout responsivo com sidebar para comentários
 
@@ -452,7 +610,8 @@ Matheus Castelliano
 
 ### Testes realizados:
 
-- [ ] CT-010: Teste completo da funcionalidade de feed (RF-010)
+- [ ] CT-010: Visualização de Conteúdos Educativos (Feed) - RF-010
+- [ ] CT-015: Sistema de Comentários e Curtidas em Conteúdos - RF-015
 
 ## Parte 2 - Testes por pares
 

@@ -34,16 +34,16 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 | RF-003 | Permitir que o usuário recupere a senha                                                       | ALTA       |
 | RF-004 | Permitir que o usuário edite as informações do seu perfil                                     | ALTA       |
 | RF-005 | Permitir que o usuário edite as suas preferências do sistema                                  | ALTA       |
-| RF-006 | Permitir que o Produtor Rural classifique feijão carioca usando IA                                   | ALTA       |
+| RF-006 | Permitir que o Produtor Rural classifique feijão carioca usando IA                            | ALTA       |
 | RF-007 | Permitir que o Produtor Rural registre a colheita                                             | ALTA       |
 | RF-008 | Permitir que o Produtor Rural participe de grupos                                             | ALTA       |
-| RF-009 | Permitir que o Usuário visualize propostas comerciais                                  | ALTA       |
+| RF-009 | Permitir que o Usuário visualize propostas comerciais                                         | ALTA       |
 | RF-010 | Permitir que o Produtor Rural visualize conteúdos educativos                                  | ALTA       |
 | RF-011 | Permitir que o Produtor Rural visualize a cotação diária do feijão carioca                    | MÉDIA      |
-| RF-012 | Permitir que o Usuário visualize colheitas                                    | MÉDIA      |
+| RF-012 | Permitir que o Usuário visualize colheitas                                                    | MÉDIA      |
 | RF-013 | Permitir que o Representante Comercial envie propostas comerciais                             | MÉDIA      |
 | RF-014 | Permitir que o Produtor Rural interaja com um assistente virtual especializado em agricultura | BAIXA      |
-| RF-015 | Permitir que o Usuário comente conteúdos educativos                                    | BAIXA      |
+| RF-015 | Permitir que o Usuário comente e curta conteúdos educativos                                   | BAIXA      |
 | RF-016 | Permitir que usuários avaliem outros usuários                                                 | BAIXA      |
 | RF-017 | Permitir que usuários recebam notificacões                                                    | BAIXA      |
 
@@ -69,7 +69,6 @@ O projeto está restrito pelos itens apresentados na tabela a seguir.
 ## Diagrama de Caso de Uso
 
 <img width="2980" height="5084" alt="image" src="https://github.com/user-attachments/assets/50134721-a8ba-48df-9405-cd25678d5350" />
-
 
 ## Projeto da Base de Dados
 
