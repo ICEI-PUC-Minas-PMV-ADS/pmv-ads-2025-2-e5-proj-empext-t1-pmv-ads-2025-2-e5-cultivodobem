@@ -14,7 +14,14 @@ import { api } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
 import { action } from "./_generated/server";
 
-const gemini = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+// Inicializar o GoogleGenAI apenas quando necessário
+function getGeminiClient() {
+  const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+  if (!GEMINI_API_KEY) {
+    throw new Error("GEMINI_API_KEY não configurada");
+  }
+  return new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+}
 
 export const classifySample = action({
   args: {
@@ -66,6 +73,7 @@ export const classifySample = action({
         { role: "user", parts: colorimetryBriefingParts },
       ];
 
+      const gemini = getGeminiClient();
       const response = await gemini.models.generateContent({
         model,
         config,

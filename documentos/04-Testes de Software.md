@@ -4,7 +4,49 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
 
 ### ETAPA 2
 
-NENHUM TESTE IMPLEMENTADO
+// DESCREVER CASOS DE TESTE DE SUCESSO PARA LOGIN E RECUPERAÇÃO DE SENHA
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-001 - Cadastrar uma conta</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se um usuário consegue cadastrar uma conta no sistema.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">Matheus Castelliano</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Sucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-001	Permitir que o usuário cadastre sua conta <br> RF-002	Permitir que o usuário faça login</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Abrir o website.<br>
+      2. Acessar a página de login, clicar no botão "Cadastre-se".<br>
+      3. Ao ser redirecionado para a página de casdastro, preencher o formulário com no mínimo os campos obrigatórios e enviar.<br>
+      4. Após enviar, o sistema deve exibir um modal de sucesso, com a mensagem "Cadastro Realizado".<br>
+      5. Após alguns segundos o usuário deve ser redirecionado para a página de login.
+      </td>
+  </tr>
+    <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      Preencher o formulário com dados do usuário, com no mínimo os campos obrigatórios.<br>
+  </tr>
+    <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve cadastrar o usuário no banco de dados para que depois ele possa realizar login e utilizar a aplicação.</td>
+  </tr>
+</table>
+
 
 ### ETAPA 3
 
@@ -87,6 +129,47 @@ NENHUM TESTE IMPLEMENTADO
     <tr>
     <td><strong>Critérios de êxito</strong></td>
     <td>O sistema deve interromper o processamento e apresentar uma mensagem de erro, informando que a imagem é inválida.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-004 - Permitir que o usuário altere seus dados.</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se um usuário consegue alterar seus dados cadastrais.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">Matheus Castelliano</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Sucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-004	Permitir que o usuário edite as informações do seu perfil<br> RF-002	Permitir que o usuário faça login</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Abrir o website.<br>
+      2. Realizar login.<br>
+      3. Acessar a página de editar perfil, alterar os dados desejados no formulário e enviar.<br>
+      4. Após enviar, o sistema deve exibir um modal de sucesso, com a mensagem "Dados alterados com sucesso".<br>
+      5. Após alguns segundos o usuário deve ser redirecionado para a página de editar perfil.
+      </td>
+  </tr>
+    <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - Alterar os dados desejados no formulário.<br>
+  </tr>
+    <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve alterar os dados cadastrais do usuário e atualizar no banco de dados com as novas informações.</td>
   </tr>
 </table>
 
@@ -200,6 +283,35 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
 
 NENHUM TESTE IMPLEMENTADO
 
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-001 <br>Cadastrar uma conta</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve cadastrar o usuário no banco de dados para que depois ele possa realizar login e utilizar a aplicação</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Matheus Castelliano</td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">14/10/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema está realizando o comportamento esperado.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <span>Colocar vídeo aqui</span> 
+    </td>
+  </tr>
+</table>
+
+
 ### ETAPA 3
 
 <table>
@@ -293,7 +405,54 @@ NENHUM TESTE IMPLEMENTADO
 
 ### ETAPA 4
 
-TESTES A IMPLEMENTAR
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-004 <br>Permitir que o usuário altere seus dados.</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve alterar os dados cadastrais do usuário e atualizar no banco de dados com as novas informações.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Matheus Castelliano</td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">14/10/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema está realizando o comportamento esperado.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <span>Colocar vídeo aqui</span> 
+    </td>
+  </tr>
+</table>
+
+### Responsável pelo desenvolvimento:
+
+Lucas Guimarães
+
+### Evidências:
+
+- [x] Implementação do componente Feed com integração Strapi
+- [x] Sistema de comentários com Convex backend
+- [x] Funcionalidade de busca e filtro
+- [x] Layout responsivo com sidebar para comentários
+
+## Evidências de Teste - ETAPA 4
+
+### Responsável pelos testes:
+
+Matheus Castelliano
+
+### Testes realizados:
+
+- [ ] CT-010: Teste completo da funcionalidade de feed (RF-010)
 
 ## Parte 2 - Testes por pares
 
