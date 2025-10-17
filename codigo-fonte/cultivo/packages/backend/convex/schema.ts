@@ -137,4 +137,13 @@ export default defineSchema({
   })
     .index("by_user", ["userId"])
     .index("by_post", ["strapiPostId"]),
+
+  postLikes: defineTable({
+    strapiPostId: v.string(), // ID do post no Strapi
+    userId: v.id("users"),
+    createdAt: v.number(),
+  })
+    .index("by_user", ["userId"])
+    .index("by_post", ["strapiPostId"])
+    .index("by_user_post", ["userId", "strapiPostId"]),
 });
