@@ -50,6 +50,48 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
 
 <table>
   <tr>
+    <th colspan="2" width="1000">CT-003 - Realizar recuperação de senha</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se é realizado o processo de recuperação de senha do usuário.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">Vinicius Silva</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Insucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-003: Permitir que o usuário recupere a senha</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Abrir o website<br>
+      2. Acessar a página de login<br>
+      3. Clicar no botão "esqueceu sua senha?"<br>
+      4. Inserir email previamente cadastrado para recuperação de senha<br>
+      5. Clicar no botão "Enviar link de recuperação"<br>
+      </td>
+  </tr>
+    <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Email:</strong> Email de usuário previamente cadastrado<br>
+    </td>
+  </tr>
+    <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve enviar ao email cadastrado, um link para recuperação de senha para o site.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
     <th colspan="2" width="1000">CT-002 - I01<br>Login com Credenciais Inválidas</th>
   </tr>
   <tr>
