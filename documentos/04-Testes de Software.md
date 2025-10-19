@@ -585,7 +585,9 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
   </tr>
   <tr>
     <td colspan="6" align="center">
-      <span>Colocar vídeo aqui</span> 
+      <span>
+        <video src="https://github.com/user-attachments/assets/e60b5c89-1518-4a4f-8781-d09d67c2c2c6"/>
+      </span> 
     </td>
   </tr>
 </table>
@@ -613,7 +615,9 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
   </tr>
   <tr>
     <td colspan="6" align="center">
-      <span>Colocar vídeo aqui</span> 
+      <span>
+        <video src="https://github.com/user-attachments/assets/e6be1dba-2fca-4126-842b-8f49226da20d"/>
+      </span> 
     </td>
   </tr>
 </table>
