@@ -769,7 +769,9 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
   </tr>
   <tr>
     <td colspan="6" align="center">
-      <span>Colocar vídeo aqui</span> 
+      <span>
+        <video src="https://github.com/user-attachments/assets/836fe860-569c-4437-aa5d-5db3fd9f251f"/>
+      </span> 
     </td>
   </tr>
 </table>
@@ -915,7 +917,9 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
   </tr>
   <tr>
     <td colspan="6" align="center">
-      <span>Colocar vídeo aqui</span> 
+      <span>
+              <video src="https://github.com/user-attachments/assets/2d296e0e-6e59-41ac-80df-a405dd8aade4"/>
+      </span> 
     </td>
   </tr>
 </table>
