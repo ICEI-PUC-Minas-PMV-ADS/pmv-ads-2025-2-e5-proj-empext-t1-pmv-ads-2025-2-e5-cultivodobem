@@ -272,7 +272,7 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
   </tr>
   <tr>
     <td><strong>Responsável Caso de Teste </strong></td>
-    <td width="430">Matheus Castelliano</td>
+    <td width="430"> Castelliano</td>
   </tr>
  <tr>
     <td><strong>Tipo do Teste</strong></td>
@@ -820,7 +820,7 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
   </tr>
     <tr>
     <td width="170"><strong>Comentário</strong></td>
-    <td colspan="5">O sistema está realizando o comportamento esperado.</td>
+    <td colspan="5">O sistema está realizando o comportamento esperado, porém a mensagem de erro pode ser mais clara para o usuário.</td>
   </tr>
   <tr>
     <td colspan="6" align="center"><strong>Evidência</strong></td>
