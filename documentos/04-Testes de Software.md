@@ -734,6 +734,34 @@ NENHUM TESTE IMPLEMENTADO
   </tr>
 </table>
 
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-016<br>Participação do produtor rural em grupos de produtores</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O produtor rural deve conseguir se inserir em um grupo de sua escolha.</td>
+  </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade</strong></td>
+    <td width="430">Juan Pereira Alves Andrade</td>
+      <td><strong>Responsável pelo teste</strong></td>
+    <td width="430">Vinicius Silva</td>
+     <td width="100"><strong>Data do teste</strong></td>
+    <td width="150">19/10/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema permite que o produtor rural crie seu grupo e realize a edição, a exclusão e o compartilhamento de grupos existentes, entretanto não há a opção de se inserir aos grupos.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td  colspan="6" align="center"> <img src="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-2-e5-proj-empext-t1-pmv-ads-2025-2-e5-cultivodobem/blob/main/documentos/img/gruposProdutores.png"/></td>   
+  </tr>
+</table>
+
 ### ETAPA 4
 
 TESTES A IMPLEMENTAR
