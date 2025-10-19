@@ -456,7 +456,7 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
     <td><strong>Passos</strong></td>
     <td>
       1. Abrir o website<br>
-      2. Realizar o login na plataforma como produtor tural<br>
+      2. Realizar o login na plataforma como produtor rural<br>
       3. Ao ser redirecionado para o painel principal, clicar no link "Assistente Virtual"<br>
       4. Enviar uma interação para o assitente virtual<br>
       </td>
@@ -469,6 +469,47 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
     <tr>
     <td><strong>Critérios de êxito</strong></td>
     <td>O assistente virtual deve apresentar uma resposta coerente com o prompt enviado.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-016<br>Participação do produtor rural em grupos de produtores</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o produtor rural consegue entrar em um grupo de produtores.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">Vinicius Silva</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Sucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-008: Permitir que o Produtor Rural participe de grupos</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Abrir o website<br>
+      2. Realizar o login na plataforma como produtor rural<br>
+      3. Ao ser redirecionado para o painel principal, clicar no link "Grupos"<br>
+      4. Selecionar o grupo desejado a participar<br>
+      </td>
+  </tr>
+    <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - Usuário logado como produtor rural<br> 
+      - Botão participar nas opções dos grupos para que o produtor escolha o grupo desejado<br>
+  </tr>
+    <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O produtor rural deve conseguir se inserir em um grupo de sua escolha.</td>
   </tr>
 </table>
 
