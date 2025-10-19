@@ -6,6 +6,47 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
 
 <table>
   <tr>
+    <th colspan="2" width="1000">CT-001 - Cadastrar uma conta</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se um usuário consegue cadastrar uma conta no sistema.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">Matheus Castelliano</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Sucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-001	Permitir que o usuário cadastre sua conta <br> RF-002	Permitir que o usuário faça login</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Abrir o website.<br>
+      2. Acessar a página de login, clicar no botão "Cadastre-se".<br>
+      3. Ao ser redirecionado para a página de casdastro, preencher o formulário com no mínimo os campos obrigatórios e enviar.<br>
+      4. Após enviar, o sistema deve exibir um modal de sucesso, com a mensagem "Cadastro Realizado".<br>
+      5. Após alguns segundos o usuário deve ser redirecionado para a página de login.
+      </td>
+  </tr>
+    <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      Preencher o formulário com dados do usuário, com no mínimo os campos obrigatórios.<br>
+  </tr>
+    <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve cadastrar o usuário no banco de dados para que depois ele possa realizar login e utilizar a aplicação.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
     <th colspan="2" width="1000">CT-002 - Realizar Login com Sucesso</th>
   </tr>
   <tr>
@@ -14,7 +55,7 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
   </tr>
   <tr>
     <td><strong>Responsável Caso de Teste </strong></td>
-    <td width="430">Matheus Castelliano</td>
+    <td width="430">Lucas Guimarães</td>
   </tr>
  <tr>
     <td><strong>Tipo do Teste</strong></td>
@@ -45,6 +86,49 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
     <tr>
     <td><strong>Critérios de êxito</strong></td>
     <td>O sistema deve autenticar o usuário e redirecioná-lo para o painel principal, permitindo acesso às funcionalidades da aplicação.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-002 - I01<br>Login com Credenciais Inválidas</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica o comportamento do sistema quando o usuário tenta fazer login com credenciais inválidas.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">Lucas Guimarães</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Insucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-002: Permitir que o usuário faça login</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Abrir o website<br>
+      2. Acessar a página de login<br>
+      3. Inserir email inválido ou senha incorreta<br>
+      4. Clicar no botão "Entrar"<br>
+      5. Verificar exibição de mensagem de erro
+      </td>
+  </tr>
+    <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Email:</strong> Email inexistente ou senha incorreta<br>
+      - <strong>Exemplos:</strong> usuario@inexistente.com, senha123incorreta
+    </td>
+  </tr>
+    <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir mensagem de erro apropriada e não permitir acesso à aplicação com credenciais inválidas.</td>
   </tr>
 </table>
 
@@ -90,89 +174,9 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
   </tr>
 </table>
 
-<table>
-  <tr>
-    <th colspan="2" width="1000">CT-002 - I01<br>Login com Credenciais Inválidas</th>
-  </tr>
-  <tr>
-    <td width="150"><strong>Descrição</strong></td>
-    <td>Este caso de teste verifica o comportamento do sistema quando o usuário tenta fazer login com credenciais inválidas.</td>
-  </tr>
-  <tr>
-    <td><strong>Responsável Caso de Teste </strong></td>
-    <td width="430">Matheus Castelliano</td>
-  </tr>
- <tr>
-    <td><strong>Tipo do Teste</strong></td>
-    <td width="430">Insucesso</td>
-  </tr> 
-  <tr>
-    <td><strong>Requisitos associados</strong></td>
-    <td>RF-002: Permitir que o usuário faça login</td>
-  </tr>
-  <tr>
-    <td><strong>Passos</strong></td>
-    <td>
-      1. Abrir o website<br>
-      2. Acessar a página de login<br>
-      3. Inserir email inválido ou senha incorreta<br>
-      4. Clicar no botão "Entrar"<br>
-      5. Verificar exibição de mensagem de erro
-      </td>
-  </tr>
-    <tr>
-    <td><strong>Dados de teste</strong></td>
-    <td>
-      - <strong>Email:</strong> Email inexistente ou senha incorreta<br>
-      - <strong>Exemplos:</strong> usuario@inexistente.com, senha123incorreta
-    </td>
-  </tr>
-    <tr>
-    <td><strong>Critérios de êxito</strong></td>
-    <td>O sistema deve exibir mensagem de erro apropriada e não permitir acesso à aplicação com credenciais inválidas.</td>
-  </tr>
-</table>
 
-<table>
-  <tr>
-    <th colspan="2" width="1000">CT-001 - Cadastrar uma conta</th>
-  </tr>
-  <tr>
-    <td width="150"><strong>Descrição</strong></td>
-    <td>Este caso de teste verifica se um usuário consegue cadastrar uma conta no sistema.</td>
-  </tr>
-  <tr>
-    <td><strong>Responsável Caso de Teste </strong></td>
-    <td width="430">Matheus Castelliano</td>
-  </tr>
- <tr>
-    <td><strong>Tipo do Teste</strong></td>
-    <td width="430">Sucesso</td>
-  </tr> 
-  <tr>
-    <td><strong>Requisitos associados</strong></td>
-    <td>RF-001	Permitir que o usuário cadastre sua conta <br> RF-002	Permitir que o usuário faça login</td>
-  </tr>
-  <tr>
-    <td><strong>Passos</strong></td>
-    <td>
-      1. Abrir o website.<br>
-      2. Acessar a página de login, clicar no botão "Cadastre-se".<br>
-      3. Ao ser redirecionado para a página de casdastro, preencher o formulário com no mínimo os campos obrigatórios e enviar.<br>
-      4. Após enviar, o sistema deve exibir um modal de sucesso, com a mensagem "Cadastro Realizado".<br>
-      5. Após alguns segundos o usuário deve ser redirecionado para a página de login.
-      </td>
-  </tr>
-    <tr>
-    <td><strong>Dados de teste</strong></td>
-    <td>
-      Preencher o formulário com dados do usuário, com no mínimo os campos obrigatórios.<br>
-  </tr>
-    <tr>
-    <td><strong>Critérios de êxito</strong></td>
-    <td>O sistema deve cadastrar o usuário no banco de dados para que depois ele possa realizar login e utilizar a aplicação.</td>
-  </tr>
-</table>
+
+
 
 ### ETAPA 3
 
@@ -550,10 +554,70 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
   </tr>
   <tr>
     <td colspan="6" align="center">
+      <span>
+        <video src="https://github.com/user-attachments/assets/6cedb43a-58da-4d28-8d6b-3daa821315dd"/>
+      </span>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-002 <br>Realizar Login com Sucesso</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">	O sistema deve autenticar o usuário e redirecioná-lo para o painel principal, permitindo acesso às funcionalidades da aplicação.
+</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Lucas Guimarães</td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">14/10/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema está realizando o comportamento esperado.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
       <span>Colocar vídeo aqui</span> 
     </td>
   </tr>
 </table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-002 -I01 <br>Login com Credenciais Inválidas</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve exibir mensagem de erro apropriada e não permitir acesso à aplicação com credenciais inválidas.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Lucas Guimarães</td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">14/10/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema está realizando o comportamento esperado.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <span>Colocar vídeo aqui</span> 
+    </td>
+  </tr>
+</table>
+
 
 ### ETAPA 3
 
@@ -647,7 +711,7 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
 
 <table>
   <tr>
-    <th colspan="6" width="1000">CT-004 <br>Permitir que o usuário altere seus dados.</th>
+    <th colspan="6" width="1000">CT-007 <br>Permitir que o usuário altere seus dados.</th>
   </tr>
   <tr>
     <td width="170"><strong>Critérios de êxito</strong></td>
@@ -668,33 +732,13 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
   </tr>
   <tr>
     <td colspan="6" align="center">
-      <span>Colocar vídeo aqui</span> 
+      <span>
+        <video src="https://github.com/user-attachments/assets/b2b7f544-0f19-41b1-9050-6133775546e6" />  
+      </span> 
     </td>
   </tr>
 </table>
 
-### Responsável pelo desenvolvimento:
-
-Lucas Guimarães
-
-### Evidências:
-
-- [x] Implementação do componente Feed com integração Strapi
-- [x] Sistema de comentários com Convex backend
-- [x] Sistema de curtidas com feedback visual e modal de usuários
-- [x] Funcionalidade de busca e filtro
-- [x] Layout responsivo com sidebar para comentários
-
-## Evidências de Teste - ETAPA 4
-
-### Responsável pelos testes:
-
-Matheus Castelliano
-
-### Testes realizados:
-
-- [ ] CT-010: Visualização de Conteúdos Educativos (Feed) - RF-010
-- [ ] CT-015: Sistema de Comentários e Curtidas em Conteúdos - RF-015
 
 ## Parte 2 - Testes por pares
 
@@ -702,7 +746,93 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
 
 ### ETAPA 2
 
-NENHUM TESTE IMPLEMENTADO
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-001 <br>Cadastrar uma conta</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve cadastrar o usuário no banco de dados para que depois ele possa realizar login e utilizar a aplicação</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pelo teste</strong></td>
+    <td width="430">Lucas Guimarães</td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">14/10/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema está realizando o comportamento esperado.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <span>Colocar vídeo aqui</span> 
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-002 <br>Realizar Login com Sucesso</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">	O sistema deve autenticar o usuário e redirecioná-lo para o painel principal, permitindo acesso às funcionalidades da aplicação.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pelo teste</strong></td>
+    <td width="430">Matheus Castelliano</td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">14/10/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema está realizando o comportamento esperado.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <span>
+        <video src="https://github.com/user-attachments/assets/e5a38da9-3533-47d2-97ea-c3cff39c4400" />
+      </span> 
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-002 -I01<br>Login com Credenciais Inválidas</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve exibir mensagem de erro apropriada e não permitir acesso à aplicação com credenciais inválidas.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pelo teste</strong></td>
+    <td width="430">Matheus Castelliano</td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">14/10/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema está realizando o comportamento esperado.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <span>
+        <video src="https://github.com/user-attachments/assets/c9f46b52-9ee5-4979-b635-5edc98c3c227"/>
+      </span> 
+    </td>
+  </tr>
+</table>
 
 ### ETAPA 3
 
@@ -759,6 +889,92 @@ NENHUM TESTE IMPLEMENTADO
   </tr>
   <tr>
     <td  colspan="6" align="center"> <img src="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-2-e5-proj-empext-t1-pmv-ads-2025-2-e5-cultivodobem/blob/main/documentos/img/gruposProdutores.png"/></td>   
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-007 <br>Permitir que o usuário altere seus dados.</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve alterar os dados cadastrais do usuário e atualizar no banco de dados com as novas informações.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pelo teste</strong></td>
+    <td width="430">Lucas Guimarães</td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">14/10/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema está realizando o comportamento esperado.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <span>Colocar vídeo aqui</span> 
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-010 - Visualização de Conteúdos Educativos (Feed)
+</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">Sistema exibe o conteúdo do feed como esperado</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pelo teste</strong></td>
+    <td width="430">Matheus Castelliano</td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">14/10/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema está realizando o comportamento esperado.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <span>Colocar vídeo aqui</span> 
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-015 - Sistema de Comentários e Curtidas em Conteúdos
+</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">Sistema tem o comportamento de comentários e curtidas como esperado</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pelo teste</strong></td>
+    <td width="430">Matheus Castelliano</td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">14/10/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema está realizando o comportamento esperado.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <span>Colocar vídeo aqui</span> 
+    </td>
   </tr>
 </table>
 
