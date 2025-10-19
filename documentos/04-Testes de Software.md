@@ -272,7 +272,7 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
   </tr>
   <tr>
     <td><strong>Responsável Caso de Teste </strong></td>
-    <td width="430"> Castelliano</td>
+    <td width="430">Matheus Castelliano</td>
   </tr>
  <tr>
     <td><strong>Tipo do Teste</strong></td>
