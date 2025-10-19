@@ -922,12 +922,12 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
 
 <table>
   <tr>
-    <th colspan="6" width="1000">CT-010 - Visualização de Conteúdos Educativos (Feed)
+    <th colspan="6" width="1000">CT-010 - Visualização de Conteúdos Educativos (Feed); <br>CT-015 - Sistema de Comentários e Curtidas em Conteúdos
 </th>
   </tr>
   <tr>
     <td width="170"><strong>Critérios de êxito</strong></td>
-    <td colspan="5">Sistema exibe o conteúdo do feed como esperado</td>
+    <td colspan="5">Sistema exibe o conteúdo do feed, curtidas e comentários como esperado</td>
   </tr>
     <tr>
     <td><strong>Responsável pelo teste</strong></td>
@@ -944,36 +944,12 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
   </tr>
   <tr>
     <td colspan="6" align="center">
-      <span>Colocar vídeo aqui</span> 
-    </td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <th colspan="6" width="1000">CT-015 - Sistema de Comentários e Curtidas em Conteúdos
-</th>
-  </tr>
-  <tr>
-    <td width="170"><strong>Critérios de êxito</strong></td>
-    <td colspan="5">Sistema tem o comportamento de comentários e curtidas como esperado</td>
-  </tr>
-    <tr>
-    <td><strong>Responsável pelo teste</strong></td>
-    <td width="430">Matheus Castelliano</td>
-     <td width="100"><strong>Data do Teste</strong></td>
-    <td width="150">14/10/2025</td>
-  </tr>
-    <tr>
-    <td width="170"><strong>Comentário</strong></td>
-    <td colspan="5">O sistema está realizando o comportamento esperado.</td>
-  </tr>
-  <tr>
-    <td colspan="6" align="center"><strong>Evidência</strong></td>
-  </tr>
-  <tr>
-    <td colspan="6" align="center">
-      <span>Colocar vídeo aqui</span> 
+      <span>
+        <video src="https://github.com/user-attachments/assets/6ce241c6-bcad-4284-b61d-8484f7f7d998"/>
+      </span> 
+      <span>
+        <video src="https://github.com/user-attachments/assets/c786cc90-01c4-4825-8afb-a48283b0cd1d"/>
+      </span>
     </td>
   </tr>
 </table>
