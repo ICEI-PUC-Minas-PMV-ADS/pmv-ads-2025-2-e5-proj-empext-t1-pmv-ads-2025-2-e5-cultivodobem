@@ -962,6 +962,37 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
   </tr>
 </table>
 
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-011 - Não consigo subir uma imagem;
+</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">Sistema deve deixar subir uma imageme retornar a resposta</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pelo teste</strong></td>
+    <td width="430">Juan Andrade</td>
+     <td width="100"><strong></strong></td>
+    <td width="150">15/10/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">é necessario atualizar o banco de dados.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <span>
+        <img src="https://private-user-images.githubusercontent.com/49418565/500582850-4c3d84da-7267-4aa0-9d3b-802604bd6b7d.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjA5MjExMDQsIm5iZiI6MTc2MDkyMDgwNCwicGF0aCI6Ii80OTQxODU2NS81MDA1ODI4NTAtNGMzZDg0ZGEtNzI2Ny00YWEwLTlkM2ItODAyNjA0YmQ2YjdkLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTEwMjAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUxMDIwVDAwNDAwNFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWY3ZGY5YjQzMjUxYmE5YzI0MTJmMTM3MWVhOTZlOTIwNTE4YjQ4NjU2MmQyNWRkNDlmZDAwZWI4NDdkOTY0NWQmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.mAm2O7OrqW_DatpjNMITLf_cNh2hAkkq58uf8Jb6lDo"/>
+      </span> 
+    </td>
+  </tr>
+</table>
+
 ### ETAPA 4
 
 TESTES A IMPLEMENTAR
