@@ -63,33 +63,116 @@ function SignUpRoute() {
   const emailRef = useRef<HTMLInputElement | null>(null);
 
   function set<K extends keyof Form>(k: K, v: string) {
-    setForm((s) => ({ ...s, [k]: v }));
+    let formattedValue = v;
+
+    // Formatação específica para cada campo
+    switch (k) {
+      case "telefone":
+        // Remove tudo que não é número
+        const numbersOnly = v.replace(/\D/g, "");
+        if (numbersOnly.length <= 11) {
+          // Formata como (XX) XXXXX-XXXX
+          formattedValue = numbersOnly.replace(
+            /^(\d{0,2})(\d{0,5})(\d{0,4}).*$/,
+            (_, g1, g2, g3) => {
+              let formatted = "";
+              if (g1) formatted += `(${g1}`;
+              if (g2) formatted += `) ${g2}`;
+              if (g3) formatted += `-${g3}`;
+              return formatted;
+            }
+          );
+        } else {
+          return; // Não atualiza se passar de 11 dígitos
+        }
+        break;
+
+      case "numero":
+        // Aceita apenas números
+        if (!/^\d*$/.test(v)) return;
+        break;
+
+      case "nome":
+        // Remove números e caracteres especiais, permite espaços e acentos
+        formattedValue = v.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s]/g, "");
+        break;
+
+      case "email":
+        // Converte para minúsculas
+        formattedValue = v.toLowerCase();
+        break;
+    }
+
+    setForm((s) => ({ ...s, [k]: formattedValue }));
   }
 
   const validators = useMemo(() => {
-    const emailRe = /^\S+@\S+\.\S+$/;
+    const emailRe = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const cepRe = /^\d{5}-?\d{3}$/;
-    const telRe = /^[0-9()\-\s+]{8,}$/;
+    const telRe = /^\(\d{2}\)\s\d{5}-\d{4}$/;
     const passwordRe = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+    const nomeRe = /^[A-Za-zÀ-ÖØ-öø-ÿ]+ [A-Za-zÀ-ÖØ-öø-ÿ]+/; // Nome e sobrenome
+    const numeroRe = /^\d+$/;
     
     const validate = (f: Form): Errors => {
       const e: Errors = {};
-      if (!f.nome.trim()) e.nome = "Informe seu nome.";
-      if (!emailRe.test(f.email.trim())) e.email = "E-mail inválido.";
+      
+      // Validação de nome
+      if (!f.nome.trim()) {
+        e.nome = "Informe seu nome.";
+      } else if (!nomeRe.test(f.nome.trim())) {
+        e.nome = "Informe nome e sobrenome.";
+      }
+
+      // Validação de email
+      if (!f.email) {
+        e.email = "Informe seu e-mail.";
+      } else if (!emailRe.test(f.email.trim())) {
+        e.email = "E-mail inválido. Use o formato: exemplo@dominio.com";
+      }
+
+      // Validação de senha
       if (!f.senha) {
         e.senha = "Crie uma senha.";
       } else if (!passwordRe.test(f.senha)) {
         e.senha = "A senha deve ter no mínimo 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais.";
       }
+
+      // Confirmação de senha
       if (!f.confirmar) e.confirmar = "Repita a senha.";
       if (f.senha && f.confirmar && f.senha !== f.confirmar)
         e.confirmar = "As senhas não coincidem.";
+      // Tipo de usuário
       if (!f.tipo_usuario) e.tipo_usuario = "Selecione o tipo de conta.";
+
+      // CEP
       if (!cepRe.test(f.cep.trim())) e.cep = "CEP inválido. Ex.: 00000-000";
-      if (f.telefone && !telRe.test(f.telefone))
-        e.telefone = "Telefone inválido.";
-      if (f.data_nascimento && !/^\d{4}-\d{2}-\d{2}$/.test(f.data_nascimento))
-        e.data_nascimento = "Data inválida.";
+
+      // Telefone
+      if (f.telefone) {
+        if (!telRe.test(f.telefone)) {
+          e.telefone = "Formato inválido. Use: (00) 00000-0000";
+        }
+      }
+
+      // Data de nascimento
+      if (f.data_nascimento) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(f.data_nascimento)) {
+          e.data_nascimento = "Data inválida.";
+        } else {
+          const date = new Date(f.data_nascimento);
+          const hoje = new Date();
+          const idade = hoje.getFullYear() - date.getFullYear();
+          if (idade < 18) {
+            e.data_nascimento = "Você precisa ter pelo menos 18 anos.";
+          }
+        }
+      }
+
+      // Número (apenas dígitos)
+      if (f.numero && !numeroRe.test(f.numero)) {
+        e.numero = "Use apenas números.";
+      }
       return e;
     };
     return { validate };
@@ -328,11 +411,11 @@ function SignUpRoute() {
 
                 {/* Nome */}
                 <div className="space-y-1.5">
-                  {label("Nome *")}
+                  {label("Nome Completo *")}
                   <Input
                     value={form.nome}
                     onChange={(e) => set("nome", e.target.value)}
-                    placeholder="Seu nome"
+                    placeholder="Seu nome e sobrenome"
                     className={errClass("nome")}
                     style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
                   />
