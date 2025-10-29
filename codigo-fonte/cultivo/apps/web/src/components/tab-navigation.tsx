@@ -7,7 +7,7 @@ export default function TabNavigation() {
     { name: "Painel", icon: House, href: "/" },
     { name: "Grupo", icon: Users, href: "/groups" },
     { name: "Feed", icon: Newspaper, href: "/feed" },
-    { name: "Colheitas", icon: Archive, href: "/harvest" },
+    { name: "Colheitas", icon: Archive, href: "/harvests" },
     { name: "Menu", icon: Menu, href: "/menu" },
   ];
 
