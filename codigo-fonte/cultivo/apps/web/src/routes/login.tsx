@@ -34,7 +34,12 @@ function LoginComponent() {
       toast.success("Login realizado com sucesso!");
       router.navigate({ to: "/" });
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Erro ao fazer login");
+      const message = error instanceof Error ? error.message : String(error ?? "");
+      if (message.toLowerCase().includes("credenciais inválidas")) {
+        toast.error("Credenciais inválidas");
+      } else {
+        toast.error("Erro ao fazer login");
+      }
     } finally {
       setIsLoading(false);
     }
