@@ -142,7 +142,7 @@ function ProposalsPage() {
           Minhas Propostas
         </h1>
         <p className="text-center text-gray-600 dark:text-gray-400">
-          Propostas recebidas de representantes
+          Propostas enviadas
         </p>
       </div>
 
