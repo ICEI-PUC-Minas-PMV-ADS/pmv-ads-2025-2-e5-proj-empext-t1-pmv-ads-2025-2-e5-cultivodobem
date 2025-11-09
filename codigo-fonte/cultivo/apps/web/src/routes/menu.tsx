@@ -22,9 +22,8 @@ function RouteComponent() {
           Menu
         </span>
       </div>
-
       {/* Content */}
-      <div className="flex-1 mt-14 md:mt-16">
+      <div className="flex-1">
         <div className="max-w-2xl mx-auto px-4">
           {/* Links */}
           <div className="space-y-4">

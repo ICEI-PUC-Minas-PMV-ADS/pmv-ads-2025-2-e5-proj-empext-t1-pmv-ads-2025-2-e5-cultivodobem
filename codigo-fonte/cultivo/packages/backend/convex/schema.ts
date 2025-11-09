@@ -80,23 +80,13 @@ export default defineSchema({
   }).index("by_user", ["userId"]),
 
   harvests: defineTable({
-    date: v.string(),
+    date: v.number(),
     quantity: v.number(),
     observations: v.optional(v.string()),
-    image: v.optional(v.string()),
-    dateOfHarvest: v.string(),
+    analysisId: v.optional(v.id("analysis")),
     userId: v.id("users"),
     createdAt: v.number(),
   }).index("by_user", ["userId"]),
-
-  beanStock: defineTable({
-    value: v.number(),
-    dayLastUpdated: v.number(),
-    hourLastUpdated: v.number(),
-    quantity: v.number(),
-    createdAt: v.number(),
-    updatedAt: v.optional(v.number()),
-  }).index("by_createdAt", ["createdAt"]),
 
   proposals: defineTable({
     groupId: v.optional(v.id("groups")),

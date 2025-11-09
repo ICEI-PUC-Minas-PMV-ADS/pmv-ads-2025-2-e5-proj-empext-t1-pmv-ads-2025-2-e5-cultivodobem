@@ -141,108 +141,107 @@ export function Feed() {
   );
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6">
-      {/* Cabeçalho */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-4">Feed de Publicações</h1>
-        <p className="text-gray-600 dark:text-gray-400">
+    <section className="screen">
+      <div className="max-w-4xl mx-auto px-4 py-6">
+        {/* Cabeçalho */}
+        <p className="text-gray-600 dark:text-gray-400 mb-8">
           Conteúdos educativos e informativos sobre agricultura e cultivo do
           bem.
         </p>
-      </div>
 
-      {/* Barra de busca */}
-      <form onSubmit={handleSearch} className="mb-6">
-        <div className="flex gap-2">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input
-              type="text"
-              placeholder="Buscar publicações..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-          <Button type="submit" disabled={loading}>
-            Buscar
-          </Button>
-          {searchQuery && (
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleClearSearch}
-              disabled={loading}
-            >
-              <RefreshCw className="w-4 h-4" />
-            </Button>
-          )}
-        </div>
-      </form>
-
-      {/* Indicador de busca ativa */}
-      {searchQuery && (
-        <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-          <p className="text-sm text-blue-700 dark:text-blue-300">
-            Mostrando resultados para: <strong>"{searchQuery}"</strong>
-          </p>
-        </div>
-      )}
-
-      {/* Conteúdo principal */}
-      {loading && renderSkeletons()}
-
-      {!loading && posts.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-gray-500 dark:text-gray-400 mb-4">
-            {searchQuery
-              ? "Nenhuma publicação encontrada para sua busca."
-              : "Nenhuma publicação disponível no momento."}
-          </p>
-          {searchQuery && (
-            <Button variant="outline" onClick={handleClearSearch}>
-              Ver todas as publicações
-            </Button>
-          )}
-        </div>
-      )}
-
-      {!loading && posts.length > 0 && (
-        <>
-          {/* Lista de posts */}
-          <div className="space-y-6">
-            {posts.map((post) => (
-              <PostCard
-                key={post.id}
-                post={post}
-                currentUserId={currentUserId}
+        {/* Barra de busca */}
+        <form onSubmit={handleSearch} className="mb-6">
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Input
+                type="text"
+                placeholder="Buscar publicações..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
               />
-            ))}
-          </div>
-
-          {/* Botão carregar mais */}
-          {hasMore && (
-            <div className="text-center mt-8">
+            </div>
+            <Button type="submit" disabled={loading}>
+              Buscar
+            </Button>
+            {searchQuery && (
               <Button
-                onClick={loadMore}
-                disabled={loadingMore}
+                type="button"
                 variant="outline"
+                onClick={handleClearSearch}
+                disabled={loading}
               >
-                {loadingMore ? "Carregando..." : "Carregar mais publicações"}
+                <RefreshCw className="w-4 h-4" />
               </Button>
-            </div>
-          )}
+            )}
+          </div>
+        </form>
 
-          {/* Fim da lista */}
-          {!hasMore && posts.length > 0 && (
-            <div className="text-center mt-8 py-4">
-              <p className="text-gray-500 dark:text-gray-400">
-                Você viu todas as publicações disponíveis.
-              </p>
+        {/* Indicador de busca ativa */}
+        {searchQuery && (
+          <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+            <p className="text-sm text-blue-700 dark:text-blue-300">
+              Mostrando resultados para: <strong>"{searchQuery}"</strong>
+            </p>
+          </div>
+        )}
+
+        {/* Conteúdo principal */}
+        {loading && renderSkeletons()}
+
+        {!loading && posts.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-gray-500 dark:text-gray-400 mb-4">
+              {searchQuery
+                ? "Nenhuma publicação encontrada para sua busca."
+                : "Nenhuma publicação disponível no momento."}
+            </p>
+            {searchQuery && (
+              <Button variant="outline" onClick={handleClearSearch}>
+                Ver todas as publicações
+              </Button>
+            )}
+          </div>
+        )}
+
+        {!loading && posts.length > 0 && (
+          <>
+            {/* Lista de posts */}
+            <div className="space-y-6">
+              {posts.map((post) => (
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  currentUserId={currentUserId}
+                />
+              ))}
             </div>
-          )}
-        </>
-      )}
-    </div>
+
+            {/* Botão carregar mais */}
+            {hasMore && (
+              <div className="text-center mt-8">
+                <Button
+                  onClick={loadMore}
+                  disabled={loadingMore}
+                  variant="outline"
+                >
+                  {loadingMore ? "Carregando..." : "Carregar mais publicações"}
+                </Button>
+              </div>
+            )}
+
+            {/* Fim da lista */}
+            {!hasMore && posts.length > 0 && (
+              <div className="text-center mt-8 py-4">
+                <p className="text-gray-500 dark:text-gray-400">
+                  Você viu todas as publicações disponíveis.
+                </p>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </section>
   );
 }

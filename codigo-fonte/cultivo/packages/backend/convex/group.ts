@@ -69,7 +69,7 @@ export const create = mutation({
       name: args.name.trim(),
       description: args.description,
       stock: args.stock,
-      participants: args.participants ?? [],
+      participants: [args.userId],
       createdBy: args.createdBy,
       createdAt: now,
     });
@@ -109,7 +109,8 @@ export const addParticipant = mutation({
     if (!g) throw new Error("Grupo não encontrado.");
     const participants: any[] = g.participants ?? [];
     // avoid duplicates
-    if (participants.some((p: any) => String(p) === String(userId))) return groupId;
+    if (participants.some((p: any) => String(p) === String(userId)))
+      return groupId;
     participants.push(userId);
     await ctx.db.patch(groupId, { participants });
     return groupId;

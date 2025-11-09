@@ -15,10 +15,11 @@ import type {
 } from "convex/server";
 import type * as analysis from "../analysis.js";
 import type * as auth from "../auth.js";
+import type * as beanstock from "../beanstock.js";
 import type * as chat from "../chat.js";
 import type * as classifier from "../classifier.js";
 import type * as group from "../group.js";
-import type * as harvest from "../harvest.js";
+import type * as harvests from "../harvests.js";
 import type * as postComments from "../postComments.js";
 import type * as postLikes from "../postLikes.js";
 import type * as proposals from "../proposals.js";
@@ -37,10 +38,11 @@ import type * as user from "../user.js";
 declare const fullApi: ApiFromModules<{
   analysis: typeof analysis;
   auth: typeof auth;
+  beanstock: typeof beanstock;
   chat: typeof chat;
   classifier: typeof classifier;
   group: typeof group;
-  harvest: typeof harvest;
+  harvests: typeof harvests;
   postComments: typeof postComments;
   postLikes: typeof postLikes;
   proposals: typeof proposals;

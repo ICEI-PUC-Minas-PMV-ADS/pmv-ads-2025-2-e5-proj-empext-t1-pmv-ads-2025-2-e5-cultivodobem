@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAction } from "convex/react";
 import { api } from "../../../../packages/backend/convex/_generated/api";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export const Route = createFileRoute("/assistant")({
   component: RouteComponent,
@@ -84,9 +86,7 @@ function RouteComponent() {
               whiteSpace: "pre-wrap",
             }}
           >
-            <strong>Resposta:</strong>
-            <br />
-            {resposta}
+            <Markdown remarkPlugins={[remarkGfm]}>{resposta}</Markdown>
           </div>
         )}
       </div>
