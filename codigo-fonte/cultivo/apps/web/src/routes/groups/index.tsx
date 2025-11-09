@@ -45,7 +45,6 @@ function RouteComponent() {
         createdBy: user,
       });
       setForm({ name: "", description: "", stock: 0 });
-      console.log("Created group", id);
     } catch (err) {
       console.error("Create failed", err);
     }

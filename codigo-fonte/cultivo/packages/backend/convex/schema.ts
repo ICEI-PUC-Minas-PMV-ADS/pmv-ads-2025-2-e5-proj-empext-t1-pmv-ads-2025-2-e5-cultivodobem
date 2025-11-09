@@ -99,15 +99,16 @@ export default defineSchema({
   }).index("by_createdAt", ["createdAt"]),
 
   proposals: defineTable({
-    groupId: v.id("groups"),
+    groupId: v.optional(v.id("groups")),
     valuePerSack: v.number(),
-    totalValue: v.number(),
+    quantity: v.number(),
     phoneBuyer: v.string(),
+    emailBuyer: v.string(),
     nameBuyer: v.string(),
     buyerId: v.id("users"),
     createdAt: v.number(),
-    status: v.union(v.literal("pending"), v.literal("rejected")),
-    userId: v.id("users"),
+    userId: v.optional(v.id("users")),
+    viewed: v.boolean(),
   })
     .index("by_user", ["userId"])
     .index("by_group", ["groupId"])
