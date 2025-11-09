@@ -18,6 +18,7 @@ import type * as auth from "../auth.js";
 import type * as chat from "../chat.js";
 import type * as classifier from "../classifier.js";
 import type * as group from "../group.js";
+import type * as harvests from "../harvests.js";
 import type * as postComments from "../postComments.js";
 import type * as postLikes from "../postLikes.js";
 import type * as register from "../register.js";
@@ -38,6 +39,7 @@ declare const fullApi: ApiFromModules<{
   chat: typeof chat;
   classifier: typeof classifier;
   group: typeof group;
+  harvests: typeof harvests;
   postComments: typeof postComments;
   postLikes: typeof postLikes;
   register: typeof register;

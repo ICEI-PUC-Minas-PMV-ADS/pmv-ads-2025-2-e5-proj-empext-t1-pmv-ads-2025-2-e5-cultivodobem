@@ -12,14 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as HarvestRouteImport } from './routes/harvest'
 import { Route as ForgotRouteImport } from './routes/forgot'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as EditusersRouteImport } from './routes/editusers'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as HarvestsIndexRouteImport } from './routes/harvests/index'
 import { Route as GroupsIndexRouteImport } from './routes/groups/index'
 import { Route as ClassifierIndexRouteImport } from './routes/classifier/index'
+import { Route as HarvestsCreateRouteImport } from './routes/harvests/create'
+import { Route as HarvestsIdRouteImport } from './routes/harvests/$id'
 import { Route as GroupsParticipatingRouteImport } from './routes/groups/participating'
 import { Route as GroupsOwnedRouteImport } from './routes/groups/owned'
 import { Route as GroupsJoinRouteImport } from './routes/groups/join'
@@ -39,11 +41,6 @@ const MenuRoute = MenuRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HarvestRoute = HarvestRouteImport.update({
-  id: '/harvest',
-  path: '/harvest',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForgotRoute = ForgotRouteImport.update({
@@ -71,6 +68,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HarvestsIndexRoute = HarvestsIndexRouteImport.update({
+  id: '/harvests/',
+  path: '/harvests/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GroupsIndexRoute = GroupsIndexRouteImport.update({
   id: '/groups/',
   path: '/groups/',
@@ -79,6 +81,16 @@ const GroupsIndexRoute = GroupsIndexRouteImport.update({
 const ClassifierIndexRoute = ClassifierIndexRouteImport.update({
   id: '/classifier/',
   path: '/classifier/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HarvestsCreateRoute = HarvestsCreateRouteImport.update({
+  id: '/harvests/create',
+  path: '/harvests/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HarvestsIdRoute = HarvestsIdRouteImport.update({
+  id: '/harvests/$id',
+  path: '/harvests/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GroupsParticipatingRoute = GroupsParticipatingRouteImport.update({
@@ -113,7 +125,6 @@ export interface FileRoutesByFullPath {
   '/editusers': typeof EditusersRoute
   '/feed': typeof FeedRoute
   '/forgot': typeof ForgotRoute
-  '/harvest': typeof HarvestRoute
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
   '/signup': typeof SignupRoute
@@ -122,8 +133,11 @@ export interface FileRoutesByFullPath {
   '/groups/join': typeof GroupsJoinRoute
   '/groups/owned': typeof GroupsOwnedRoute
   '/groups/participating': typeof GroupsParticipatingRoute
+  '/harvests/$id': typeof HarvestsIdRoute
+  '/harvests/create': typeof HarvestsCreateRoute
   '/classifier': typeof ClassifierIndexRoute
   '/groups': typeof GroupsIndexRoute
+  '/harvests': typeof HarvestsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -131,7 +145,6 @@ export interface FileRoutesByTo {
   '/editusers': typeof EditusersRoute
   '/feed': typeof FeedRoute
   '/forgot': typeof ForgotRoute
-  '/harvest': typeof HarvestRoute
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
   '/signup': typeof SignupRoute
@@ -140,8 +153,11 @@ export interface FileRoutesByTo {
   '/groups/join': typeof GroupsJoinRoute
   '/groups/owned': typeof GroupsOwnedRoute
   '/groups/participating': typeof GroupsParticipatingRoute
+  '/harvests/$id': typeof HarvestsIdRoute
+  '/harvests/create': typeof HarvestsCreateRoute
   '/classifier': typeof ClassifierIndexRoute
   '/groups': typeof GroupsIndexRoute
+  '/harvests': typeof HarvestsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -150,7 +166,6 @@ export interface FileRoutesById {
   '/editusers': typeof EditusersRoute
   '/feed': typeof FeedRoute
   '/forgot': typeof ForgotRoute
-  '/harvest': typeof HarvestRoute
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
   '/signup': typeof SignupRoute
@@ -159,8 +174,11 @@ export interface FileRoutesById {
   '/groups/join': typeof GroupsJoinRoute
   '/groups/owned': typeof GroupsOwnedRoute
   '/groups/participating': typeof GroupsParticipatingRoute
+  '/harvests/$id': typeof HarvestsIdRoute
+  '/harvests/create': typeof HarvestsCreateRoute
   '/classifier/': typeof ClassifierIndexRoute
   '/groups/': typeof GroupsIndexRoute
+  '/harvests/': typeof HarvestsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -170,7 +188,6 @@ export interface FileRouteTypes {
     | '/editusers'
     | '/feed'
     | '/forgot'
-    | '/harvest'
     | '/login'
     | '/menu'
     | '/signup'
@@ -179,8 +196,11 @@ export interface FileRouteTypes {
     | '/groups/join'
     | '/groups/owned'
     | '/groups/participating'
+    | '/harvests/$id'
+    | '/harvests/create'
     | '/classifier'
     | '/groups'
+    | '/harvests'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -188,7 +208,6 @@ export interface FileRouteTypes {
     | '/editusers'
     | '/feed'
     | '/forgot'
-    | '/harvest'
     | '/login'
     | '/menu'
     | '/signup'
@@ -197,8 +216,11 @@ export interface FileRouteTypes {
     | '/groups/join'
     | '/groups/owned'
     | '/groups/participating'
+    | '/harvests/$id'
+    | '/harvests/create'
     | '/classifier'
     | '/groups'
+    | '/harvests'
   id:
     | '__root__'
     | '/'
@@ -206,7 +228,6 @@ export interface FileRouteTypes {
     | '/editusers'
     | '/feed'
     | '/forgot'
-    | '/harvest'
     | '/login'
     | '/menu'
     | '/signup'
@@ -215,8 +236,11 @@ export interface FileRouteTypes {
     | '/groups/join'
     | '/groups/owned'
     | '/groups/participating'
+    | '/harvests/$id'
+    | '/harvests/create'
     | '/classifier/'
     | '/groups/'
+    | '/harvests/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -225,7 +249,6 @@ export interface RootRouteChildren {
   EditusersRoute: typeof EditusersRoute
   FeedRoute: typeof FeedRoute
   ForgotRoute: typeof ForgotRoute
-  HarvestRoute: typeof HarvestRoute
   LoginRoute: typeof LoginRoute
   MenuRoute: typeof MenuRoute
   SignupRoute: typeof SignupRoute
@@ -234,8 +257,11 @@ export interface RootRouteChildren {
   GroupsJoinRoute: typeof GroupsJoinRoute
   GroupsOwnedRoute: typeof GroupsOwnedRoute
   GroupsParticipatingRoute: typeof GroupsParticipatingRoute
+  HarvestsIdRoute: typeof HarvestsIdRoute
+  HarvestsCreateRoute: typeof HarvestsCreateRoute
   ClassifierIndexRoute: typeof ClassifierIndexRoute
   GroupsIndexRoute: typeof GroupsIndexRoute
+  HarvestsIndexRoute: typeof HarvestsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -259,13 +285,6 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/harvest': {
-      id: '/harvest'
-      path: '/harvest'
-      fullPath: '/harvest'
-      preLoaderRoute: typeof HarvestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/forgot': {
@@ -303,6 +322,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/harvests/': {
+      id: '/harvests/'
+      path: '/harvests'
+      fullPath: '/harvests'
+      preLoaderRoute: typeof HarvestsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/groups/': {
       id: '/groups/'
       path: '/groups'
@@ -315,6 +341,20 @@ declare module '@tanstack/react-router' {
       path: '/classifier'
       fullPath: '/classifier'
       preLoaderRoute: typeof ClassifierIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/harvests/create': {
+      id: '/harvests/create'
+      path: '/harvests/create'
+      fullPath: '/harvests/create'
+      preLoaderRoute: typeof HarvestsCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/harvests/$id': {
+      id: '/harvests/$id'
+      path: '/harvests/$id'
+      fullPath: '/harvests/$id'
+      preLoaderRoute: typeof HarvestsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/groups/participating': {
@@ -361,7 +401,6 @@ const rootRouteChildren: RootRouteChildren = {
   EditusersRoute: EditusersRoute,
   FeedRoute: FeedRoute,
   ForgotRoute: ForgotRoute,
-  HarvestRoute: HarvestRoute,
   LoginRoute: LoginRoute,
   MenuRoute: MenuRoute,
   SignupRoute: SignupRoute,
@@ -370,8 +409,11 @@ const rootRouteChildren: RootRouteChildren = {
   GroupsJoinRoute: GroupsJoinRoute,
   GroupsOwnedRoute: GroupsOwnedRoute,
   GroupsParticipatingRoute: GroupsParticipatingRoute,
+  HarvestsIdRoute: HarvestsIdRoute,
+  HarvestsCreateRoute: HarvestsCreateRoute,
   ClassifierIndexRoute: ClassifierIndexRoute,
   GroupsIndexRoute: GroupsIndexRoute,
+  HarvestsIndexRoute: HarvestsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

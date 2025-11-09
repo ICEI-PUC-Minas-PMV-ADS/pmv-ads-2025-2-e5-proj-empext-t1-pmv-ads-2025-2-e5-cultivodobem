@@ -40,7 +40,7 @@ export default function HeaderNavigation() {
       ? [{ to: "/menu", label: "Menu" }]
       : [
           { to: "/groups", label: "Grupo" },
-          { to: "/harvest", label: "Colheitas" },
+          { to: "/harvests", label: "Colheitas" },
           { to: "/feed", label: "Feed" },
           { to: "/assistant", label: "Assistente Virtual" },
           { to: "/menu", label: "Menu" },

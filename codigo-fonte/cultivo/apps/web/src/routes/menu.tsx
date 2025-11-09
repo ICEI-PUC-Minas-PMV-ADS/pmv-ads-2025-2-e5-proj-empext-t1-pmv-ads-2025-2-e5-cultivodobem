@@ -9,20 +9,9 @@ function RouteComponent() {
   const navigate = useNavigate();
   
   return (
-    <div className="flex flex-col min-h-screen bg-white">
-      {/* Header - Mobile only */}
-      <div className="md:hidden flex items-center h-14 px-4 fixed top-0 left-0 right-0 bg-white border-b z-50">
-        <button 
-          onClick={() => navigate({ to: "/" })}
-          className="p-1.5 text-[#62331B]"
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-        <span className="flex-1 text-center font-semibold text-[#62331B]">Menu</span>
-      </div>
-
+    <div className="screen flex flex-col min-h-screen bg-white">
       {/* Content */}
-      <div className="flex-1 mt-14 md:mt-16">
+      <div className="flex-1">
         <div className="max-w-2xl mx-auto px-4">
           {/* Links */}
           <div className="space-y-4">

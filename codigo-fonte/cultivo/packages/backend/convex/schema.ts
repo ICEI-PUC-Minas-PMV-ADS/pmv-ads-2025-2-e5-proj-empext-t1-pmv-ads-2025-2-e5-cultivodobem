@@ -80,11 +80,10 @@ export default defineSchema({
   }).index("by_user", ["userId"]),
 
   harvests: defineTable({
-    date: v.string(),
+    date: v.number(),
     quantity: v.number(),
     observations: v.optional(v.string()),
-    image: v.optional(v.string()),
-    dateOfHarvest: v.string(),
+    analysisId: v.optional(v.id("analysis")),
     userId: v.id("users"),
     createdAt: v.number(),
   }).index("by_user", ["userId"]),

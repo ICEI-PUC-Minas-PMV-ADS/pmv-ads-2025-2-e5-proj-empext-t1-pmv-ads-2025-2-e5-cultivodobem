@@ -10,11 +10,8 @@ export const Route = createFileRoute("/")({
 function HomeComponent() {
   return (
     <div className="screen flex flex-col items-center p-4">
-      <h1 className="font-bold text-2xl text-cultivo-primary text-center">
-        Painel
-      </h1>
       <div
-        className="flex flex-col gap-2 p-4 rounded-lg bg-white border border-cultivo-background-darker mt-6 w-full md:max-w-[540px]"
+        className="flex flex-col gap-2 p-4 rounded-lg bg-white border border-cultivo-background-darker w-full md:max-w-[540px]"
         style={{
           boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
         }}
