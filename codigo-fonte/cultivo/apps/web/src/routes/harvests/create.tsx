@@ -98,7 +98,7 @@ function RouteComponent() {
   };
 
   const schema = z.object({
-    date: z.date(),
+    date: z.string(),
     quantity: z
       .number({ message: "Informe a quantidade" })
       .min(1, "A quantidade deve ser maior que zero"),
@@ -108,7 +108,7 @@ function RouteComponent() {
   type FormData = z.infer<typeof schema>;
 
   const defaultValues = {
-    date: new Date(),
+    date: new Date().toISOString(),
     quantity: 1,
     observations: "",
   };
