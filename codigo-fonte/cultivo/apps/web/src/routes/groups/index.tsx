@@ -6,10 +6,11 @@ import { Button } from "@/components/ui/button";
 import Dialog from "@/components/ui/dialog";
 import "@/styles/groups.css";
 import { api } from "../../../../../packages/backend/convex/_generated/api";
-import { getUserIdFromLocalStorage } from "@/lib/utils";
+import { ensureUserRole, getUserIdFromLocalStorage } from "@/lib/utils";
 
 export const Route = createFileRoute("/groups/")({
   component: RouteComponent,
+  beforeLoad: () => ensureUserRole("Produtor Rural"),
 });
 
 function RouteComponent() {

@@ -38,6 +38,7 @@ export const login = mutation({
       _id: user._id,
       email: user.email,
       name: user.name,
+      tipo_usuario: user.tipo_usuario,
       createdAt: user.createdAt,
     };
   },

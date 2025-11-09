@@ -17,6 +17,7 @@ import { Route as FeedRouteImport } from './routes/feed'
 import { Route as EditusersRouteImport } from './routes/editusers'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SearchHarvestsIndexRouteImport } from './routes/search-harvests/index'
 import { Route as HarvestsIndexRouteImport } from './routes/harvests/index'
 import { Route as GroupsIndexRouteImport } from './routes/groups/index'
 import { Route as ClassifierIndexRouteImport } from './routes/classifier/index'
@@ -66,6 +67,11 @@ const AssistantRoute = AssistantRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchHarvestsIndexRoute = SearchHarvestsIndexRouteImport.update({
+  id: '/search-harvests/',
+  path: '/search-harvests/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HarvestsIndexRoute = HarvestsIndexRouteImport.update({
@@ -138,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/classifier': typeof ClassifierIndexRoute
   '/groups': typeof GroupsIndexRoute
   '/harvests': typeof HarvestsIndexRoute
+  '/search-harvests': typeof SearchHarvestsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/classifier': typeof ClassifierIndexRoute
   '/groups': typeof GroupsIndexRoute
   '/harvests': typeof HarvestsIndexRoute
+  '/search-harvests': typeof SearchHarvestsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -179,6 +187,7 @@ export interface FileRoutesById {
   '/classifier/': typeof ClassifierIndexRoute
   '/groups/': typeof GroupsIndexRoute
   '/harvests/': typeof HarvestsIndexRoute
+  '/search-harvests/': typeof SearchHarvestsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -201,6 +210,7 @@ export interface FileRouteTypes {
     | '/classifier'
     | '/groups'
     | '/harvests'
+    | '/search-harvests'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -221,6 +231,7 @@ export interface FileRouteTypes {
     | '/classifier'
     | '/groups'
     | '/harvests'
+    | '/search-harvests'
   id:
     | '__root__'
     | '/'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '/classifier/'
     | '/groups/'
     | '/harvests/'
+    | '/search-harvests/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -262,6 +274,7 @@ export interface RootRouteChildren {
   ClassifierIndexRoute: typeof ClassifierIndexRoute
   GroupsIndexRoute: typeof GroupsIndexRoute
   HarvestsIndexRoute: typeof HarvestsIndexRoute
+  SearchHarvestsIndexRoute: typeof SearchHarvestsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -320,6 +333,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search-harvests/': {
+      id: '/search-harvests/'
+      path: '/search-harvests'
+      fullPath: '/search-harvests'
+      preLoaderRoute: typeof SearchHarvestsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/harvests/': {
@@ -414,6 +434,7 @@ const rootRouteChildren: RootRouteChildren = {
   ClassifierIndexRoute: ClassifierIndexRoute,
   GroupsIndexRoute: GroupsIndexRoute,
   HarvestsIndexRoute: HarvestsIndexRoute,
+  SearchHarvestsIndexRoute: SearchHarvestsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

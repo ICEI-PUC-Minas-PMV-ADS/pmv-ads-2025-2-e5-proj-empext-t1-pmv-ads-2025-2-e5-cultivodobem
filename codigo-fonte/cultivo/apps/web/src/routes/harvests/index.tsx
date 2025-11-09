@@ -2,13 +2,13 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery } from "convex/react";
 import { ExternalLink, Plus, Trash } from "lucide-react";
 import { api } from "../../../../../packages/backend/convex/_generated/api";
-import { ensureAuthenticated, getUserIdFromLocalStorage } from "@/lib/utils";
+import { ensureUserRole, getUserIdFromLocalStorage } from "@/lib/utils";
 import { toast } from "sonner";
 import type { Id } from "../../../../../packages/backend/convex/_generated/dataModel";
 
 export const Route = createFileRoute("/harvests/")({
   component: HarvestsScreen,
-  beforeLoad: ensureAuthenticated,
+  beforeLoad: () => ensureUserRole("Produtor Rural"),
 });
 
 function HarvestsScreen() {

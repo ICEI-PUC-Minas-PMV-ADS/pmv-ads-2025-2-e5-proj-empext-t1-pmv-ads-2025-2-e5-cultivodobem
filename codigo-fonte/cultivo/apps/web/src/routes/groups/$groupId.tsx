@@ -4,9 +4,11 @@ import { api } from "../../../../../packages/backend/convex/_generated/api";
 import { Card } from "../../components/ui/card";
 import { Skeleton } from "../../components/ui/skeleton";
 import type { Id } from "../../../../../packages/backend/convex/_generated/dataModel";
+import { ensureUserRole } from "@/lib/utils";
 
 export const Route = createFileRoute("/groups/$groupId")({
   component: GroupDetails,
+  beforeLoad: () => ensureUserRole("Produtor Rural"),
 });
 
 function GroupDetails() {

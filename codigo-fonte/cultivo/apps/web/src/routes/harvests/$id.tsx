@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { ensureAuthenticated } from "@/lib/utils";
+import { ensureUserRole } from "@/lib/utils";
 import { createFileRoute } from "@tanstack/react-router";
-import { useConvex, useQuery } from "convex/react";
+import { useConvex } from "convex/react";
 import { ShareIcon } from "lucide-react";
 import { toast } from "sonner";
 import { api } from "../../../../../packages/backend/convex/_generated/api";
@@ -9,12 +9,11 @@ import type {
   Doc,
   Id,
 } from "../../../../../packages/backend/convex/_generated/dataModel";
-import type { Analysis } from "../../../../../packages/backend/content/types";
 import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/harvests/$id")({
   component: RouteComponent,
-  beforeLoad: ensureAuthenticated,
+  beforeLoad: () => ensureUserRole("Produtor Rural"),
 });
 
 function RouteComponent() {
@@ -233,7 +232,9 @@ function RouteComponent() {
               <p className="text-cultivo-primary font-bold flex-1 text-lg">
                 Quantidade de sacas (60kg)
               </p>
-              <p className={`flex-1`}>{harvest?.quantity} {harvest?.quantity > 1 ? "sacas" : "saca"}</p>
+              <p className={`flex-1`}>
+                {harvest?.quantity} {harvest?.quantity > 1 ? "sacas" : "saca"}
+              </p>
             </div>
             <div
               className={

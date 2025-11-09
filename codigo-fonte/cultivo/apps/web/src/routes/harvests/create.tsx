@@ -8,14 +8,14 @@ import { api } from "../../../../../packages/backend/convex/_generated/api";
 import { useEffect, useState, type ChangeEvent } from "react";
 import type { Id } from "../../../../../packages/backend/convex/_generated/dataModel";
 import Dropzone from "dropzone";
-import { ensureAuthenticated, getUserIdFromLocalStorage } from "@/lib/utils";
+import { ensureUserRole, getUserIdFromLocalStorage } from "@/lib/utils";
 import axios from "axios";
 import { toast } from "sonner";
 import { Loader2, Upload } from "lucide-react";
 
 export const Route = createFileRoute("/harvests/create")({
   component: RouteComponent,
-  beforeLoad: ensureAuthenticated,
+  beforeLoad: () => ensureUserRole("Produtor Rural"),
 });
 
 function RouteComponent() {

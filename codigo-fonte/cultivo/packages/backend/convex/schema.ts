@@ -88,15 +88,6 @@ export default defineSchema({
     createdAt: v.number(),
   }).index("by_user", ["userId"]),
 
-  beanStock: defineTable({
-    value: v.number(),
-    dayLastUpdated: v.number(),
-    hourLastUpdated: v.number(),
-    quantity: v.number(),
-    createdAt: v.number(),
-    updatedAt: v.optional(v.number()),
-  }).index("by_createdAt", ["createdAt"]),
-
   proposals: defineTable({
     groupId: v.id("groups"),
     valuePerSack: v.number(),
