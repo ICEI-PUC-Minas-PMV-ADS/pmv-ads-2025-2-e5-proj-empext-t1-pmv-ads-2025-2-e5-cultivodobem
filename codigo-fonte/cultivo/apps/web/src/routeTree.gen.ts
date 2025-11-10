@@ -25,6 +25,7 @@ import { Route as HarvestsCreateRouteImport } from './routes/harvests/create'
 import { Route as HarvestsIdRouteImport } from './routes/harvests/$id'
 import { Route as GroupsParticipatingRouteImport } from './routes/groups/participating'
 import { Route as GroupsOwnedRouteImport } from './routes/groups/owned'
+import { Route as GroupsNewRouteImport } from './routes/groups/new'
 import { Route as GroupsJoinRouteImport } from './routes/groups/join'
 import { Route as GroupsGroupIdRouteImport } from './routes/groups/$groupId'
 import { Route as ClassifierIdRouteImport } from './routes/classifier/$id'
@@ -109,6 +110,11 @@ const GroupsOwnedRoute = GroupsOwnedRouteImport.update({
   path: '/groups/owned',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GroupsNewRoute = GroupsNewRouteImport.update({
+  id: '/groups/new',
+  path: '/groups/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GroupsJoinRoute = GroupsJoinRouteImport.update({
   id: '/groups/join',
   path: '/groups/join',
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/classifier/$id': typeof ClassifierIdRoute
   '/groups/$groupId': typeof GroupsGroupIdRoute
   '/groups/join': typeof GroupsJoinRoute
+  '/groups/new': typeof GroupsNewRoute
   '/groups/owned': typeof GroupsOwnedRoute
   '/groups/participating': typeof GroupsParticipatingRoute
   '/harvests/$id': typeof HarvestsIdRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/classifier/$id': typeof ClassifierIdRoute
   '/groups/$groupId': typeof GroupsGroupIdRoute
   '/groups/join': typeof GroupsJoinRoute
+  '/groups/new': typeof GroupsNewRoute
   '/groups/owned': typeof GroupsOwnedRoute
   '/groups/participating': typeof GroupsParticipatingRoute
   '/harvests/$id': typeof HarvestsIdRoute
@@ -180,6 +188,7 @@ export interface FileRoutesById {
   '/classifier/$id': typeof ClassifierIdRoute
   '/groups/$groupId': typeof GroupsGroupIdRoute
   '/groups/join': typeof GroupsJoinRoute
+  '/groups/new': typeof GroupsNewRoute
   '/groups/owned': typeof GroupsOwnedRoute
   '/groups/participating': typeof GroupsParticipatingRoute
   '/harvests/$id': typeof HarvestsIdRoute
@@ -203,6 +212,7 @@ export interface FileRouteTypes {
     | '/classifier/$id'
     | '/groups/$groupId'
     | '/groups/join'
+    | '/groups/new'
     | '/groups/owned'
     | '/groups/participating'
     | '/harvests/$id'
@@ -224,6 +234,7 @@ export interface FileRouteTypes {
     | '/classifier/$id'
     | '/groups/$groupId'
     | '/groups/join'
+    | '/groups/new'
     | '/groups/owned'
     | '/groups/participating'
     | '/harvests/$id'
@@ -245,6 +256,7 @@ export interface FileRouteTypes {
     | '/classifier/$id'
     | '/groups/$groupId'
     | '/groups/join'
+    | '/groups/new'
     | '/groups/owned'
     | '/groups/participating'
     | '/harvests/$id'
@@ -267,6 +279,7 @@ export interface RootRouteChildren {
   ClassifierIdRoute: typeof ClassifierIdRoute
   GroupsGroupIdRoute: typeof GroupsGroupIdRoute
   GroupsJoinRoute: typeof GroupsJoinRoute
+  GroupsNewRoute: typeof GroupsNewRoute
   GroupsOwnedRoute: typeof GroupsOwnedRoute
   GroupsParticipatingRoute: typeof GroupsParticipatingRoute
   HarvestsIdRoute: typeof HarvestsIdRoute
@@ -391,6 +404,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GroupsOwnedRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/groups/new': {
+      id: '/groups/new'
+      path: '/groups/new'
+      fullPath: '/groups/new'
+      preLoaderRoute: typeof GroupsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/groups/join': {
       id: '/groups/join'
       path: '/groups/join'
@@ -427,6 +447,7 @@ const rootRouteChildren: RootRouteChildren = {
   ClassifierIdRoute: ClassifierIdRoute,
   GroupsGroupIdRoute: GroupsGroupIdRoute,
   GroupsJoinRoute: GroupsJoinRoute,
+  GroupsNewRoute: GroupsNewRoute,
   GroupsOwnedRoute: GroupsOwnedRoute,
   GroupsParticipatingRoute: GroupsParticipatingRoute,
   HarvestsIdRoute: HarvestsIdRoute,
