@@ -37,17 +37,17 @@ export default function TabNavigation() {
       {items.map((item) => {
         const selected = item.href === location.pathname;
 
-        return (
-          <Link
-            key={item.name}
-            to={item.href}
-            className={`flex flex-col items-center ${selected ? "text-cultivo-green-dark" : "text-cultivo-primary"}`}
-          >
-            {<item.icon className="mb-1" />}
-            {item.name}
-          </Link>
-        );
-      })}
-    </nav>
-  );
+				return (
+					<Link
+						key={item.name}
+						to={item.href}
+						className={`flex flex-col items-center ${selected ? "text-cultivo-green-dark" : "text-cultivo-primary"}`}
+					>
+						{<item.icon className="mb-1" />}
+						{item.name}
+					</Link>
+				);
+			})}
+		</nav>
+	);
 }
