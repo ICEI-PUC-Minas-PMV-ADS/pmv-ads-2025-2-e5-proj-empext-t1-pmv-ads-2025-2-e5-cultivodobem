@@ -83,34 +83,26 @@ export default defineSchema({
   }).index("by_user", ["userId"]),
 
   harvests: defineTable({
-    date: v.string(),
+    date: v.number(),
     quantity: v.number(),
     observations: v.optional(v.string()),
-    image: v.optional(v.string()),
-    dateOfHarvest: v.string(),
+    analysisId: v.optional(v.id("analysis")),
     userId: v.id("users"),
     createdAt: v.number(),
   }).index("by_user", ["userId"]),
 
-  beanStock: defineTable({
-    value: v.number(),
-    dayLastUpdated: v.number(),
-    hourLastUpdated: v.number(),
-    quantity: v.number(),
-    createdAt: v.number(),
-    updatedAt: v.optional(v.number()),
-  }).index("by_createdAt", ["createdAt"]),
-
   proposals: defineTable({
-    groupId: v.id("groups"),
+    groupId: v.optional(v.id("groups")),
     valuePerSack: v.number(),
-    totalValue: v.number(),
+    quantity: v.number(),
     phoneBuyer: v.string(),
+    emailBuyer: v.string(),
     nameBuyer: v.string(),
     buyerId: v.id("users"),
     createdAt: v.number(),
-    status: v.union(v.literal("pending"), v.literal("rejected")),
-    userId: v.id("users"),
+    userId: v.optional(v.id("users")),
+    viewed: v.boolean(),
+    observations: v.optional(v.string()),
   })
     .index("by_user", ["userId"])
     .index("by_group", ["groupId"])

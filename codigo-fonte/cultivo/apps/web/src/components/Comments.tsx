@@ -26,10 +26,6 @@ export function Comments({ strapiPostId, currentUserId }: CommentsProps) {
   const [editingContent, setEditingContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Debug logs
-  console.log("💬 Comments component - strapiPostId:", strapiPostId);
-  console.log("💬 Comments component - currentUserId:", currentUserId);
-
   // Queries do Convex
   const comments = useQuery(api.postComments.getCommentsByPostId, {
     strapiPostId,

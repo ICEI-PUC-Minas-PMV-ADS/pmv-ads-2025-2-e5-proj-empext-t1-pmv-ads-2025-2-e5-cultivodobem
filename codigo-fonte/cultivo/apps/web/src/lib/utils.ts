@@ -20,3 +20,20 @@ export function ensureAuthenticated() {
     });
   }
 }
+
+export function ensureUserRole(role: string) {
+  const userId = getUserIdFromLocalStorage();
+  const user = localStorage.getItem("user");
+
+  if (!userId || !user) {
+    throw redirect({
+      to: "/login",
+    });
+  }
+
+  if (!(JSON.parse(user).tipo_usuario === role)) {
+    throw redirect({
+      to: "/",
+    });
+  }
+}

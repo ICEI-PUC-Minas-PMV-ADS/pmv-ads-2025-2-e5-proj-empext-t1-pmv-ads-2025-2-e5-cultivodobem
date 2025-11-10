@@ -1,23 +1,28 @@
-import { ensureAuthenticated, getUserIdFromLocalStorage } from "@/lib/utils";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import axios from "axios";
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction, useMutation } from "convex/react";
-import Dropzone from "dropzone";
-import { Loader2, Upload } from "lucide-react";
-import { useEffect, useState, type ChangeEvent } from "react";
-import { toast } from "sonner";
 import { api } from "../../../../../packages/backend/convex/_generated/api";
+import { useEffect, useState, type ChangeEvent } from "react";
 import type { Id } from "../../../../../packages/backend/convex/_generated/dataModel";
+import Dropzone from "dropzone";
+import { ensureUserRole, getUserIdFromLocalStorage } from "@/lib/utils";
+import axios from "axios";
+import { toast } from "sonner";
+import { Loader2, Upload } from "lucide-react";
 
-export const Route = createFileRoute("/classifier/")({
-  component: ClassifySample,
-  beforeLoad: ensureAuthenticated,
+export const Route = createFileRoute("/harvests/create")({
+  component: RouteComponent,
+  beforeLoad: () => ensureUserRole("Produtor Rural"),
 });
 
-function ClassifySample() {
+function RouteComponent() {
   const generateUploadUrl = useMutation(api.upload.generateUploadUrl);
   const sendImage = useMutation(api.upload.sendImage);
   const classifySample = useAction(api.classifier.classifySample);
+  const createHarvest = useMutation(api.harvests.createHarvest);
   const router = useRouter();
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -74,6 +79,7 @@ function ClassifySample() {
       setImageStorageId(storageId);
       setSelectedImage(image);
     } catch (error: any) {
+      console.log(error.message);
 
       if (error === "The image is not a bean sample") {
         toast.error("A imagem selecionada não é uma amostra de feijão", {
@@ -91,7 +97,32 @@ function ClassifySample() {
     }
   };
 
-  const handleClassifySample = async () => {
+  const schema = z.object({
+    date: z.string(),
+    quantity: z
+      .number({ message: "Informe a quantidade" })
+      .min(1, "A quantidade deve ser maior que zero"),
+    observations: z.string().optional(),
+  });
+
+  type FormData = z.infer<typeof schema>;
+
+  const defaultValues = {
+    date: new Date().toISOString(),
+    quantity: 1,
+    observations: "",
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    values: defaultValues,
+  });
+
+  const onSubmit = async (data: FormData) => {
     if (!selectedImage || !imageStorageId) return;
 
     try {
@@ -115,7 +146,19 @@ function ClassifySample() {
         throw new Error("Failed to classify sample");
       }
 
-      router.navigate({ to: "/classifier/$id", params: { id } });
+      const harvestId = await createHarvest({
+        date: new Date(data.date).getTime(),
+        quantity: data.quantity,
+        observations: data.observations,
+        analysisId: id,
+        userId,
+      });
+
+      if (!harvestId) {
+        throw new Error("Failed to create harvest");
+      }
+
+      router.navigate({ to: "/harvests" });
     } catch (error) {
       console.error(error);
 
@@ -129,9 +172,9 @@ function ClassifySample() {
   };
 
   return (
-    <div className="screen flex flex-col items-center p-4">
+    <section className="screen flex flex-col items-center p-4">
       <h1 className="font-bold text-2xl text-cultivo-primary text-center">
-        Classificar amostra
+        Registrar Nova Colheita
       </h1>
       <div
         className="flex flex-col gap-2 p-4 rounded-lg bg-white border border-cultivo-background-darker mt-6 w-full md:max-w-[540px]"
@@ -189,25 +232,93 @@ function ClassifySample() {
               </span>
             </div>
           )}
-          {selectedImage &&
-            (processing ? (
-              <div className="flex flex-row items-center gap-2">
-                <Loader2 className="animate-spin text-cultivo-green-dark" />
-                <span className="font-semibold text-cultivo-green-dark">
-                  Análise em andamento. Por favor, aguarde...
-                </span>
-              </div>
-            ) : (
-              <button
-                className="bg-cultivo-green-dark text-white rounded-lg py-2 px-4 cursor-pointer"
-                onClick={handleClassifySample}
-                disabled={processing}
-              >
-                Classificar
-              </button>
-            ))}
         </form>
       </div>
-    </div>
+
+      <form
+        className="space-y-4 w-full md:max-w-[540px] mt-4"
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+      >
+        <div>
+          <label
+            className="block font-semibold mb-1 text-cultivo-primary"
+            htmlFor="date"
+          >
+            Data da Colheita
+          </label>
+          <Input
+            id="date"
+            type="date"
+            {...register("date")}
+            required
+            className="bg-white"
+          />
+          {errors.date && (
+            <p className="text-red-500 text-sm mt-1">{errors.date.message}</p>
+          )}
+        </div>
+
+        <div>
+          <label
+            className="block font-semibold mb-1 text-cultivo-primary"
+            htmlFor="quantity"
+          >
+            Quantidade (sacas de 60kg)
+          </label>
+          <Input
+            id="quantity"
+            type="number"
+            min={1}
+            {...register("quantity", { valueAsNumber: true })}
+            required
+            className="bg-white"
+          />
+          {errors.quantity && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.quantity.message}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <label
+            className="block font-semibold mb-1 text-cultivo-primary"
+            htmlFor="observations"
+          >
+            Observações
+          </label>
+          <textarea
+            id="observations"
+            {...register("observations")}
+            className="border rounded w-full px-3 py-2 bg-white"
+            rows={3}
+            placeholder="Observações sobre a colheita (opcional)"
+          />
+          {errors.observations && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.observations.message}
+            </p>
+          )}
+        </div>
+        {selectedImage &&
+          (processing ? (
+            <div className="flex flex-row items-center gap-2">
+              <Loader2 className="animate-spin text-cultivo-green-dark" />
+              <span className="font-semibold text-cultivo-green-dark">
+                Análise em andamento. Por favor, aguarde...
+              </span>
+            </div>
+          ) : (
+            <button
+              className="bg-cultivo-green-dark text-white rounded-lg py-2 px-4 cursor-pointer w-full"
+              type="submit"
+              disabled={processing}
+            >
+              Registrar Colheita
+            </button>
+          ))}
+      </form>
+    </section>
   );
 }

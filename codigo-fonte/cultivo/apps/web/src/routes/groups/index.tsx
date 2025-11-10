@@ -6,10 +6,11 @@ import { Button } from "@/components/ui/button";
 import Dialog from "@/components/ui/dialog";
 import "@/styles/groups.css";
 import { api } from "../../../../../packages/backend/convex/_generated/api";
-import { getUserIdFromLocalStorage } from "@/lib/utils";
+import { ensureUserRole, getUserIdFromLocalStorage } from "@/lib/utils";
 
 export const Route = createFileRoute("/groups/")({
   component: RouteComponent,
+  beforeLoad: () => ensureUserRole("Produtor Rural"),
 });
 
 function RouteComponent() {
@@ -45,7 +46,6 @@ function RouteComponent() {
         createdBy: user,
       });
       setForm({ name: "", description: "", stock: 0 });
-      console.log("Created group", id);
     } catch (err) {
       console.error("Create failed", err);
     }
@@ -57,9 +57,7 @@ function RouteComponent() {
   }
 
   return (
-    <div className="flex flex-col mx-auto max-w-3xl px-4 py-6 mt-18">
-      <h1 className="mb-4 text-2xl font-semibold">Grupos</h1>
-
+    <div className="screen flex flex-col mx-auto px-4 py-6">
       <section className="mb-6 rounded-lg border p-4">
         <h2 className="mb-2 font-medium">Criar novo grupo</h2>
         <form className=" gap-2" onSubmit={onCreate}>

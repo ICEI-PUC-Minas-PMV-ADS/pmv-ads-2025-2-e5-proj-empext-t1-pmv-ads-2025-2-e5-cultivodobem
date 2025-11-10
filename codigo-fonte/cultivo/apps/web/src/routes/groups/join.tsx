@@ -1,54 +1,65 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
-import { useQuery, useMutation } from 'convex/react'
-import { api } from '../../../../../packages/backend/convex/_generated/api'
-import { getUserIdFromLocalStorage } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "../../../../../packages/backend/convex/_generated/api";
+import { ensureUserRole, getUserIdFromLocalStorage } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute('/groups/join')({ component: RouteComponent })
+export const Route = createFileRoute("/groups/join")({
+  component: RouteComponent,
+  beforeLoad: () => ensureUserRole("Produtor Rural"),
+});
 
 function RouteComponent() {
-  const groupId = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('groupId') : null
-  const userId = getUserIdFromLocalStorage()
-  const [group, setGroup] = useState<any | null>(null)
-  const addParticipant = useMutation(api.group.addParticipant)
+  const groupId =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("groupId")
+      : null;
+  const userId = getUserIdFromLocalStorage();
+  const [group, setGroup] = useState<any | null>(null);
+  const addParticipant = useMutation(api.group.addParticipant);
 
   useEffect(() => {
-    if (!groupId) return
-    ;(async () => {
+    if (!groupId) return;
+    (async () => {
       try {
-        const res = await fetch('/_/convex/express', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ function: 'group.getById', args: [{ id: groupId }] }),
-        })
-        const payload = await res.json()
-        setGroup(payload?.result ?? null)
+        const res = await fetch("/_/convex/express", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            function: "group.getById",
+            args: [{ id: groupId }],
+          }),
+        });
+        const payload = await res.json();
+        setGroup(payload?.result ?? null);
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
-    })()
-  }, [groupId])
+    })();
+  }, [groupId]);
 
-  if (!groupId) return <div className="p-4">Link inválido.</div>
+  if (!groupId) return <div className="p-4">Link inválido.</div>;
 
   useEffect(() => {
-    if (!group || !userId) return
-    const isOwner = String(userId) === String(group.createdBy) || String(userId) === String(group.userId)
+    if (!group || !userId) return;
+    const isOwner =
+      String(userId) === String(group.createdBy) ||
+      String(userId) === String(group.userId);
     if (isOwner) {
-      window.location.href = '/groups/owned'
+      window.location.href = "/groups/owned";
     }
-  }, [group, userId])
+  }, [group, userId]);
 
   async function onJoin() {
     if (!userId) {
-      alert('Você precisa entrar para participar do grupo.');
-      window.location.href = '/login'
-      return
+      alert("Você precisa entrar para participar do grupo.");
+      window.location.href = "/login";
+      return;
     }
-  await addParticipant({ groupId: groupId as any, userId: userId as any })
-    alert('Você entrou no grupo!')
-    window.location.href = '/groups/participating'
+    await addParticipant({ groupId: groupId as any, userId: userId as any });
+    alert("Você entrou no grupo!");
+    window.location.href = "/groups/participating";
   }
 
   return (
@@ -61,10 +72,15 @@ function RouteComponent() {
           <div className="group-desc">{group.description}</div>
           <div className="mt-3">
             <Button onClick={onJoin}>Entrar no grupo</Button>
-            <Button variant="secondary" onClick={() => window.location.href = '/'}>Cancelar</Button>
+            <Button
+              variant="secondary"
+              onClick={() => (window.location.href = "/")}
+            >
+              Cancelar
+            </Button>
           </div>
         </div>
       )}
     </div>
-  )
+  );
 }

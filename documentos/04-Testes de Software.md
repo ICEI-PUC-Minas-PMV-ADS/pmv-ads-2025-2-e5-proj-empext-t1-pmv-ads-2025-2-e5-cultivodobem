@@ -585,7 +585,9 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
   </tr>
   <tr>
     <td colspan="6" align="center">
-      <span>Colocar vídeo aqui</span> 
+      <span>
+        <video src="https://github.com/user-attachments/assets/e60b5c89-1518-4a4f-8781-d09d67c2c2c6"/>
+      </span> 
     </td>
   </tr>
 </table>
@@ -613,7 +615,9 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
   </tr>
   <tr>
     <td colspan="6" align="center">
-      <span>Colocar vídeo aqui</span> 
+      <span>
+        <video src="https://github.com/user-attachments/assets/e6be1dba-2fca-4126-842b-8f49226da20d"/>
+      </span> 
     </td>
   </tr>
 </table>
@@ -769,7 +773,9 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
   </tr>
   <tr>
     <td colspan="6" align="center">
-      <span>Colocar vídeo aqui</span> 
+      <span>
+        <video src="https://github.com/user-attachments/assets/836fe860-569c-4437-aa5d-5db3fd9f251f"/>
+      </span> 
     </td>
   </tr>
 </table>
@@ -915,19 +921,21 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
   </tr>
   <tr>
     <td colspan="6" align="center">
-      <span>Colocar vídeo aqui</span> 
+      <span>
+              <video src="https://github.com/user-attachments/assets/2d296e0e-6e59-41ac-80df-a405dd8aade4"/>
+      </span> 
     </td>
   </tr>
 </table>
 
 <table>
   <tr>
-    <th colspan="6" width="1000">CT-010 - Visualização de Conteúdos Educativos (Feed)
+    <th colspan="6" width="1000">CT-010 - Visualização de Conteúdos Educativos (Feed); <br>CT-015 - Sistema de Comentários e Curtidas em Conteúdos
 </th>
   </tr>
   <tr>
     <td width="170"><strong>Critérios de êxito</strong></td>
-    <td colspan="5">Sistema exibe o conteúdo do feed como esperado</td>
+    <td colspan="5">Sistema exibe o conteúdo do feed, curtidas e comentários como esperado</td>
   </tr>
     <tr>
     <td><strong>Responsável pelo teste</strong></td>
@@ -944,36 +952,43 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
   </tr>
   <tr>
     <td colspan="6" align="center">
-      <span>Colocar vídeo aqui</span> 
+      <span>
+        <video src="https://github.com/user-attachments/assets/6ce241c6-bcad-4284-b61d-8484f7f7d998"/>
+      </span> 
+      <span>
+        <video src="https://github.com/user-attachments/assets/c786cc90-01c4-4825-8afb-a48283b0cd1d"/>
+      </span>
     </td>
   </tr>
 </table>
 
 <table>
   <tr>
-    <th colspan="6" width="1000">CT-015 - Sistema de Comentários e Curtidas em Conteúdos
+    <th colspan="6" width="1000">CT-011 - Não consigo subir uma imagem;
 </th>
   </tr>
   <tr>
     <td width="170"><strong>Critérios de êxito</strong></td>
-    <td colspan="5">Sistema tem o comportamento de comentários e curtidas como esperado</td>
+    <td colspan="5">Sistema deve deixar subir uma imageme retornar a resposta</td>
   </tr>
     <tr>
     <td><strong>Responsável pelo teste</strong></td>
-    <td width="430">Matheus Castelliano</td>
-     <td width="100"><strong>Data do Teste</strong></td>
-    <td width="150">14/10/2025</td>
+    <td width="430">Juan Andrade</td>
+     <td width="100"><strong></strong></td>
+    <td width="150">15/10/2025</td>
   </tr>
     <tr>
     <td width="170"><strong>Comentário</strong></td>
-    <td colspan="5">O sistema está realizando o comportamento esperado.</td>
+    <td colspan="5">é necessario atualizar o banco de dados.</td>
   </tr>
   <tr>
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
     <td colspan="6" align="center">
-      <span>Colocar vídeo aqui</span> 
+      <span>
+        <img src="https://private-user-images.githubusercontent.com/49418565/500582850-4c3d84da-7267-4aa0-9d3b-802604bd6b7d.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjA5MjExMDQsIm5iZiI6MTc2MDkyMDgwNCwicGF0aCI6Ii80OTQxODU2NS81MDA1ODI4NTAtNGMzZDg0ZGEtNzI2Ny00YWEwLTlkM2ItODAyNjA0YmQ2YjdkLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTEwMjAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUxMDIwVDAwNDAwNFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWY3ZGY5YjQzMjUxYmE5YzI0MTJmMTM3MWVhOTZlOTIwNTE4YjQ4NjU2MmQyNWRkNDlmZDAwZWI4NDdkOTY0NWQmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.mAm2O7OrqW_DatpjNMITLf_cNh2hAkkq58uf8Jb6lDo"/>
+      </span> 
     </td>
   </tr>
 </table>
