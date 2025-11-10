@@ -99,6 +99,7 @@ export default defineSchema({
     createdAt: v.number(),
     userId: v.optional(v.id("users")),
     viewed: v.boolean(),
+    observations: v.optional(v.string()),
   })
     .index("by_user", ["userId"])
     .index("by_group", ["groupId"])

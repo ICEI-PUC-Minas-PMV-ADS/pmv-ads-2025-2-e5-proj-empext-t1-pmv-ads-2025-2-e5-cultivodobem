@@ -12,6 +12,7 @@ export const createProposal = mutation({
     nameBuyer: v.string(),
     buyerId: v.id("users"),
     userId: v.optional(v.id("users")), // ID do produtor que receberá a proposta (opcional se for para grupo)
+    observations: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const proposalId = await ctx.db.insert("proposals", {

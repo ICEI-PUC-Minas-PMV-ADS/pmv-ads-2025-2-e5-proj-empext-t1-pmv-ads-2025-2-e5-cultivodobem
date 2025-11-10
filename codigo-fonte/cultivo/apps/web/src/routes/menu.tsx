@@ -9,7 +9,7 @@ function RouteComponent() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-white mt-20">
       {/* Header - Mobile only */}
       <div className="md:hidden flex items-center h-14 px-4 fixed top-0 left-0 right-0 bg-white border-b z-50">
         <button

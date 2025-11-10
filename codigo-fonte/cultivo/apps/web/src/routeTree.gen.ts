@@ -10,7 +10,6 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
-import { Route as ProposalsRouteImport } from './routes/proposals'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotRouteImport } from './routes/forgot'
@@ -19,6 +18,7 @@ import { Route as EditusersRouteImport } from './routes/editusers'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SearchHarvestsIndexRouteImport } from './routes/search-harvests/index'
+import { Route as ProposalsIndexRouteImport } from './routes/proposals/index'
 import { Route as HarvestsIndexRouteImport } from './routes/harvests/index'
 import { Route as GroupsIndexRouteImport } from './routes/groups/index'
 import { Route as ClassifierIndexRouteImport } from './routes/classifier/index'
@@ -34,11 +34,6 @@ import { Route as ClassifierIdRouteImport } from './routes/classifier/$id'
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProposalsRoute = ProposalsRouteImport.update({
-  id: '/proposals',
-  path: '/proposals',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MenuRoute = MenuRouteImport.update({
@@ -81,6 +76,11 @@ const SearchHarvestsIndexRoute = SearchHarvestsIndexRouteImport.update({
   path: '/search-harvests/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProposalsIndexRoute = ProposalsIndexRouteImport.update({
+  id: '/proposals/',
+  path: '/proposals/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HarvestsIndexRoute = HarvestsIndexRouteImport.update({
   id: '/harvests/',
   path: '/harvests/',
@@ -97,9 +97,9 @@ const ClassifierIndexRoute = ClassifierIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProposalsCreateRoute = ProposalsCreateRouteImport.update({
-  id: '/create',
-  path: '/create',
-  getParentRoute: () => ProposalsRoute,
+  id: '/proposals/create',
+  path: '/proposals/create',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const HarvestsCreateRoute = HarvestsCreateRouteImport.update({
   id: '/harvests/create',
@@ -145,19 +145,19 @@ export interface FileRoutesByFullPath {
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
-  '/proposals': typeof ProposalsRouteWithChildren
   '/signup': typeof SignupRoute
   '/classifier/$id': typeof ClassifierIdRoute
   '/groups/$groupId': typeof GroupsGroupIdRoute
   '/groups/join': typeof GroupsJoinRoute
   '/groups/owned': typeof GroupsOwnedRoute
   '/groups/participating': typeof GroupsParticipatingRoute
-  '/proposals/create': typeof ProposalsCreateRoute
   '/harvests/$id': typeof HarvestsIdRoute
   '/harvests/create': typeof HarvestsCreateRoute
+  '/proposals/create': typeof ProposalsCreateRoute
   '/classifier': typeof ClassifierIndexRoute
   '/groups': typeof GroupsIndexRoute
   '/harvests': typeof HarvestsIndexRoute
+  '/proposals': typeof ProposalsIndexRoute
   '/search-harvests': typeof SearchHarvestsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -168,19 +168,19 @@ export interface FileRoutesByTo {
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
-  '/proposals': typeof ProposalsRouteWithChildren
   '/signup': typeof SignupRoute
   '/classifier/$id': typeof ClassifierIdRoute
   '/groups/$groupId': typeof GroupsGroupIdRoute
   '/groups/join': typeof GroupsJoinRoute
   '/groups/owned': typeof GroupsOwnedRoute
   '/groups/participating': typeof GroupsParticipatingRoute
-  '/proposals/create': typeof ProposalsCreateRoute
   '/harvests/$id': typeof HarvestsIdRoute
   '/harvests/create': typeof HarvestsCreateRoute
+  '/proposals/create': typeof ProposalsCreateRoute
   '/classifier': typeof ClassifierIndexRoute
   '/groups': typeof GroupsIndexRoute
   '/harvests': typeof HarvestsIndexRoute
+  '/proposals': typeof ProposalsIndexRoute
   '/search-harvests': typeof SearchHarvestsIndexRoute
 }
 export interface FileRoutesById {
@@ -192,19 +192,19 @@ export interface FileRoutesById {
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
-  '/proposals': typeof ProposalsRouteWithChildren
   '/signup': typeof SignupRoute
   '/classifier/$id': typeof ClassifierIdRoute
   '/groups/$groupId': typeof GroupsGroupIdRoute
   '/groups/join': typeof GroupsJoinRoute
   '/groups/owned': typeof GroupsOwnedRoute
   '/groups/participating': typeof GroupsParticipatingRoute
-  '/proposals/create': typeof ProposalsCreateRoute
   '/harvests/$id': typeof HarvestsIdRoute
   '/harvests/create': typeof HarvestsCreateRoute
+  '/proposals/create': typeof ProposalsCreateRoute
   '/classifier/': typeof ClassifierIndexRoute
   '/groups/': typeof GroupsIndexRoute
   '/harvests/': typeof HarvestsIndexRoute
+  '/proposals/': typeof ProposalsIndexRoute
   '/search-harvests/': typeof SearchHarvestsIndexRoute
 }
 export interface FileRouteTypes {
@@ -217,19 +217,19 @@ export interface FileRouteTypes {
     | '/forgot'
     | '/login'
     | '/menu'
-    | '/proposals'
     | '/signup'
     | '/classifier/$id'
     | '/groups/$groupId'
     | '/groups/join'
     | '/groups/owned'
     | '/groups/participating'
-    | '/proposals/create'
     | '/harvests/$id'
     | '/harvests/create'
+    | '/proposals/create'
     | '/classifier'
     | '/groups'
     | '/harvests'
+    | '/proposals'
     | '/search-harvests'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -240,19 +240,19 @@ export interface FileRouteTypes {
     | '/forgot'
     | '/login'
     | '/menu'
-    | '/proposals'
     | '/signup'
     | '/classifier/$id'
     | '/groups/$groupId'
     | '/groups/join'
     | '/groups/owned'
     | '/groups/participating'
-    | '/proposals/create'
     | '/harvests/$id'
     | '/harvests/create'
+    | '/proposals/create'
     | '/classifier'
     | '/groups'
     | '/harvests'
+    | '/proposals'
     | '/search-harvests'
   id:
     | '__root__'
@@ -263,19 +263,19 @@ export interface FileRouteTypes {
     | '/forgot'
     | '/login'
     | '/menu'
-    | '/proposals'
     | '/signup'
     | '/classifier/$id'
     | '/groups/$groupId'
     | '/groups/join'
     | '/groups/owned'
     | '/groups/participating'
-    | '/proposals/create'
     | '/harvests/$id'
     | '/harvests/create'
+    | '/proposals/create'
     | '/classifier/'
     | '/groups/'
     | '/harvests/'
+    | '/proposals/'
     | '/search-harvests/'
   fileRoutesById: FileRoutesById
 }
@@ -287,7 +287,6 @@ export interface RootRouteChildren {
   ForgotRoute: typeof ForgotRoute
   LoginRoute: typeof LoginRoute
   MenuRoute: typeof MenuRoute
-  ProposalsRoute: typeof ProposalsRouteWithChildren
   SignupRoute: typeof SignupRoute
   ClassifierIdRoute: typeof ClassifierIdRoute
   GroupsGroupIdRoute: typeof GroupsGroupIdRoute
@@ -296,9 +295,11 @@ export interface RootRouteChildren {
   GroupsParticipatingRoute: typeof GroupsParticipatingRoute
   HarvestsIdRoute: typeof HarvestsIdRoute
   HarvestsCreateRoute: typeof HarvestsCreateRoute
+  ProposalsCreateRoute: typeof ProposalsCreateRoute
   ClassifierIndexRoute: typeof ClassifierIndexRoute
   GroupsIndexRoute: typeof GroupsIndexRoute
   HarvestsIndexRoute: typeof HarvestsIndexRoute
+  ProposalsIndexRoute: typeof ProposalsIndexRoute
   SearchHarvestsIndexRoute: typeof SearchHarvestsIndexRoute
 }
 
@@ -309,13 +310,6 @@ declare module '@tanstack/react-router' {
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/proposals': {
-      id: '/proposals'
-      path: '/proposals'
-      fullPath: '/proposals'
-      preLoaderRoute: typeof ProposalsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/menu': {
@@ -374,6 +368,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchHarvestsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/proposals/': {
+      id: '/proposals/'
+      path: '/proposals'
+      fullPath: '/proposals'
+      preLoaderRoute: typeof ProposalsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/harvests/': {
       id: '/harvests/'
       path: '/harvests'
@@ -397,10 +398,10 @@ declare module '@tanstack/react-router' {
     }
     '/proposals/create': {
       id: '/proposals/create'
-      path: '/create'
+      path: '/proposals/create'
       fullPath: '/proposals/create'
       preLoaderRoute: typeof ProposalsCreateRouteImport
-      parentRoute: typeof ProposalsRoute
+      parentRoute: typeof rootRouteImport
     }
     '/harvests/create': {
       id: '/harvests/create'
@@ -454,18 +455,6 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface ProposalsRouteChildren {
-  ProposalsCreateRoute: typeof ProposalsCreateRoute
-}
-
-const ProposalsRouteChildren: ProposalsRouteChildren = {
-  ProposalsCreateRoute: ProposalsCreateRoute,
-}
-
-const ProposalsRouteWithChildren = ProposalsRoute._addFileChildren(
-  ProposalsRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AssistantRoute: AssistantRoute,
@@ -474,7 +463,6 @@ const rootRouteChildren: RootRouteChildren = {
   ForgotRoute: ForgotRoute,
   LoginRoute: LoginRoute,
   MenuRoute: MenuRoute,
-  ProposalsRoute: ProposalsRouteWithChildren,
   SignupRoute: SignupRoute,
   ClassifierIdRoute: ClassifierIdRoute,
   GroupsGroupIdRoute: GroupsGroupIdRoute,
@@ -483,9 +471,11 @@ const rootRouteChildren: RootRouteChildren = {
   GroupsParticipatingRoute: GroupsParticipatingRoute,
   HarvestsIdRoute: HarvestsIdRoute,
   HarvestsCreateRoute: HarvestsCreateRoute,
+  ProposalsCreateRoute: ProposalsCreateRoute,
   ClassifierIndexRoute: ClassifierIndexRoute,
   GroupsIndexRoute: GroupsIndexRoute,
   HarvestsIndexRoute: HarvestsIndexRoute,
+  ProposalsIndexRoute: ProposalsIndexRoute,
   SearchHarvestsIndexRoute: SearchHarvestsIndexRoute,
 }
 export const routeTree = rootRouteImport

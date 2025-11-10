@@ -13,7 +13,7 @@ const getMenuItemsByUserType = (type: string) => {
     return [
       { name: "Painel", icon: House, href: "/" },
       { name: "Grupo", icon: Users, href: "/groups" },
-      { name: "Feed", icon: Newspaper, href: "/feed" },
+      { name: "Informações", icon: Newspaper, href: "/feed" },
       { name: "Colheitas", icon: Archive, href: "/harvests" },
       { name: "Menu", icon: Menu, href: "/menu" },
     ];
@@ -21,7 +21,7 @@ const getMenuItemsByUserType = (type: string) => {
     return [
       { name: "Painel", icon: House, href: "/" },
       { name: "Propostas", icon: HandCoins, href: "/proposals" },
-      { name: "Feed", icon: Newspaper, href: "/feed" },
+      { name: "Informações", icon: Newspaper, href: "/feed" },
       { name: "Colheitas", icon: Archive, href: "/search-harvests" },
       { name: "Menu", icon: Menu, href: "/menu" },
     ];
