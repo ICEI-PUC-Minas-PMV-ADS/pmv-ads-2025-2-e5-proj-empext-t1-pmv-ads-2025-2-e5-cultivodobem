@@ -31,8 +31,6 @@ export function ensureUserRole(role: string) {
     });
   }
 
-  console.log(JSON.parse(user).tipo_usuario);
-
   if (!(JSON.parse(user).tipo_usuario === role)) {
     throw redirect({
       to: "/",

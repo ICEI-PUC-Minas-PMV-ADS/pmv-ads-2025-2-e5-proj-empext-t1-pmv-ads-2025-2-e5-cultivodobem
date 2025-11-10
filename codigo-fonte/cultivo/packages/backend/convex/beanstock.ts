@@ -6,8 +6,6 @@ export const getBeanStocks = query({
     const groups = await ctx.db.query("groups").collect();
     const users = await ctx.db.query("users").collect();
 
-    console.log(groups);
-    
     for (const group of groups) {
       const participantsIds = group.participants;
       const user = users.find((user) => participantsIds.includes(user._id));

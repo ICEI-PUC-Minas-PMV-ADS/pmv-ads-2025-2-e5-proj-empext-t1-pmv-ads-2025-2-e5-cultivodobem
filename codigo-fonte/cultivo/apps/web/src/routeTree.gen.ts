@@ -18,9 +18,11 @@ import { Route as EditusersRouteImport } from './routes/editusers'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SearchHarvestsIndexRouteImport } from './routes/search-harvests/index'
+import { Route as ProposalsIndexRouteImport } from './routes/proposals/index'
 import { Route as HarvestsIndexRouteImport } from './routes/harvests/index'
 import { Route as GroupsIndexRouteImport } from './routes/groups/index'
 import { Route as ClassifierIndexRouteImport } from './routes/classifier/index'
+import { Route as ProposalsCreateRouteImport } from './routes/proposals/create'
 import { Route as HarvestsCreateRouteImport } from './routes/harvests/create'
 import { Route as HarvestsIdRouteImport } from './routes/harvests/$id'
 import { Route as GroupsParticipatingRouteImport } from './routes/groups/participating'
@@ -74,6 +76,11 @@ const SearchHarvestsIndexRoute = SearchHarvestsIndexRouteImport.update({
   path: '/search-harvests/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProposalsIndexRoute = ProposalsIndexRouteImport.update({
+  id: '/proposals/',
+  path: '/proposals/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HarvestsIndexRoute = HarvestsIndexRouteImport.update({
   id: '/harvests/',
   path: '/harvests/',
@@ -87,6 +94,11 @@ const GroupsIndexRoute = GroupsIndexRouteImport.update({
 const ClassifierIndexRoute = ClassifierIndexRouteImport.update({
   id: '/classifier/',
   path: '/classifier/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProposalsCreateRoute = ProposalsCreateRouteImport.update({
+  id: '/proposals/create',
+  path: '/proposals/create',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HarvestsCreateRoute = HarvestsCreateRouteImport.update({
@@ -141,9 +153,11 @@ export interface FileRoutesByFullPath {
   '/groups/participating': typeof GroupsParticipatingRoute
   '/harvests/$id': typeof HarvestsIdRoute
   '/harvests/create': typeof HarvestsCreateRoute
+  '/proposals/create': typeof ProposalsCreateRoute
   '/classifier': typeof ClassifierIndexRoute
   '/groups': typeof GroupsIndexRoute
   '/harvests': typeof HarvestsIndexRoute
+  '/proposals': typeof ProposalsIndexRoute
   '/search-harvests': typeof SearchHarvestsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -162,9 +176,11 @@ export interface FileRoutesByTo {
   '/groups/participating': typeof GroupsParticipatingRoute
   '/harvests/$id': typeof HarvestsIdRoute
   '/harvests/create': typeof HarvestsCreateRoute
+  '/proposals/create': typeof ProposalsCreateRoute
   '/classifier': typeof ClassifierIndexRoute
   '/groups': typeof GroupsIndexRoute
   '/harvests': typeof HarvestsIndexRoute
+  '/proposals': typeof ProposalsIndexRoute
   '/search-harvests': typeof SearchHarvestsIndexRoute
 }
 export interface FileRoutesById {
@@ -184,9 +200,11 @@ export interface FileRoutesById {
   '/groups/participating': typeof GroupsParticipatingRoute
   '/harvests/$id': typeof HarvestsIdRoute
   '/harvests/create': typeof HarvestsCreateRoute
+  '/proposals/create': typeof ProposalsCreateRoute
   '/classifier/': typeof ClassifierIndexRoute
   '/groups/': typeof GroupsIndexRoute
   '/harvests/': typeof HarvestsIndexRoute
+  '/proposals/': typeof ProposalsIndexRoute
   '/search-harvests/': typeof SearchHarvestsIndexRoute
 }
 export interface FileRouteTypes {
@@ -207,9 +225,11 @@ export interface FileRouteTypes {
     | '/groups/participating'
     | '/harvests/$id'
     | '/harvests/create'
+    | '/proposals/create'
     | '/classifier'
     | '/groups'
     | '/harvests'
+    | '/proposals'
     | '/search-harvests'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -228,9 +248,11 @@ export interface FileRouteTypes {
     | '/groups/participating'
     | '/harvests/$id'
     | '/harvests/create'
+    | '/proposals/create'
     | '/classifier'
     | '/groups'
     | '/harvests'
+    | '/proposals'
     | '/search-harvests'
   id:
     | '__root__'
@@ -249,9 +271,11 @@ export interface FileRouteTypes {
     | '/groups/participating'
     | '/harvests/$id'
     | '/harvests/create'
+    | '/proposals/create'
     | '/classifier/'
     | '/groups/'
     | '/harvests/'
+    | '/proposals/'
     | '/search-harvests/'
   fileRoutesById: FileRoutesById
 }
@@ -271,9 +295,11 @@ export interface RootRouteChildren {
   GroupsParticipatingRoute: typeof GroupsParticipatingRoute
   HarvestsIdRoute: typeof HarvestsIdRoute
   HarvestsCreateRoute: typeof HarvestsCreateRoute
+  ProposalsCreateRoute: typeof ProposalsCreateRoute
   ClassifierIndexRoute: typeof ClassifierIndexRoute
   GroupsIndexRoute: typeof GroupsIndexRoute
   HarvestsIndexRoute: typeof HarvestsIndexRoute
+  ProposalsIndexRoute: typeof ProposalsIndexRoute
   SearchHarvestsIndexRoute: typeof SearchHarvestsIndexRoute
 }
 
@@ -342,6 +368,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchHarvestsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/proposals/': {
+      id: '/proposals/'
+      path: '/proposals'
+      fullPath: '/proposals'
+      preLoaderRoute: typeof ProposalsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/harvests/': {
       id: '/harvests/'
       path: '/harvests'
@@ -361,6 +394,13 @@ declare module '@tanstack/react-router' {
       path: '/classifier'
       fullPath: '/classifier'
       preLoaderRoute: typeof ClassifierIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/proposals/create': {
+      id: '/proposals/create'
+      path: '/proposals/create'
+      fullPath: '/proposals/create'
+      preLoaderRoute: typeof ProposalsCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/harvests/create': {
@@ -431,9 +471,11 @@ const rootRouteChildren: RootRouteChildren = {
   GroupsParticipatingRoute: GroupsParticipatingRoute,
   HarvestsIdRoute: HarvestsIdRoute,
   HarvestsCreateRoute: HarvestsCreateRoute,
+  ProposalsCreateRoute: ProposalsCreateRoute,
   ClassifierIndexRoute: ClassifierIndexRoute,
   GroupsIndexRoute: GroupsIndexRoute,
   HarvestsIndexRoute: HarvestsIndexRoute,
+  ProposalsIndexRoute: ProposalsIndexRoute,
   SearchHarvestsIndexRoute: SearchHarvestsIndexRoute,
 }
 export const routeTree = rootRouteImport

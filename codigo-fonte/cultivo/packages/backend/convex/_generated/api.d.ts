@@ -22,6 +22,7 @@ import type * as group from "../group.js";
 import type * as harvests from "../harvests.js";
 import type * as postComments from "../postComments.js";
 import type * as postLikes from "../postLikes.js";
+import type * as proposals from "../proposals.js";
 import type * as register from "../register.js";
 import type * as upload from "../upload.js";
 import type * as user from "../user.js";
@@ -44,6 +45,7 @@ declare const fullApi: ApiFromModules<{
   harvests: typeof harvests;
   postComments: typeof postComments;
   postLikes: typeof postLikes;
+  proposals: typeof proposals;
   register: typeof register;
   upload: typeof upload;
   user: typeof user;

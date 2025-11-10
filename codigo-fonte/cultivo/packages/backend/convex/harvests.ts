@@ -72,3 +72,44 @@ export const deleteHarvest = mutation({
     return id;
   },
 });
+
+// Listar todas as colheitas com informações do produtor e análise
+export const getAllHarvestsWithDetails = query({
+  args: {},
+  handler: async (ctx) => {
+    const harvests = await ctx.db.query("harvests").order("desc").collect();
+
+    const harvestsWithDetails = await Promise.all(
+      harvests.map(async (harvest) => {
+        const user = await ctx.db.get(harvest.userId);
+        let analysis = null;
+
+        if (harvest.analysisId) {
+          analysis = await ctx.db.get(harvest.analysisId);
+        }
+
+        return {
+          ...harvest,
+          user: user
+            ? {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                cidade: user.cidade,
+                estado: user.estado,
+              }
+            : null,
+          analysis: analysis
+            ? {
+                imageId: analysis.imageId,
+                classification: analysis.classification,
+                colorimetry: analysis.colorimetry,
+              }
+            : null,
+        };
+      })
+    );
+
+    return harvestsWithDetails;
+  },
+});

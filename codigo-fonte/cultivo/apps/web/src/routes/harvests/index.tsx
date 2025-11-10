@@ -64,7 +64,7 @@ function HarvestsScreen() {
                 Ver <ExternalLink />
               </Link>
             </div>
-            <div className="flex flex-row justify-between mt-4">
+            <div className="flex flex-col mt-4">
               <div>
                 <p className="text-cultivo-primary text-base">
                   <strong className="font-bold">Quantidade:</strong>{" "}
@@ -74,13 +74,15 @@ function HarvestsScreen() {
                   {harvest.observations || "Nenhuma observação"}
                 </p>
               </div>
-              <button
-                className="flex flex-row gap-2 text-red-500 ml-auto cursor-pointer"
-                onClick={() => handleDeleteHarvest(harvest._id)}
-              >
-                Excluir
-                <Trash />
-              </button>
+              <div className="flex flex-row justify-end mt-4">
+                <button
+                  className="flex flex-row items-center gap-2 text-red-500 px-4 py-2 cursor-pointer border border-red-300 rounded-lg hover:bg-red-50"
+                  onClick={() => handleDeleteHarvest(harvest._id)}
+                >
+                  <Trash className="w-4 h-4" />
+                  Excluir
+                </button>
+              </div>
             </div>
           </div>
         ))}

@@ -22,12 +22,9 @@ export function Feed() {
   const getCurrentUserId = (): Id<"users"> | undefined => {
     try {
       const stored = localStorage.getItem("user");
-      console.log("🔍 localStorage 'user':", stored);
 
       if (stored) {
         const user = JSON.parse(stored);
-        console.log("👤 Usuário parsed:", user);
-        console.log("🆔 user._id:", user._id);
         return user._id;
       }
     } catch (error) {
@@ -37,7 +34,6 @@ export function Feed() {
   };
 
   const currentUserId = getCurrentUserId();
-  console.log("🎯 currentUserId final:", currentUserId);
 
   // Carregar posts iniciais
   useEffect(() => {
