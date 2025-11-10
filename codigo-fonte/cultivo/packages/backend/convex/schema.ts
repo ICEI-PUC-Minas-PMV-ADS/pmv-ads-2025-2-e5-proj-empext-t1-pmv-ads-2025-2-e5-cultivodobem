@@ -136,4 +136,15 @@ export default defineSchema({
     .index("by_user", ["userId"])
     .index("by_post", ["strapiPostId"])
     .index("by_user_post", ["userId", "strapiPostId"]),
+
+  // Push subscriptions for web push notifications
+  pushSubscriptions: defineTable({
+    endpoint: v.string(),
+    // keys: { p256dh, auth }
+    keys: v.object({ p256dh: v.string(), auth: v.string() }),
+    // full subscription is stored partly as fields above; you can store extra meta if needed
+    userId: v.optional(v.id("users")),
+    createdAt: v.number(),
+    updatedAt: v.optional(v.number()),
+  }).index("by_endpoint", ["endpoint"]).index("by_user", ["userId"]),
 });

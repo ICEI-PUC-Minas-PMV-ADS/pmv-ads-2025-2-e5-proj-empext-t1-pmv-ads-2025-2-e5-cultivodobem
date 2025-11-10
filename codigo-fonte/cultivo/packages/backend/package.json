@@ -10,12 +10,14 @@
   "description": "",
   "devDependencies": {
     "@types/node": "^24.3.0",
+    "@types/web-push": "^3.6.4",
     "typescript": "^5.9.2"
   },
   "dependencies": {
     "@google/genai": "^1.22.0",
     "axios": "^1.13.2",
     "buffer": "^6.0.3",
-    "convex": "^1.25.4"
+    "convex": "^1.25.4",
+    "web-push": "^3.6.7"
   }
 }

@@ -2,6 +2,7 @@ import logo from "@/assets/logo.png";
 import { Link, useRouter } from "@tanstack/react-router";
 import { LogIn, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
+import InstallPWAButton from "@/components/InstallPWAButton";
 
 const getMenuItemsByUserType = (type?: string) => {
   if (!type) {
@@ -93,6 +94,9 @@ export default function HeaderNavigation() {
               <span className="max-md:hidden">
                 Olá, <strong>{sessionUser.name ?? sessionUser.email}</strong>
               </span>
+              <div className="hidden max-md:flex">
+                <InstallPWAButton />
+              </div>
               <button
                 className="flex flex-row justify-center items-center gap-2 bg-cultivo-secondary text-white font-medium rounded-lg py-1 px-2 cursor-pointer"
                 onClick={logout}

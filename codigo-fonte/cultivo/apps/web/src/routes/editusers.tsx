@@ -1,7 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, useRef } from "react";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "../../../../packages/backend/convex/_generated/api.js";
+import EnableNotificationsButton from "@/components/EnableNotificationsButton";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -70,6 +71,8 @@ function EditUserRoute() {
   );
   const update = useMutation(api.user.update);
   const remove = useMutation(api.user.remove);
+  const pushSubscribe = useMutation(api.pushSubscriptions.subscribe);
+  const sendNotification = useAction(api.push.sendToUser);
 
   // ----- estado do formulário ------------------------------------------------
   const [form, setForm] = useState({
@@ -146,6 +149,21 @@ function EditUserRoute() {
         if (form.foto_url !== undefined) next.foto_url = form.foto_url;
         localStorage.setItem("user", JSON.stringify(next));
         window.dispatchEvent(new Event("auth-changed"));
+        try {
+          // Send a push notification to the current user informing of profile update
+          if (currentUserId) {
+            const payload = JSON.stringify({
+              title: "Perfil atualizado",
+              body: "Seu perfil foi atualizado com sucesso.",
+              url: "/editusers",
+            });
+            // call server-side Convex mutation to send notification to this user
+            await sendNotification({ userId: currentUserId, payload });
+          }
+        } catch (e) {
+          // don't block user flow on notification errors
+          console.warn("Failed to send push notification after profile update", e);
+        }
       }
 
       toast.success("Perfil atualizado com sucesso!");
@@ -216,6 +234,69 @@ function EditUserRoute() {
               onChange={onPickPhoto}
             />
           </div>
+
+          {/* Notifications opt-in - Always show if user is logged in */}
+            {currentUserId && (
+              <EnableNotificationsButton
+                userId={currentUserId as any}
+                onSubscribe={async (sub: any) => {
+                  console.log('editusers: Subscribing with:', sub);
+                  try {
+                    const result = await pushSubscribe({ 
+                      endpoint: sub.endpoint, 
+                      keys: sub.keys, 
+                      userId: currentUserId as any 
+                    });
+                    console.log('editusers: Subscribe result:', result);
+                    return result;
+                  } catch (error) {
+                    console.error('editusers: Subscribe error:', error);
+                    throw error;
+                  }
+                }}
+              />
+            )}
+            
+            {/* Test notification button */}
+              <div className="mb-3 text-center">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={async () => {
+                    if (!currentUserId) {
+                      toast.error('Usuário não autenticado');
+                      return;
+                    }
+                    try {
+                      const payload = JSON.stringify({ 
+                        title: 'Teste de notificação', 
+                        body: 'Esta é uma notificação de teste.', 
+                        url: '/'
+                      });
+                      console.log('Sending test notification for user:', currentUserId);
+                      const results = await sendNotification({ userId: currentUserId as any, payload });
+                      console.log('Test notification results:', results);
+                      
+                      if (results && results.length > 0) {
+                        const sent = results.filter((r: any) => r.status === 'sent').length;
+                        if (sent > 0) {
+                          toast.success(`Notificação enviada com sucesso para ${sent} dispositivo(s)`);
+                        } else {
+                          toast.error('Nenhuma notificação foi enviada. Verifique se você ativou as notificações.');
+                        }
+                      } else {
+                        toast.error('Nenhuma assinatura encontrada. Clique em "Ativar notificações" primeiro.');
+                      }
+                    } catch (e: any) {
+                      console.error('Erro ao enviar notificação de teste', e);
+                      toast.error('Erro: ' + (e?.message || 'Erro desconhecido'));
+                    }
+                  }}
+                >
+                  Testar notificação
+                </Button>
+              </div>
+            {/* )} */}
 
           {/* Modal da Foto */}
           <Modal

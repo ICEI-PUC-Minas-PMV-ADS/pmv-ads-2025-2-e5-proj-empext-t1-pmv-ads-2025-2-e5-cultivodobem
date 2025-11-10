@@ -1,4 +1,5 @@
-import { query, mutation } from "./_generated/server";
+import { query, mutation, internalAction } from "./_generated/server";
+import { internal, api } from "./_generated/api";
 import { v } from "convex/values";
 
 // helper to fetch user objects for participant ids and strip sensitive fields
@@ -111,8 +112,29 @@ export const addParticipant = mutation({
     // avoid duplicates
     if (participants.some((p: any) => String(p) === String(userId)))
       return groupId;
+    
+    // Get the user info who is joining
+    const joiningUser = await ctx.db.get(userId);
+    
     participants.push(userId);
     await ctx.db.patch(groupId, { participants });
+    
+    // Send notification to group creator if it's not the same user joining
+    if (String(g.createdBy) !== String(userId)) {
+      try {
+        await ctx.scheduler.runAfter(0, (internal as any).group.sendJoinNotification, {
+          creatorId: g.createdBy,
+          joiningUserId: userId,
+          joiningUserName: joiningUser?.name || "Um usuário",
+          groupId: groupId,
+          groupName: g.name,
+        });
+        console.log(`Join notification scheduled for group creator ${g.createdBy}`);
+      } catch (error) {
+        console.error("Error scheduling join notification:", error);
+      }
+    }
+    
     return groupId;
   },
 });
@@ -136,5 +158,39 @@ export const remove = mutation({
   handler: async (ctx, { id }) => {
     await ctx.db.delete(id);
     return id;
+  },
+});
+
+// Internal action to send notification when someone joins a group
+export const sendJoinNotification: any = internalAction({
+  args: {
+    creatorId: v.id("users"),
+    joiningUserId: v.id("users"),
+    joiningUserName: v.string(),
+    groupId: v.id("groups"),
+    groupName: v.string(),
+  },
+  handler: async (ctx, { creatorId, joiningUserId, joiningUserName, groupId, groupName }): Promise<any> => {
+    console.log(`Sending join notification to creator ${creatorId} for user ${joiningUserName} joining group ${groupName}`);
+    
+    try {
+      // Call the push notification action
+      const payload = JSON.stringify({
+        title: "Novo Membro no Grupo! 👥",
+        body: `${joiningUserName} entrou no grupo "${groupName}"`,
+        url: `/groups/${groupId}`,
+      });
+
+      const results: any = await ctx.runAction(api.push.sendToUser, {
+        userId: creatorId,
+        payload,
+      });
+
+      console.log(`Join notification sent. Results:`, results);
+      return results;
+    } catch (error) {
+      console.error("Error sending join notification:", error);
+      throw error;
+    }
   },
 });
