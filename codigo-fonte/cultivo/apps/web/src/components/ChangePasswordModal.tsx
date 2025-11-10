@@ -11,16 +11,26 @@ interface ChangePasswordModalProps {
   open: boolean;
   onClose: () => void;
   userId: string;
+  passwordRe: RegExp;
 }
+
+type PasswordForm = {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+};
+
+type PasswordErrors = Partial<Record<keyof PasswordForm, string>>;
 
 export function ChangePasswordModal({
   open,
   onClose,
   userId,
+  passwordRe,
 }: ChangePasswordModalProps) {
   const changePassword = useMutation(api.user.changePassword);
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<PasswordForm>({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
@@ -33,35 +43,46 @@ export function ChangePasswordModal({
   });
 
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<PasswordErrors>({});
+  const [topError, setTopError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validações
+    const nextErrors: PasswordErrors = {};
+
     if (!form.currentPassword) {
-      toast.error("Digite sua senha atual");
-      return;
+      nextErrors.currentPassword = "Informe sua senha atual.";
     }
 
     if (!form.newPassword) {
-      toast.error("Digite a nova senha");
+      nextErrors.newPassword = "Crie uma nova senha.";
+    } else if (!passwordRe.test(form.newPassword)) {
+      nextErrors.newPassword =
+        "A senha deve ter no mínimo 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais.";
+    }
+
+    if (!form.confirmPassword) {
+      nextErrors.confirmPassword = "Repita a nova senha.";
+    } else if (form.newPassword && form.confirmPassword !== form.newPassword) {
+      nextErrors.confirmPassword = "As senhas não coincidem.";
+    }
+
+    if (
+      form.currentPassword &&
+      form.newPassword &&
+      form.currentPassword === form.newPassword
+    ) {
+      nextErrors.newPassword = "A nova senha deve ser diferente da atual.";
+    }
+
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) {
+      setTopError("Corrija os campos destacados antes de continuar.");
       return;
     }
 
-    if (form.newPassword.length < 6) {
-      toast.error("A nova senha deve ter pelo menos 6 caracteres");
-      return;
-    }
-
-    if (form.newPassword !== form.confirmPassword) {
-      toast.error("As senhas não conferem");
-      return;
-    }
-
-    if (form.currentPassword === form.newPassword) {
-      toast.error("A nova senha deve ser diferente da atual");
-      return;
-    }
+    setTopError(null);
 
     setLoading(true);
 
@@ -80,6 +101,7 @@ export function ChangePasswordModal({
         newPassword: "",
         confirmPassword: "",
       });
+      setErrors({});
 
       onClose();
     } catch (error) {
@@ -96,6 +118,11 @@ export function ChangePasswordModal({
   };
 
   if (!open) return null;
+
+  const errClass = (k: keyof PasswordForm) =>
+    `h-11 rounded-xl border pr-10 ${
+      errors[k] ? "border-red-500 bg-red-50" : ""
+    }`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
@@ -125,6 +152,12 @@ export function ChangePasswordModal({
           </button>
         </div>
 
+        {topError && (
+          <div className="mb-3 rounded-xl border border-red-400 bg-red-50 px-4 py-2 text-sm text-red-700">
+            {topError}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Senha atual */}
           <div className="space-y-2">
@@ -138,7 +171,9 @@ export function ChangePasswordModal({
                 onChange={(e) =>
                   setForm({ ...form, currentPassword: e.target.value })
                 }
-                className="edit-input pr-10"
+                className={errClass("currentPassword")}
+                style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
+                aria-invalid={!!errors.currentPassword}
                 disabled={loading}
                 required
               />
@@ -155,6 +190,9 @@ export function ChangePasswordModal({
                 )}
               </button>
             </div>
+            {errors.currentPassword && (
+              <p className="text-xs text-red-600">{errors.currentPassword}</p>
+            )}
           </div>
 
           {/* Nova senha */}
@@ -164,15 +202,16 @@ export function ChangePasswordModal({
               <Input
                 id="newPassword"
                 type={showPasswords.new ? "text" : "password"}
-                placeholder="Digite a nova senha (mín. 6 caracteres)"
+                placeholder="Crie uma senha forte"
                 value={form.newPassword}
                 onChange={(e) =>
                   setForm({ ...form, newPassword: e.target.value })
                 }
-                className="edit-input pr-10"
+                className={errClass("newPassword")}
+                style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
+                aria-invalid={!!errors.newPassword}
                 disabled={loading}
                 required
-                minLength={6}
               />
               <button
                 type="button"
@@ -183,6 +222,9 @@ export function ChangePasswordModal({
                 {showPasswords.new ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
+            {errors.newPassword && (
+              <p className="text-xs text-red-600">{errors.newPassword}</p>
+            )}
           </div>
 
           {/* Confirmar nova senha */}
@@ -197,7 +239,9 @@ export function ChangePasswordModal({
                 onChange={(e) =>
                   setForm({ ...form, confirmPassword: e.target.value })
                 }
-                className="edit-input pr-10"
+                className={errClass("confirmPassword")}
+                style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
+                aria-invalid={!!errors.confirmPassword}
                 disabled={loading}
                 required
               />
@@ -214,6 +258,9 @@ export function ChangePasswordModal({
                 )}
               </button>
             </div>
+            {errors.confirmPassword && (
+              <p className="text-xs text-red-600">{errors.confirmPassword}</p>
+            )}
           </div>
 
           {/* Indicador de força da senha */}

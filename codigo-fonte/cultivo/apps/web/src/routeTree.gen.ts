@@ -10,11 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as ProposalsRouteImport } from './routes/proposals'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotRouteImport } from './routes/forgot'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as EditusersRouteImport } from './routes/editusers'
+import { Route as BeanpriceRouteImport } from './routes/beanprice'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SearchHarvestsIndexRouteImport } from './routes/search-harvests/index'
@@ -34,6 +36,11 @@ import { Route as ClassifierIdRouteImport } from './routes/classifier/$id'
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProposalsRoute = ProposalsRouteImport.update({
+  id: '/proposals',
+  path: '/proposals',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MenuRoute = MenuRouteImport.update({
@@ -59,6 +66,11 @@ const FeedRoute = FeedRouteImport.update({
 const EditusersRoute = EditusersRouteImport.update({
   id: '/editusers',
   path: '/editusers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BeanpriceRoute = BeanpriceRouteImport.update({
+  id: '/beanprice',
+  path: '/beanprice',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AssistantRoute = AssistantRouteImport.update({
@@ -140,11 +152,13 @@ const ClassifierIdRoute = ClassifierIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
+  '/beanprice': typeof BeanpriceRoute
   '/editusers': typeof EditusersRoute
   '/feed': typeof FeedRoute
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
+  '/proposals': typeof ProposalsRoute
   '/signup': typeof SignupRoute
   '/classifier/$id': typeof ClassifierIdRoute
   '/groups/$groupId': typeof GroupsGroupIdRoute
@@ -163,11 +177,13 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
+  '/beanprice': typeof BeanpriceRoute
   '/editusers': typeof EditusersRoute
   '/feed': typeof FeedRoute
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
+  '/proposals': typeof ProposalsRoute
   '/signup': typeof SignupRoute
   '/classifier/$id': typeof ClassifierIdRoute
   '/groups/$groupId': typeof GroupsGroupIdRoute
@@ -187,11 +203,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
+  '/beanprice': typeof BeanpriceRoute
   '/editusers': typeof EditusersRoute
   '/feed': typeof FeedRoute
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
+  '/proposals': typeof ProposalsRoute
   '/signup': typeof SignupRoute
   '/classifier/$id': typeof ClassifierIdRoute
   '/groups/$groupId': typeof GroupsGroupIdRoute
@@ -212,11 +230,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/assistant'
+    | '/beanprice'
     | '/editusers'
     | '/feed'
     | '/forgot'
     | '/login'
     | '/menu'
+    | '/proposals'
     | '/signup'
     | '/classifier/$id'
     | '/groups/$groupId'
@@ -235,11 +255,13 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/assistant'
+    | '/beanprice'
     | '/editusers'
     | '/feed'
     | '/forgot'
     | '/login'
     | '/menu'
+    | '/proposals'
     | '/signup'
     | '/classifier/$id'
     | '/groups/$groupId'
@@ -258,11 +280,13 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/assistant'
+    | '/beanprice'
     | '/editusers'
     | '/feed'
     | '/forgot'
     | '/login'
     | '/menu'
+    | '/proposals'
     | '/signup'
     | '/classifier/$id'
     | '/groups/$groupId'
@@ -282,11 +306,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AssistantRoute: typeof AssistantRoute
+  BeanpriceRoute: typeof BeanpriceRoute
   EditusersRoute: typeof EditusersRoute
   FeedRoute: typeof FeedRoute
   ForgotRoute: typeof ForgotRoute
   LoginRoute: typeof LoginRoute
   MenuRoute: typeof MenuRoute
+  ProposalsRoute: typeof ProposalsRoute
   SignupRoute: typeof SignupRoute
   ClassifierIdRoute: typeof ClassifierIdRoute
   GroupsGroupIdRoute: typeof GroupsGroupIdRoute
@@ -310,6 +336,13 @@ declare module '@tanstack/react-router' {
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/proposals': {
+      id: '/proposals'
+      path: '/proposals'
+      fullPath: '/proposals'
+      preLoaderRoute: typeof ProposalsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/menu': {
@@ -345,6 +378,13 @@ declare module '@tanstack/react-router' {
       path: '/editusers'
       fullPath: '/editusers'
       preLoaderRoute: typeof EditusersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/beanprice': {
+      id: '/beanprice'
+      path: '/beanprice'
+      fullPath: '/beanprice'
+      preLoaderRoute: typeof BeanpriceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/assistant': {
@@ -458,11 +498,13 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AssistantRoute: AssistantRoute,
+  BeanpriceRoute: BeanpriceRoute,
   EditusersRoute: EditusersRoute,
   FeedRoute: FeedRoute,
   ForgotRoute: ForgotRoute,
   LoginRoute: LoginRoute,
   MenuRoute: MenuRoute,
+  ProposalsRoute: ProposalsRoute,
   SignupRoute: SignupRoute,
   ClassifierIdRoute: ClassifierIdRoute,
   GroupsGroupIdRoute: GroupsGroupIdRoute,

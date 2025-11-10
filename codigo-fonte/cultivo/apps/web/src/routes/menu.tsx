@@ -1,5 +1,5 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { UserCog, Bot, ChevronLeft, HandCoins } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { UserCog, Bot, ChevronLeft, NotepadText, HandCoins, Bean } from "lucide-react";
 
 export const Route = createFileRoute("/menu")({
   component: RouteComponent,
@@ -73,6 +73,32 @@ function RouteComponent() {
                 <p className="text-sm text-gray-600 mt-0.5">
                   Envie propostas de compra para produtores
                 </p>
+              </div>
+              <ChevronLeft className="w-5 h-5 transform rotate-180" />
+            </Link>
+            <Link
+              to="/proposals"
+              className="flex items-center gap-4 p-4 no-underline text-[#62331B] bg-[#E8F5E9] rounded-lg hover:bg-[#C8E6C9] transition-colors"
+            >
+              <div className="bg-white p-2 rounded-lg">
+                <NotepadText className="w-6 h-6" />
+              </div>
+              <div className="flex-1">
+                <span className="text-lg font-medium">Visualizar Propostas</span>
+                <p className="text-sm text-gray-600 mt-0.5">Visualize suas propostas em andamento</p>
+              </div>
+              <ChevronLeft className="w-5 h-5 transform rotate-180" />
+            </Link>
+            <Link
+              to="/beanprice"
+              className="flex items-center gap-4 p-4 no-underline text-[#62331B] bg-[#E8F5E9] rounded-lg hover:bg-[#C8E6C9] transition-colors"
+            >
+              <div className="bg-white p-2 rounded-lg">
+                <Bean className="w-6 h-6" />
+              </div>
+              <div className="flex-1">
+                <span className="text-lg font-medium">Visualizar Preços de Grãos</span>
+                <p className="text-sm text-gray-600 mt-0.5">Visualize os preços dos grãos em tempo real</p>
               </div>
               <ChevronLeft className="w-5 h-5 transform rotate-180" />
             </Link>
