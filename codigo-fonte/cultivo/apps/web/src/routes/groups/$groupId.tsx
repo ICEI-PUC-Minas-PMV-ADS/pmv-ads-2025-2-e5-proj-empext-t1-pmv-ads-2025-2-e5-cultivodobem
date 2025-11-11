@@ -1,13 +1,13 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../../../packages/backend/convex/_generated/api";
+import type { Id } from "../../../../../packages/backend/convex/_generated/dataModel";
 import { Card } from "../../components/ui/card";
 import { Skeleton } from "../../components/ui/skeleton";
 import { Button } from "../../components/ui/button";
 import { Avatar } from "../../components/ui/avatar";
 import { useState, useMemo } from "react";
 import { Input } from "../../components/ui/input";
-import type { Id } from "../../../../../packages/backend/convex/_generated/dataModel";
 import { ensureUserRole } from "@/lib/utils";
 import { ArrowLeft } from "lucide-react";
 
@@ -59,9 +59,9 @@ function GroupDetails() {
     );
   }
 
-  if (!group) {
-    return <div className="p-4">Group not found</div>;
-  }
+	if (!group) {
+		return <div className="p-4">Group not found</div>;
+	}
 
   return (
     <main className="flex flex-col justify-center items-center min-h-screen p-4 pt-16">

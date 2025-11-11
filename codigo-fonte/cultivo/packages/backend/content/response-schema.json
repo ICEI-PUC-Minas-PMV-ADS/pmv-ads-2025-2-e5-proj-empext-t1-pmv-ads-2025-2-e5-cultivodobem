@@ -1,73 +1,73 @@
 {
-  "type": "OBJECT",
-  "properties": {
-    "classification": {
-      "type": "OBJECT",
-      "properties": {
-        "summary": {
-          "type": "OBJECT",
-          "properties": {
-            "species": { "type": "STRING" },
-            "type": { "type": "NUMBER" },
-            "defectiveBeansPercentage": { "type": "NUMBER" },
-            "explanation": { "type": "STRING" }
-          },
-          "required": [
-            "species",
-            "type",
-            "defectiveBeansPercentage",
-            "explanation"
-          ]
-        },
-        "details": {
-          "type": "OBJECT",
-          "properties": {
-            "graveDefects": {
-              "type": "OBJECT",
-              "properties": {
-                "molded": { "type": "NUMBER" },
-                "burned": { "type": "NUMBER" },
-                "germinated": { "type": "NUMBER" },
-                "chapped_and_attacked_by_caterpillars": { "type": "NUMBER" }
-              },
-              "required": [
-                "molded",
-                "burned",
-                "germinated",
-                "chapped_and_attacked_by_caterpillars"
-              ]
-            },
-            "lightDefects": {
-              "type": "OBJECT",
-              "properties": {
-                "crushed": { "type": "NUMBER" },
-                "damaged": { "type": "NUMBER" },
-                "immature": { "type": "NUMBER" },
-                "broken_or_split": { "type": "NUMBER" }
-              },
-              "required": ["crushed", "damaged", "immature", "broken_or_split"]
-            }
-          },
-          "required": ["graveDefects", "lightDefects"]
-        }
-      },
-      "required": ["summary", "details"]
-    },
-    "colorimetry": {
-      "type": "OBJECT",
-      "properties": {
-        "averageL": { "type": "NUMBER" },
-        "standardDeviation": { "type": "NUMBER" },
-        "classification": { "type": "STRING" },
-        "finalScore": { "type": "NUMBER" }
-      },
-      "required": [
-        "averageL",
-        "standardDeviation",
-        "classification",
-        "finalScore"
-      ]
-    }
-  },
-  "required": ["classification", "colorimetry"]
+	"type": "OBJECT",
+	"properties": {
+		"classification": {
+			"type": "OBJECT",
+			"properties": {
+				"summary": {
+					"type": "OBJECT",
+					"properties": {
+						"species": { "type": "STRING" },
+						"type": { "type": "NUMBER" },
+						"defectiveBeansPercentage": { "type": "NUMBER" },
+						"explanation": { "type": "STRING" }
+					},
+					"required": [
+						"species",
+						"type",
+						"defectiveBeansPercentage",
+						"explanation"
+					]
+				},
+				"details": {
+					"type": "OBJECT",
+					"properties": {
+						"graveDefects": {
+							"type": "OBJECT",
+							"properties": {
+								"molded": { "type": "NUMBER" },
+								"burned": { "type": "NUMBER" },
+								"germinated": { "type": "NUMBER" },
+								"chapped_and_attacked_by_caterpillars": { "type": "NUMBER" }
+							},
+							"required": [
+								"molded",
+								"burned",
+								"germinated",
+								"chapped_and_attacked_by_caterpillars"
+							]
+						},
+						"lightDefects": {
+							"type": "OBJECT",
+							"properties": {
+								"crushed": { "type": "NUMBER" },
+								"damaged": { "type": "NUMBER" },
+								"immature": { "type": "NUMBER" },
+								"broken_or_split": { "type": "NUMBER" }
+							},
+							"required": ["crushed", "damaged", "immature", "broken_or_split"]
+						}
+					},
+					"required": ["graveDefects", "lightDefects"]
+				}
+			},
+			"required": ["summary", "details"]
+		},
+		"colorimetry": {
+			"type": "OBJECT",
+			"properties": {
+				"averageL": { "type": "NUMBER" },
+				"standardDeviation": { "type": "NUMBER" },
+				"classification": { "type": "STRING" },
+				"finalScore": { "type": "NUMBER" }
+			},
+			"required": [
+				"averageL",
+				"standardDeviation",
+				"classification",
+				"finalScore"
+			]
+		}
+	},
+	"required": ["classification", "colorimetry"]
 }

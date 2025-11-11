@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as HarvestRouteImport } from './routes/harvest'
 import { Route as ForgotRouteImport } from './routes/forgot'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as EditusersRouteImport } from './routes/editusers'
@@ -43,6 +44,11 @@ const MenuRoute = MenuRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HarvestRoute = HarvestRouteImport.update({
+  id: '/harvest',
+  path: '/harvest',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForgotRoute = ForgotRouteImport.update({
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/editusers': typeof EditusersRoute
   '/feed': typeof FeedRoute
   '/forgot': typeof ForgotRoute
+  '/harvest': typeof HarvestRoute
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
   '/signup': typeof SignupRoute
@@ -159,6 +166,7 @@ export interface FileRoutesByTo {
   '/editusers': typeof EditusersRoute
   '/feed': typeof FeedRoute
   '/forgot': typeof ForgotRoute
+  '/harvest': typeof HarvestRoute
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
   '/signup': typeof SignupRoute
@@ -182,6 +190,7 @@ export interface FileRoutesById {
   '/editusers': typeof EditusersRoute
   '/feed': typeof FeedRoute
   '/forgot': typeof ForgotRoute
+  '/harvest': typeof HarvestRoute
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
   '/signup': typeof SignupRoute
@@ -206,6 +215,7 @@ export interface FileRouteTypes {
     | '/editusers'
     | '/feed'
     | '/forgot'
+    | '/harvest'
     | '/login'
     | '/menu'
     | '/signup'
@@ -228,6 +238,7 @@ export interface FileRouteTypes {
     | '/editusers'
     | '/feed'
     | '/forgot'
+    | '/harvest'
     | '/login'
     | '/menu'
     | '/signup'
@@ -250,6 +261,7 @@ export interface FileRouteTypes {
     | '/editusers'
     | '/feed'
     | '/forgot'
+    | '/harvest'
     | '/login'
     | '/menu'
     | '/signup'
@@ -273,6 +285,7 @@ export interface RootRouteChildren {
   EditusersRoute: typeof EditusersRoute
   FeedRoute: typeof FeedRoute
   ForgotRoute: typeof ForgotRoute
+  HarvestRoute: typeof HarvestRoute
   LoginRoute: typeof LoginRoute
   MenuRoute: typeof MenuRoute
   SignupRoute: typeof SignupRoute
@@ -311,6 +324,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/harvest': {
+      id: '/harvest'
+      path: '/harvest'
+      fullPath: '/harvest'
+      preLoaderRoute: typeof HarvestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/forgot': {
@@ -441,6 +461,7 @@ const rootRouteChildren: RootRouteChildren = {
   EditusersRoute: EditusersRoute,
   FeedRoute: FeedRoute,
   ForgotRoute: ForgotRoute,
+  HarvestRoute: HarvestRoute,
   LoginRoute: LoginRoute,
   MenuRoute: MenuRoute,
   SignupRoute: SignupRoute,

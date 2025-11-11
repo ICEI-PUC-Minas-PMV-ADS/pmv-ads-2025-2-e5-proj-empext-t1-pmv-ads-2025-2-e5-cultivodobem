@@ -73,6 +73,7 @@ function EditUserRoute() {
   const remove = useMutation(api.user.remove);
   const pushSubscribe = useMutation(api.pushSubscriptions.subscribe);
   const sendNotification = useAction(api.push.sendToUser);
+  const listSubscriptions = useQuery(api.pushSubscriptions.list);
 
   // ----- estado do formulário ------------------------------------------------
   const [form, setForm] = useState({
@@ -257,7 +258,55 @@ function EditUserRoute() {
               />
             )}
             
-            {/* Test notification button */}
+            {/* Debug: Show subscription count */}
+            {listSubscriptions && (
+              <div className="mb-3 text-center text-sm text-gray-600">
+                Assinaturas no banco: {listSubscriptions.length}
+                {listSubscriptions.length > 0 && (
+                  <div className="text-xs mt-1">
+                    {listSubscriptions.map((s: any) => (
+                      <div key={s._id}>
+                        User: {s.userId === currentUserId ? 'YOU' : s.userId || 'none'} - 
+                        Endpoint: {s.endpoint.substring(0, 30)}...
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+            
+            {/* Debug: Test mutation directly */}
+            <div className="mb-3 text-center">
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                onClick={async () => {
+                  console.log('Testing direct mutation call...');
+                  try {
+                    const testSub = {
+                      endpoint: 'https://test-endpoint-' + Date.now() + '.com/push',
+                      keys: {
+                        p256dh: 'test-p256dh-key-' + Date.now(),
+                        auth: 'test-auth-key-' + Date.now(),
+                      },
+                      userId: currentUserId as any,
+                    };
+                    console.log('Calling pushSubscribe with test data:', testSub);
+                    const result = await pushSubscribe(testSub);
+                    console.log('Direct mutation result:', result);
+                    toast.success('Teste bem-sucedido! ID: ' + result);
+                  } catch (error: any) {
+                    console.error('Direct mutation error:', error);
+                    toast.error('Erro no teste: ' + error.message);
+                  }
+                }}
+              >
+                🧪 Testar Mutation Diretamente
+              </Button>
+            </div>
+            {/* Test notification button - shows when permission already granted */}
+            {/* {typeof window !== 'undefined' && Notification?.permission === 'granted' && ( */}
               <div className="mb-3 text-center">
                 <Button
                   type="button"
