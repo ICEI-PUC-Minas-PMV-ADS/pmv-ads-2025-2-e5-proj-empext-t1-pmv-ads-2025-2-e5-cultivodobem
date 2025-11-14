@@ -1,24 +1,24 @@
 import { redirect } from "@tanstack/react-router";
-import { clsx, type ClassValue } from "clsx";
+import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+	return twMerge(clsx(inputs));
 }
 
 export function getUserIdFromLocalStorage() {
-  const user = localStorage.getItem("user");
-  if (!user) return null;
-  return JSON.parse(user)._id;
+	const user = localStorage.getItem("user");
+	if (!user) return null;
+	return JSON.parse(user)._id;
 }
 
 export function ensureAuthenticated() {
-  const userId = getUserIdFromLocalStorage();
-  if (!userId) {
-    throw redirect({
-      to: "/login",
-    });
-  }
+	const userId = getUserIdFromLocalStorage();
+	if (!userId) {
+		throw redirect({
+			to: "/login",
+		});
+	}
 }
 
 export function ensureUserRole(role: string) {

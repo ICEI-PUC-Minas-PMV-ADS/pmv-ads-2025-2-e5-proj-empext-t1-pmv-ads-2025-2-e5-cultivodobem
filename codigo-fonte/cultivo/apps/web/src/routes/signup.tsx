@@ -54,7 +54,10 @@ function SignUpRoute() {
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   // ViaCEP: status de busca
-  const [cepStatus, setCepStatus] = useState<{ loading: boolean; error: string | null }>({
+  const [cepStatus, setCepStatus] = useState<{
+    loading: boolean;
+    error: string | null;
+  }>({
     loading: false,
     error: null,
   });
@@ -113,10 +116,10 @@ function SignUpRoute() {
     const passwordRe = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
     const nomeRe = /^[A-Za-zÀ-ÖØ-öø-ÿ]+ [A-Za-zÀ-ÖØ-öø-ÿ]+/; // Nome e sobrenome
     const numeroRe = /^\d+$/;
-    
+
     const validate = (f: Form): Errors => {
       const e: Errors = {};
-      
+
       // Validação de nome
       if (!f.nome.trim()) {
         e.nome = "Informe seu nome.";
@@ -135,7 +138,8 @@ function SignUpRoute() {
       if (!f.senha) {
         e.senha = "Crie uma senha.";
       } else if (!passwordRe.test(f.senha)) {
-        e.senha = "A senha deve ter no mínimo 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais.";
+        e.senha =
+          "A senha deve ter no mínimo 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais.";
       }
 
       // Confirmação de senha
@@ -301,7 +305,7 @@ function SignUpRoute() {
   const errClass = (k: keyof Form | "confirmar") =>
     `h-11 rounded-xl border ${errors[k] ? "border-red-500 bg-red-50" : ""}`;
   const label = (txt: string) => (
-    <label className="text-sm font-semibold" style={{ color: "#6b3f33" }}>
+    <label className="font-semibold text-sm" style={{ color: "#6b3f33" }}>
       {txt}
     </label>
   );
@@ -309,11 +313,11 @@ function SignUpRoute() {
   return (
     <>
       {/* Backdrop */}
-      <div className="fixed inset-0 z-40 signup-backdrop" />
+      <div className="signup-backdrop fixed inset-0 z-40" />
 
       {/* Container do modal (clicar fora fecha) */}
       <div
-        className="fixed inset-0 z-50 overflow-y-auto signup-surface"
+        className="signup-surface fixed inset-0 z-50 overflow-y-auto"
         onClick={() => nav({ to: "/login" })}
       >
         <div className="flex min-h-dvh items-start justify-center p-4 sm:p-6">
@@ -325,10 +329,10 @@ function SignUpRoute() {
                 className="relative z-10 w-[90%] max-w-sm rounded-3xl p-6 text-center shadow-2xl"
                 style={{ background: "#f6efe4", color: "#6b3f33" }}
               >
-                <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full signup-success-ring">
+                <div className="signup-success-ring mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full">
                   <span className="text-3xl">✓</span>
                 </div>
-                <h3 className="text-lg font-extrabold mb-1">
+                <h3 className="mb-1 font-extrabold text-lg">
                   Cadastro realizado!
                 </h3>
                 <p className="text-sm opacity-80">
@@ -341,14 +345,14 @@ function SignUpRoute() {
           {/* Card (para o clique não fechar) */}
           <Card
             onClick={(e) => e.stopPropagation()}
-            className="relative my-6 w-full max-w-[520px] md:max-w-md rounded-3xl border-0 shadow-[0_40px_120px_rgba(0,0,0,0.20)]"
+            className="relative my-6 w-full max-w-[520px] rounded-3xl border-0 shadow-[0_40px_120px_rgba(0,0,0,0.20)] md:max-w-md"
             style={{ background: "#f6efe4", color: "#6b3f33" }}
           >
             {/* Close (X) */}
             <button
               type="button"
               onClick={() => nav({ to: "/login" })}
-              className="signup-close absolute left-3 top-3"
+              className="signup-close absolute top-3 left-3"
               title="Fechar"
               aria-label="Fechar"
             >
@@ -356,30 +360,30 @@ function SignUpRoute() {
             </button>
 
             <CardHeader
-              className="pb-2 sticky top-0 z-10"
+              className="sticky top-0 z-10 pb-2"
               style={{ background: "#f6efe4" }}
             >
               <CardTitle
-                className="text-center text-lg font-extrabold"
+                className="text-center font-extrabold text-lg"
                 style={{ color: "#6b3f33" }}
               >
                 Criar Conta
               </CardTitle>
             </CardHeader>
 
-            <CardContent className="px-4 sm:px-6 pb-6">
+            <CardContent className="px-4 pb-6 sm:px-6">
               <form
                 onSubmit={onSubmit}
                 className="grid grid-cols-1 gap-3 md:grid-cols-2"
               >
                 {/* Avatar */}
-                <div className="md:col-span-2 flex items-center justify-center mb-1">
+                <div className="mb-1 flex items-center justify-center md:col-span-2">
                   <div
                     className="signup-avatar flex h-24 w-24 items-center justify-center rounded-full"
                     style={{ background: "#eadfce", color: "#6b3f33" }}
                   >
                     {!form.foto_url && (
-                      <span className="text-4xl font-extrabold">
+                      <span className="font-extrabold text-4xl">
                         {(form.nome?.[0] ?? "U").toUpperCase()}
                       </span>
                     )}
@@ -437,7 +441,7 @@ function SignUpRoute() {
                     style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
                   />
                   {errors.email && (
-                    <p className="text-xs text-red-600">{errors.email}</p>
+                    <p className="text-red-600 text-xs">{errors.email}</p>
                   )}
                 </div>
 
@@ -452,7 +456,7 @@ function SignUpRoute() {
                     style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
                   />
                   {errors.telefone && (
-                    <p className="text-xs text-red-600">{errors.telefone}</p>
+                    <p className="text-red-600 text-xs">{errors.telefone}</p>
                   )}
                 </div>
 
@@ -544,7 +548,7 @@ function SignUpRoute() {
                     style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
                   />
                   {errors.data_nascimento && (
-                    <p className="text-xs text-red-600">
+                    <p className="text-red-600 text-xs">
                       {errors.data_nascimento}
                     </p>
                   )}
@@ -602,7 +606,7 @@ function SignUpRoute() {
                     style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
                   />
                   {errors.senha && (
-                    <p className="text-xs text-red-600">{errors.senha}</p>
+                    <p className="text-red-600 text-xs">{errors.senha}</p>
                   )}
                 </div>
                 <div className="space-y-1.5">
@@ -616,7 +620,7 @@ function SignUpRoute() {
                     style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
                   />
                   {errors.confirmar && (
-                    <p className="text-xs text-red-600">{errors.confirmar}</p>
+                    <p className="text-red-600 text-xs">{errors.confirmar}</p>
                   )}
                 </div>
 

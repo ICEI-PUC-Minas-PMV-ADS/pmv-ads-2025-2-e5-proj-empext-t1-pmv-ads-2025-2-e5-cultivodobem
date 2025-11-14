@@ -25,62 +25,62 @@ export default defineSchema({
     .index("by_email", ["email"])
     .index("by_createdAt", ["createdAt"]),
 
-  settings: defineTable({
-    userId: v.id("users"),
-    theme: v.union(v.literal("light"), v.literal("dark"), v.literal("system")),
-    notificationsContent: v.boolean(),
-    notificationSProposals: v.boolean(),
-  }).index("by_user", ["userId"]),
+	settings: defineTable({
+		userId: v.id("users"),
+		theme: v.union(v.literal("light"), v.literal("dark"), v.literal("system")),
+		notificationsContent: v.boolean(),
+		notificationSProposals: v.boolean(),
+	}).index("by_user", ["userId"]),
 
-  groups: defineTable({
-    userId: v.id("users"),
-    name: v.string(),
-    description: v.optional(v.string()),
-    stock: v.number(),
-    participants: v.array(v.id("users")),
-    createdBy: v.id("users"),
-    createdAt: v.number(),
-  }).index("by_user", ["userId"]),
+	groups: defineTable({
+		userId: v.id("users"),
+		name: v.string(),
+		description: v.optional(v.string()),
+		stock: v.number(),
+		participants: v.array(v.id("users")),
+		createdBy: v.id("users"),
+		createdAt: v.number(),
+	}).index("by_user", ["userId"]),
 
-  analysis: defineTable({
-    imageId: v.id("_storage"),
-    userId: v.id("users"),
-    createdAt: v.number(),
-    classification: v.object({
-      summary: v.object({
-        species: v.string(),
-        type: v.number(),
-        defectiveBeansPercentage: v.number(),
-        explanation: v.string(),
-      }),
-      details: v.object({
-        graveDefects: v.object({
-          molded: v.number(),
-          burned: v.number(),
-          germinated: v.number(),
-          chapped_and_attacked_by_caterpillars: v.number(),
-        }),
-        lightDefects: v.object({
-          crushed: v.number(),
-          damaged: v.number(),
-          immature: v.number(),
-          broken_or_split: v.number(),
-        }),
-      }),
-    }),
-    colorimetry: v.object({
-      averageL: v.number(),
-      standardDeviation: v.number(),
-      classification: v.string(),
-      finalScore: v.number(),
-    }),
-  }).index("by_user", ["userId"]),
+	analysis: defineTable({
+		imageId: v.id("_storage"),
+		userId: v.id("users"),
+		createdAt: v.number(),
+		classification: v.object({
+			summary: v.object({
+				species: v.string(),
+				type: v.number(),
+				defectiveBeansPercentage: v.number(),
+				explanation: v.string(),
+			}),
+			details: v.object({
+				graveDefects: v.object({
+					molded: v.number(),
+					burned: v.number(),
+					germinated: v.number(),
+					chapped_and_attacked_by_caterpillars: v.number(),
+				}),
+				lightDefects: v.object({
+					crushed: v.number(),
+					damaged: v.number(),
+					immature: v.number(),
+					broken_or_split: v.number(),
+				}),
+			}),
+		}),
+		colorimetry: v.object({
+			averageL: v.number(),
+			standardDeviation: v.number(),
+			classification: v.string(),
+			finalScore: v.number(),
+		}),
+	}).index("by_user", ["userId"]),
 
-  beanSampleImages: defineTable({
-    storageId: v.id("_storage"),
-    userId: v.id("users"),
-    createdAt: v.number(),
-  }).index("by_user", ["userId"]),
+	beanSampleImages: defineTable({
+		storageId: v.id("_storage"),
+		userId: v.id("users"),
+		createdAt: v.number(),
+	}).index("by_user", ["userId"]),
 
   harvests: defineTable({
     date: v.number(),
@@ -108,12 +108,12 @@ export default defineSchema({
     .index("by_group", ["groupId"])
     .index("by_buyer", ["buyerId"]),
 
-  chatAiMessages: defineTable({
-    userId: v.id("users"),
-    message: v.string(),
-    response: v.string(),
-    createdAt: v.number(),
-  }).index("by_user", ["userId"]),
+	chatAiMessages: defineTable({
+		userId: v.id("users"),
+		message: v.string(),
+		response: v.string(),
+		createdAt: v.number(),
+	}).index("by_user", ["userId"]),
 
   ratings: defineTable({
     userId: v.id("users"),
@@ -141,4 +141,15 @@ export default defineSchema({
     .index("by_user", ["userId"])
     .index("by_post", ["strapiPostId"])
     .index("by_user_post", ["userId", "strapiPostId"]),
+
+  // Push subscriptions for web push notifications
+  pushSubscriptions: defineTable({
+    endpoint: v.string(),
+    // keys: { p256dh, auth }
+    keys: v.object({ p256dh: v.string(), auth: v.string() }),
+    // full subscription is stored partly as fields above; you can store extra meta if needed
+    userId: v.optional(v.id("users")),
+    createdAt: v.number(),
+    updatedAt: v.optional(v.number()),
+  }).index("by_endpoint", ["endpoint"]).index("by_user", ["userId"]),
 });

@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "../../../../packages/backend/convex/_generated/api.js";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -111,6 +111,9 @@ function EditUserRoute() {
   );
   const update = useMutation(api.user.update);
   const remove = useMutation(api.user.remove);
+  const pushSubscribe = useMutation(api.pushSubscriptions.subscribe);
+  const sendNotification = useAction(api.push.sendToUser);
+  const listSubscriptions = useQuery(api.pushSubscriptions.list);
 
   // ----- estado do formulário ------------------------------------------------
   const [form, setForm] = useState<Form>({
@@ -143,7 +146,8 @@ function EditUserRoute() {
       setForm({
         name: user.name ?? "",
         email: (user.email ?? "").toLowerCase(),
-        tipo_usuario: (user.tipo_usuario as Form["tipo_usuario"]) ?? "Produtor Rural",
+        tipo_usuario:
+          (user.tipo_usuario as Form["tipo_usuario"]) ?? "Produtor Rural",
         data_nascimento: user.data_nascimento ?? "",
         cep: normalizeCepMask(user.cep ?? ""),
         logradouro: user.logradouro ?? "",
@@ -369,6 +373,24 @@ function EditUserRoute() {
         };
         localStorage.setItem("user", JSON.stringify(next));
         window.dispatchEvent(new Event("auth-changed"));
+        try {
+          // Send a push notification to the current user informing of profile update
+          if (currentUserId) {
+            const payload = JSON.stringify({
+              title: "Perfil atualizado",
+              body: "Seu perfil foi atualizado com sucesso.",
+              url: "/editusers",
+            });
+            // call server-side Convex mutation to send notification to this user
+            await sendNotification({ userId: currentUserId, payload });
+          }
+        } catch (e) {
+          // don't block user flow on notification errors
+          console.warn(
+            "Failed to send push notification after profile update",
+            e
+          );
+        }
       }
 
       toast.success("Perfil atualizado com sucesso!");
@@ -431,7 +453,9 @@ function EditUserRoute() {
                 <h3 className="text-lg font-extrabold mb-1">
                   Perfil atualizado!
                 </h3>
-                <p className="text-sm opacity-80">Alterações salvas com sucesso.</p>
+                <p className="text-sm opacity-80">
+                  Alterações salvas com sucesso.
+                </p>
               </div>
             </div>
           )}
@@ -529,7 +553,8 @@ function EditUserRoute() {
                       }}
                       className="w-full font-semibold"
                     >
-                      <ImagePlus size={18} className="mr-2" /> Adicionar/Alterar foto
+                      <ImagePlus size={18} className="mr-2" /> Adicionar/Alterar
+                      foto
                     </Button>
 
                     <Button
@@ -693,7 +718,6 @@ function EditUserRoute() {
                   />
                 </div>
 
-
                 <div className="space-y-1.5">
                   {label("Data de Nascimento")}
                   <Input
@@ -703,17 +727,21 @@ function EditUserRoute() {
                     style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
                   />
                   {errors.data_nascimento && (
-                    <p className="text-xs text-red-600">{errors.data_nascimento}</p>
+                    <p className="text-xs text-red-600">
+                      {errors.data_nascimento}
+                    </p>
                   )}
                 </div>
-
 
                 <div className="space-y-1.5">
                   {label("Tipo de Conta *")}
                   <select
                     value={form.tipo_usuario}
                     onChange={(e) =>
-                      set("tipo_usuario", e.target.value as Form["tipo_usuario"])
+                      set(
+                        "tipo_usuario",
+                        e.target.value as Form["tipo_usuario"]
+                      )
                     }
                     className={`w-full h-11 rounded-xl border px-3 ${errors.tipo_usuario ? "border-red-500 bg-red-50" : ""}`}
                     style={{
@@ -726,7 +754,9 @@ function EditUserRoute() {
                     <option>Representante</option>
                   </select>
                   {errors.tipo_usuario && (
-                    <p className="text-xs text-red-600">{errors.tipo_usuario}</p>
+                    <p className="text-xs text-red-600">
+                      {errors.tipo_usuario}
+                    </p>
                   )}
                 </div>
 

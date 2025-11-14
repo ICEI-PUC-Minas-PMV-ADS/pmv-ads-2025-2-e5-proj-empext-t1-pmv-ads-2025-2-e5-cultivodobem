@@ -1,28 +1,28 @@
 {
-  "name": "cultivodobemweb",
-  "private": true,
-  "type": "module",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "scripts": {
-    "check": "biome check --write .",
-    "dev": "turbo dev",
-    "build": "turbo build",
-    "check-types": "turbo check-types",
-    "dev:native": "turbo -F native dev",
-    "dev:web": "turbo -F web dev",
-    "dev:server": "turbo -F @cultivodobemweb/backend dev",
-    "dev:setup": "turbo -F @cultivodobemweb/backend dev:setup"
-  },
-  "dependencies": {
-    "@types/bcryptjs": "^2.4.6",
-    "bcryptjs": "^3.0.2"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.2.0",
-    "turbo": "^2.5.4"
-  },
-  "packageManager": "npm@10.9.2"
+	"name": "cultivodobemweb",
+	"private": true,
+	"type": "module",
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"scripts": {
+		"check": "biome check --write .",
+		"dev": "turbo dev",
+		"build": "turbo build",
+		"check-types": "turbo check-types",
+		"dev:native": "turbo -F native dev",
+		"dev:web": "turbo -F web dev",
+		"dev:server": "turbo -F @cultivodobemweb/backend dev",
+		"dev:setup": "turbo -F @cultivodobemweb/backend dev:setup"
+	},
+	"dependencies": {
+		"@types/bcryptjs": "^2.4.6",
+		"bcryptjs": "^3.0.2"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.0",
+		"turbo": "^2.5.4"
+	},
+	"packageManager": "npm@10.9.2"
 }
