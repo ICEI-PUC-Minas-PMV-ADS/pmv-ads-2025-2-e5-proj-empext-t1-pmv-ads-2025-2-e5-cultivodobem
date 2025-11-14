@@ -19,6 +19,7 @@ export default defineConfig({
       injectManifest: {
         // include all built assets so workbox can precache them
         globPatterns: ["**/*"],
+        injectionPoint: undefined,
       },
       manifest: {
         name: "cultivodobemwebapp",
@@ -32,20 +33,20 @@ export default defineConfig({
             src: "/src/assets/logo-mini.png",
             sizes: "192x192",
             type: "image/png",
-            purpose: "any maskable"
+            purpose: "any maskable",
           },
           {
             src: "/src/assets/logo.png",
             sizes: "512x512",
             type: "image/png",
-            purpose: "any maskable"
-          }
-        ]
+            purpose: "any maskable",
+          },
+        ],
       },
       // allow the plugin to generate PWA assets when possible and enable dev mode so
       // the `beforeinstallprompt` event can be fired during local development
       pwaAssets: { disabled: false, config: false },
-      devOptions: { enabled: true, navigateFallback: '/', type: 'module' },
+      devOptions: { enabled: true, navigateFallback: "/", type: "module" },
     }),
   ],
   resolve: {
