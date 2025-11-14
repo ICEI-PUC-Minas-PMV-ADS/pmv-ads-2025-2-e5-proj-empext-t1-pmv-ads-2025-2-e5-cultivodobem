@@ -1,6 +1,9 @@
+import Loader from "@/components/loader";
 import { ensureAuthenticated } from "@/lib/utils";
+import { getBeansQuotation } from "@/services/scrap-cepea";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ScanLine } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/")({
   component: HomeComponent,
@@ -8,24 +11,60 @@ export const Route = createFileRoute("/")({
 });
 
 function HomeComponent() {
+  const [beanQuotation, setBeanQuotation] = useState<any>();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const bootstrap = async () => {
+      try {
+        setLoading(true);
+        const rawData = await getBeansQuotation();
+        setBeanQuotation(JSON.parse(rawData));
+      } catch (err) {
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    bootstrap();
+  }, []);
+
   return (
     <div className="screen flex flex-col items-center p-4">
-      <div
-        className="flex flex-col gap-2 p-4 rounded-lg bg-white border border-cultivo-background-darker w-full md:max-w-[540px]"
-        style={{
-          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <span className="text-cultivo-muted text-center">
-          Cotação do feijão (saca 60kg)
-        </span>
-        <span className="text-cultivo-green-dark text-center text-4xl font-bold">
-          R$ 385,00
-        </span>
-        <span className="text-sm text-cultivo-muted text-center">
-          Atualizado hoje às 19:35 (dados mockados)
-        </span>
-      </div>
+      {loading || !beanQuotation?.indicators?.length ? (
+        <div className="flex flex-row gap-4 justify-center items-center">
+          <Loader />
+          <span className="text-sm text-cultivo-muted">
+            Atualizando cotações...
+          </span>
+        </div>
+      ) : (
+        <div
+          className="flex flex-col gap-2 p-4 rounded-lg bg-white border border-cultivo-background-darker w-full md:max-w-[540px]"
+          style={{
+            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <span className="text-cultivo-primary text-center">
+            Cotação do feijão (saca 60kg) - Minas Gerais
+          </span>
+          <span className="text-cultivo-green-dark text-center text-4xl font-bold">
+            R$ {beanQuotation?.indicators?.[0]?.rows?.[0]?.["Valor R$/sc"]}
+          </span>
+          <span className="text-sm text-cultivo-muted text-center">
+            Feijão Carioca - peneira 12 e/ou notas 9+
+          </span>
+          <span className="text-sm text-cultivo-muted text-center">
+            Atualizado em:{" "}
+            {beanQuotation?.indicators?.[0]?.rows?.[0]?.col_1?.replaceAll(
+              "-",
+              "/"
+            )}{" "}
+            (fonte: CEPEA/CNA)
+          </span>
+          <span className="text-sm text-cultivo-muted text-center"></span>
+        </div>
+      )}
 
       <div
         className="flex flex-col gap-4 p-4 rounded-lg bg-white border border-cultivo-background-darker mt-6 w-full md:max-w-[540px]"

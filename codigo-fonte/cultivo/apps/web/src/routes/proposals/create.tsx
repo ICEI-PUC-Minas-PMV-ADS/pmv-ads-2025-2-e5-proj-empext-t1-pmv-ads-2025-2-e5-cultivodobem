@@ -443,7 +443,7 @@ function CreateProposalPage() {
           {selectedHarvest && (
             <Button
               type="submit"
-              className="w-full h-14 bg-gradient-to-r from-[#62331B] to-[#8B5A3C] text-white hover:from-[#4a2415] hover:to-[#62331B] cursor-pointer shadow-lg hover:shadow-xl transition-all duration-200 text-lg font-bold"
+              className="w-full mb-24 h-14 bg-gradient-to-r from-[#62331B] to-[#8B5A3C] text-white hover:from-[#4a2415] hover:to-[#62331B] cursor-pointer shadow-lg hover:shadow-xl transition-all duration-200 text-lg font-bold"
             >
               Enviar Proposta de Compra
             </Button>
