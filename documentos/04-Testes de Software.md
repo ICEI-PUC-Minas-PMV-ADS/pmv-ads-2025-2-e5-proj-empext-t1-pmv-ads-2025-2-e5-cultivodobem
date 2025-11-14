@@ -174,10 +174,6 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
   </tr>
 </table>
 
-
-
-
-
 ### ETAPA 3
 
 <table>
@@ -594,6 +590,74 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
     <tr>
     <td><strong>Critérios de êxito</strong></td>
     <td>O sistema deve registrar a colheita com sucesso e gerar uma análise por IA associada à colheita.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-011 - S<br>Visualizar cotação diária</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se um usuário consegue visualizar a cotação diária do feijão carioca</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">Matheus Castelliano</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Sucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-011 | Permitir que o Produtor Rural visualize a cotação diária do feijão carioca</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Abrir o website<br>
+      2. Realizar o login na plataforma (com qualquer tipo de usuário)<br>
+      </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve gerar e apresentar corretamente a cotação diária do feijão carioca.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-009 - S<br>Visualizar propostas comerciais</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se um Produtor Rural consegue visualizar as propostas que recebeu.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">Lucas Guimarães</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Sucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-009 | Permitir que o Usuário visualize propostas comerciais</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Abrir o website<br>
+      2. Realizar o login na plataforma como Produtor Rural<br>
+      3. Ao ser redirecionado para o painel principal, clicar em "Menu"<br>
+      4. Clicar em "Propostas Comerciais"<br>
+      </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve permitir que o Produtor Rural veja as propostas que recebeu.</td>
   </tr>
 </table>
 
@@ -1098,7 +1162,7 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
 
 <table>
   <tr>
-    <th colspan="6" width="1000">CT-011 - Não consigo subir uma imagem;
+    <th colspan="6" width="1000">CT-018 - Não consigo subir uma imagem;
 </th>
   </tr>
   <tr>
@@ -1129,4 +1193,65 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
 
 ### ETAPA 4
 
-TESTES A IMPLEMENTAR
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-011 - S<br>Visualizar cotação diária</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve gerar e apresentar corretamente a cotação diária do feijão carioca.</td>
+  </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade</strong></td>
+    <td width="430">Matheus Castelliano</td>
+      <td><strong>Responsável pelo teste</strong></td>
+    <td width="430">Arthur Costa</td>
+     <td width="100"><strong>Data do teste</strong></td>
+    <td width="150">14/11/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema realiza gera e apresenta corretamente a cotação do feijão carioca.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <span>
+        <img width="1918" height="1080" alt="image" src="https://github.com/user-attachments/assets/08d47ee4-cb7c-4f86-9b99-b732467a360d" />
+        <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/09334780-ce81-4f59-b2c2-119898e6fe87" />
+      </span> 
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-009 - S<br>Visualizar propostas comerciais</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve permitir que o Produtor Rural veja as propostas que recebeu.</td>
+  </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade</strong></td>
+    <td width="430">Lucas Guimarães</td>
+      <td><strong>Responsável pelo teste</strong></td>
+    <td width="430">Arthur Costa</td>
+     <td width="100"><strong>Data do teste</strong></td>
+    <td width="150">14/11/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema mostra adequadamente as propostas recebidas pelo Produtor Rural.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/7a61322f-89a4-45f5-95df-2016e6fa1a63" />
+    </td>
+  </tr>
+</table>
