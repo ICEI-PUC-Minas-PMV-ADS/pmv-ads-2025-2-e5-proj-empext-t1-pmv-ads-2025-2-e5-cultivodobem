@@ -74,7 +74,6 @@ function ClassifySample() {
       setImageStorageId(storageId);
       setSelectedImage(image);
     } catch (error: any) {
-      console.log(error.message);
 
 			if (error === "The image is not a bean sample") {
 				toast.error("A imagem selecionada não é uma amostra de feijão", {

@@ -16,7 +16,7 @@ const getMenuItemsByUserType = (type?: string) => {
     return [
       { to: "/groups", label: "Grupo" },
       { to: "/harvests", label: "Colheitas" },
-      { to: "/feed", label: "Feed" },
+      { to: "/feed", label: "Informações" },
       { to: "/assistant", label: "Assistente Virtual" },
       { to: "/menu", label: "Menu" },
     ];
@@ -24,7 +24,7 @@ const getMenuItemsByUserType = (type?: string) => {
     return [
       { to: "/proposals", label: "Propostas" },
       { to: "/search-harvests", label: "Colheitas" },
-      { to: "/feed", label: "Feed" },
+      { to: "/feed", label: "Informações" },
       { to: "/assistant", label: "Assistente Virtual" },
       { to: "/menu", label: "Menu" },
     ];

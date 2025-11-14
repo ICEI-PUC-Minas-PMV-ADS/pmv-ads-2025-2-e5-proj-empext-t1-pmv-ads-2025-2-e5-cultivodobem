@@ -2,25 +2,28 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-	users: defineTable({
-		email: v.string(),
-		passwordHash: v.string(),
-		name: v.string(),
-		tipo_usuario: v.optional(
-			v.union(v.literal("Produtor Rural"), v.literal("Representante")),
-		),
-		telefone: v.optional(v.string()),
-		data_nascimento: v.optional(v.string()),
-		cep: v.optional(v.string()),
-		cidade: v.optional(v.string()),
-		estado: v.optional(v.string()),
-		bio: v.optional(v.string()),
-		foto_url: v.optional(v.string()),
-		createdAt: v.number(),
-		updatedAt: v.optional(v.number()),
-	})
-		.index("by_email", ["email"])
-		.index("by_createdAt", ["createdAt"]),
+  users: defineTable({
+    email: v.string(),
+    passwordHash: v.string(),
+    name: v.string(),
+    tipo_usuario: v.optional(
+      v.union(v.literal("Produtor Rural"), v.literal("Representante"))
+    ),
+    telefone: v.optional(v.string()),
+    data_nascimento: v.optional(v.string()),
+    cep: v.optional(v.string()),
+    logradouro: v.optional(v.string()),
+    numero: v.optional(v.string()),
+    complemento: v.optional(v.string()),
+    cidade: v.optional(v.string()),
+    estado: v.optional(v.string()),
+    bio: v.optional(v.string()),
+    foto_url: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.optional(v.number()),
+  })
+    .index("by_email", ["email"])
+    .index("by_createdAt", ["createdAt"]),
 
 	settings: defineTable({
 		userId: v.id("users"),
@@ -89,15 +92,17 @@ export default defineSchema({
   }).index("by_user", ["userId"]),
 
   proposals: defineTable({
-    groupId: v.id("groups"),
+    groupId: v.optional(v.id("groups")),
     valuePerSack: v.number(),
-    totalValue: v.number(),
+    quantity: v.number(),
     phoneBuyer: v.string(),
+    emailBuyer: v.string(),
     nameBuyer: v.string(),
     buyerId: v.id("users"),
     createdAt: v.number(),
-    status: v.union(v.literal("pending"), v.literal("rejected")),
-    userId: v.id("users"),
+    userId: v.optional(v.id("users")),
+    viewed: v.boolean(),
+    observations: v.optional(v.string()),
   })
     .index("by_user", ["userId"])
     .index("by_group", ["groupId"])

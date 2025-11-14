@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -19,8 +19,14 @@ function RouteComponent() {
   const navigate = useNavigate();
   const groups = useQuery(api.group.list);
   const userId = getUserIdFromLocalStorage();
-  const ownedGroups = groups?.filter((g: any) => String(g.createdBy) === String(userId)) ?? [];
-  const memberGroups = groups?.filter((g: any) => g.participants?.some((p: any) => String(p) === String(userId)) && String(g.createdBy) !== String(userId)) ?? [];
+  const ownedGroups =
+    groups?.filter((g: any) => String(g.createdBy) === String(userId)) ?? [];
+  const memberGroups =
+    groups?.filter(
+      (g: any) =>
+        g.participants?.some((p: any) => String(p) === String(userId)) &&
+        String(g.createdBy) !== String(userId)
+    ) ?? [];
   const update = useMutation(api.group.update);
   const remove = useMutation(api.group.remove);
   const removeParticipant = useMutation(api.group.removeParticipant);
@@ -38,7 +44,9 @@ function RouteComponent() {
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-[#7c6a5c] mb-2">Meus Grupos</h1>
+          <h1 className="text-3xl font-bold text-[#7c6a5c] mb-2">
+            Meus Grupos
+          </h1>
           <p className="text-[#7c6a5c]">Gerencie seus grupos de produção</p>
         </div>
 
@@ -47,7 +55,9 @@ function RouteComponent() {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Plus className="text-[#ffa726]" size={24} />
-              <h2 className="text-xl font-semibold text-[#7c6a5c]">Criar Novo Grupo</h2>
+              <h2 className="text-xl font-semibold text-[#7c6a5c]">
+                Criar Novo Grupo
+              </h2>
             </div>
           </div>
           <p className="text-[#7c6a5c] mb-4">
@@ -66,7 +76,9 @@ function RouteComponent() {
         <div>
           <div className="flex items-center gap-2 mb-4">
             <Crown className="text-[#ffa726]" size={24} />
-            <h2 className="text-2xl font-bold text-[#7c6a5c]">Grupos que você é proprietário</h2>
+            <h2 className="text-2xl font-bold text-[#7c6a5c]">
+              Grupos que você é proprietário
+            </h2>
           </div>
           {!groups && (
             <Card className="bg-white border-none shadow-lg p-6 text-center">
@@ -75,21 +87,30 @@ function RouteComponent() {
           )}
           {groups && ownedGroups.length === 0 && (
             <Card className="bg-white border-none shadow-lg p-6 text-center">
-              <p className="text-[#7c6a5c]">Você não é proprietário de nenhum grupo.</p>
+              <p className="text-[#7c6a5c]">
+                Você não é proprietário de nenhum grupo.
+              </p>
             </Card>
           )}
           <div className="space-y-4">
             {ownedGroups.map((g: any) => (
-              <Card key={g._id} className="bg-white border-none shadow-lg p-6 hover:shadow-xl transition-shadow">
+              <Card
+                key={g._id}
+                className="bg-white border-none shadow-lg p-6 hover:shadow-xl transition-shadow"
+              >
                 <div className="flex justify-between items-start gap-4">
                   <Link
                     to="/groups/$groupId"
                     params={{ groupId: g._id }}
                     className="flex-1"
                   >
-                    <h3 className="text-xl font-bold text-[#7c6a5c] mb-1">{g.name}</h3>
+                    <h3 className="text-xl font-bold text-[#7c6a5c] mb-1">
+                      {g.name}
+                    </h3>
                     {g.description && (
-                      <p className="text-[#7c6a5c] text-sm mb-2">{g.description}</p>
+                      <p className="text-[#7c6a5c] text-sm mb-2">
+                        {g.description}
+                      </p>
                     )}
                     <div className="text-green-700 font-semibold mb-3">
                       Estoque: {g.stock?.toLocaleString()} sacas
@@ -112,7 +133,10 @@ function RouteComponent() {
                           )}
                         </div>
                         <span className="text-sm text-[#7c6a5c]">
-                          {g.participantsFull.length} {g.participantsFull.length === 1 ? 'membro' : 'membros'}
+                          {g.participantsFull.length}{" "}
+                          {g.participantsFull.length === 1
+                            ? "membro"
+                            : "membros"}
                         </span>
                       </div>
                     )}
@@ -169,7 +193,9 @@ function RouteComponent() {
         <div>
           <div className="flex items-center gap-2 mb-4">
             <Users className="text-[#ffa726]" size={24} />
-            <h2 className="text-2xl font-bold text-[#7c6a5c]">Grupos que você participa</h2>
+            <h2 className="text-2xl font-bold text-[#7c6a5c]">
+              Grupos que você participa
+            </h2>
           </div>
           {!groups && (
             <Card className="bg-white border-none shadow-lg p-6 text-center">
@@ -178,20 +204,29 @@ function RouteComponent() {
           )}
           {groups && memberGroups.length === 0 && (
             <Card className="bg-white border-none shadow-lg p-6 text-center">
-              <p className="text-[#7c6a5c]">Você não participa de nenhum grupo.</p>
+              <p className="text-[#7c6a5c]">
+                Você não participa de nenhum grupo.
+              </p>
             </Card>
           )}
           <div className="space-y-4">
             {memberGroups.map((g: any) => (
-              <Card key={g._id} className="bg-white border-none shadow-lg p-6 hover:shadow-xl transition-shadow">
+              <Card
+                key={g._id}
+                className="bg-white border-none shadow-lg p-6 hover:shadow-xl transition-shadow"
+              >
                 <Link
                   to="/groups/$groupId"
                   params={{ groupId: g._id }}
                   className="block"
                 >
-                  <h3 className="text-xl font-bold text-[#7c6a5c] mb-1">{g.name}</h3>
+                  <h3 className="text-xl font-bold text-[#7c6a5c] mb-1">
+                    {g.name}
+                  </h3>
                   {g.description && (
-                    <p className="text-[#7c6a5c] text-sm mb-2">{g.description}</p>
+                    <p className="text-[#7c6a5c] text-sm mb-2">
+                      {g.description}
+                    </p>
                   )}
                   <div className="text-green-700 font-semibold mb-3">
                     Estoque: {g.stock?.toLocaleString()} sacas
@@ -214,7 +249,8 @@ function RouteComponent() {
                         )}
                       </div>
                       <span className="text-sm text-[#7c6a5c]">
-                        {g.participantsFull.length} {g.participantsFull.length === 1 ? 'membro' : 'membros'}
+                        {g.participantsFull.length}{" "}
+                        {g.participantsFull.length === 1 ? "membro" : "membros"}
                       </span>
                     </div>
                   )}
@@ -228,7 +264,10 @@ function RouteComponent() {
       {/* Edit dialog */}
       <Dialog
         open={editing}
-        onClose={() => { setEditing(false); setEditGroup(null); }}
+        onClose={() => {
+          setEditing(false);
+          setEditGroup(null);
+        }}
         title="Editar Grupo"
       >
         {editGroup && (
@@ -253,38 +292,71 @@ function RouteComponent() {
           >
             <Input
               value={editGroup.name}
-              onChange={(e) => setEditGroup((g: any) => ({ ...g, name: e.target.value }))}
+              onChange={(e) =>
+                setEditGroup((g: any) => ({ ...g, name: e.target.value }))
+              }
             />
             <Input
               value={editGroup.description}
-              onChange={(e) => setEditGroup((g: any) => ({ ...g, description: e.target.value }))}
+              onChange={(e) =>
+                setEditGroup((g: any) => ({
+                  ...g,
+                  description: e.target.value,
+                }))
+              }
             />
             <Input
               type="number"
               value={String(editGroup.stock)}
-              onChange={(e) => setEditGroup((g: any) => ({ ...g, stock: Number(e.target.value) }))}
+              onChange={(e) =>
+                setEditGroup((g: any) => ({
+                  ...g,
+                  stock: Number(e.target.value),
+                }))
+              }
             />
             {(editGroup.participantsFull ?? []).map((p: any) => (
               <div className="space-y-2">
                 <div className="text-sm font-medium">Participantes</div>
                 <ul className="ml-2">
-                  <li key={p._id} className="flex items-center justify-between gap-2">
-                    <span className="text-sm">{p.name ?? p.email} ({p._id})</span>
+                  <li
+                    key={p._id}
+                    className="flex items-center justify-between gap-2"
+                  >
+                    <span className="text-sm">
+                      {p.name ?? p.email} ({p._id})
+                    </span>
                     <Button
                       size="sm"
                       variant="destructive"
                       onClick={async () => {
-                        await removeParticipant({ groupId: editGroup._id, userId: p._id });
-                        const refreshed = groups?.find((gg: any) => gg._id === editGroup._id) ?? null;
+                        await removeParticipant({
+                          groupId: editGroup._id,
+                          userId: p._id,
+                        });
+                        const refreshed =
+                          groups?.find((gg: any) => gg._id === editGroup._id) ??
+                          null;
                         setEditGroup(refreshed);
                       }}
-                    >Remover</Button>
+                    >
+                      Remover
+                    </Button>
                   </li>
                 </ul>
               </div>
             ))}
             <div className="flex justify-end gap-2 mt-2">
-              <Button type="button" variant="secondary" onClick={() => { setEditing(false); setEditGroup(null); }}>Cancelar</Button>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => {
+                  setEditing(false);
+                  setEditGroup(null);
+                }}
+              >
+                Cancelar
+              </Button>
               <Button type="submit">Salvar</Button>
             </div>
           </form>

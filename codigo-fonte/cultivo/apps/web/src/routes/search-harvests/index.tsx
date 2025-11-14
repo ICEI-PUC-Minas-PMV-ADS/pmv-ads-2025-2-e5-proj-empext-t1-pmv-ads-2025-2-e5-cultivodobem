@@ -73,7 +73,8 @@ function SearchHarvestsScreen() {
                 {stock.name}
               </h3>
               <Link
-                to="/"
+                 to="/proposals/create"
+                search={{ harvestId: stock._id }}
                 className="flex flex-row items-center gap-2 text-cultivo-green-dark"
               >
                 Enviar proposta <ExternalLink />

@@ -19,6 +19,7 @@
     "@tanstack/react-form": "^1.12.3",
     "@tanstack/react-router": "^1.114.25",
     "axios": "^1.12.2",
+    "cheerio": "^1.1.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "convex": "^1.25.4",

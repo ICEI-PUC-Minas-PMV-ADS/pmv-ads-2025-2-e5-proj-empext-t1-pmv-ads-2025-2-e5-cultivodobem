@@ -96,6 +96,9 @@ export const update = mutation({
     ),
     data_nascimento: v.optional(v.string()),
     cep: v.optional(v.string()),
+    logradouro: v.optional(v.string()),
+    numero: v.optional(v.string()),
+    complemento: v.optional(v.string()),
     telefone: v.optional(v.string()),
     cidade: v.optional(v.string()),
     estado: v.optional(v.string()),
@@ -115,6 +118,9 @@ export const update = mutation({
     if (args.tipo_usuario) updateData.tipo_usuario = args.tipo_usuario;
     if (args.data_nascimento) updateData.data_nascimento = args.data_nascimento;
     if (args.cep) updateData.cep = args.cep;
+    if (args.logradouro) updateData.logradouro = args.logradouro;
+    if (args.numero) updateData.numero = args.numero;
+    if (args.complemento) updateData.complemento = args.complemento;
     if (args.telefone) updateData.telefone = args.telefone;
     if (args.cidade) updateData.cidade = args.cidade;
     if (args.estado) updateData.estado = args.estado;
