@@ -73,7 +73,7 @@ function SearchHarvestsScreen() {
                 {stock.name}
               </h3>
               <Link
-                 to="/proposals/create"
+                to="/proposals/create"
                 search={{ harvestId: stock._id }}
                 className="flex flex-row items-center gap-2 text-cultivo-green-dark"
               >
@@ -95,7 +95,7 @@ function SearchHarvestsScreen() {
                 <Carousel className="py-4">
                   <CarouselContent>
                     {stock.images.map((image: string) => (
-                      <CarouselItem>
+                      <CarouselItem key={image}>
                         <img
                           src={image}
                           className="aspect-square object-cover select-none"

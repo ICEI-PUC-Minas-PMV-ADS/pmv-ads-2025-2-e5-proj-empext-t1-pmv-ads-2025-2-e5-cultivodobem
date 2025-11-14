@@ -32,36 +32,36 @@ const getMenuItemsByUserType = (type?: string) => {
 };
 
 export default function HeaderNavigation() {
-	const router = useRouter();
-	const [sessionUser, setSessionUser] = useState<any>(null);
-	useEffect(() => {
-		const load = () => {
-			try {
-				setSessionUser(JSON.parse(localStorage.getItem("user") || "null"));
-			} catch {
-				setSessionUser(null);
-			}
-		};
-		load();
-		const onStorage = (e: StorageEvent) => {
-			if (e.key === "user") load();
-		};
-		window.addEventListener("storage", onStorage);
+  const router = useRouter();
+  const [sessionUser, setSessionUser] = useState<any>(null);
+  useEffect(() => {
+    const load = () => {
+      try {
+        setSessionUser(JSON.parse(localStorage.getItem("user") || "null"));
+      } catch {
+        setSessionUser(null);
+      }
+    };
+    load();
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "user") load();
+    };
+    window.addEventListener("storage", onStorage);
 
-		const onAuthChanged = () => load();
-		window.addEventListener("auth-changed", onAuthChanged as any);
-		return () => {
-			window.removeEventListener("storage", onStorage);
-			window.removeEventListener("auth-changed", onAuthChanged as any);
-		};
-	}, []);
+    const onAuthChanged = () => load();
+    window.addEventListener("auth-changed", onAuthChanged as any);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("auth-changed", onAuthChanged as any);
+    };
+  }, []);
 
-	function logout() {
-		localStorage.removeItem("user");
-		setSessionUser(null);
-		window.dispatchEvent(new Event("auth-changed"));
-		router.navigate({ to: "/login" });
-	}
+  function logout() {
+    localStorage.removeItem("user");
+    setSessionUser(null);
+    window.dispatchEvent(new Event("auth-changed"));
+    router.navigate({ to: "/login" });
+  }
 
   const links = getMenuItemsByUserType(sessionUser?.tipo_usuario);
   return (

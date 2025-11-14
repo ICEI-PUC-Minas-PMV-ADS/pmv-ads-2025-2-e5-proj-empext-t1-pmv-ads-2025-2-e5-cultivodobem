@@ -1,3 +1,4 @@
+import { getUserIdFromLocalStorage } from "@/lib/utils";
 import { Link, useLocation } from "@tanstack/react-router";
 import {
   Archive,
@@ -30,24 +31,27 @@ const getMenuItemsByUserType = (type: string) => {
 
 export default function TabNavigation() {
   const location = useLocation();
-  const items = getMenuItemsByUserType("Representante Comercial");
+  const user = localStorage.getItem("user") ?? "{}";
+  console.log(JSON.parse(user).tipo_usuario);
+  
+  const items = getMenuItemsByUserType(JSON.parse(user).tipo_usuario);
 
   return (
     <nav className="flex flex-row justify-between items-center fixed bottom-0 left-0 right-0 bg-white py-4 px-6 md:hidden z-50">
       {items.map((item) => {
         const selected = item.href === location.pathname;
 
-				return (
-					<Link
-						key={item.name}
-						to={item.href}
-						className={`flex flex-col items-center ${selected ? "text-cultivo-green-dark" : "text-cultivo-primary"}`}
-					>
-						{<item.icon className="mb-1" />}
-						{item.name}
-					</Link>
-				);
-			})}
-		</nav>
-	);
+        return (
+          <Link
+            key={item.name}
+            to={item.href}
+            className={`flex flex-col items-center ${selected ? "text-cultivo-green-dark" : "text-cultivo-primary"}`}
+          >
+            {<item.icon className="mb-1" />}
+            {item.name}
+          </Link>
+        );
+      })}
+    </nav>
+  );
 }
