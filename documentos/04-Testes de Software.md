@@ -519,7 +519,83 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
 
 ### ETAPA 4
 
-TESTES A IMPLEMENTAR
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-012 - S<br>Visualizar colheitas</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se um usuário consegue visualizar colheitas.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">Arthur Costa</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Sucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-012 | Permitir que o Usuário visualize colheitas</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Abrir o website<br>
+      2. Realizar o login na plataforma (com qualquer tipo de usuário)<br>
+      3. Ao ser redirecionado para o painel principal, clicar no botão "Colheitas"<br>
+      </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve gerar e apresentar corretamente a listagem de colheitas.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-007 - S<br>Registro de colheitas</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se um produtor rural consegue registrar colheitas.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">Arthur Costa</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Sucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-012: Permitir que o Produtor Rural registre a colheita</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Abrir o website<br>
+      2. Realizar o login na plataforma como Produtor Rural<br>
+      3. Ao ser redirecionado para o painel principal, clicar no botão "Colheitas"<br>
+      4. Clicar em "Registrar colheitas"<br>
+      5. Preencher os dados do formulário e enviar
+      </td>
+  </tr>
+    <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Imagem:</strong> Inserir uma imagem aleatória de amostra de feijão<br>
+      - <strong>Data da colheita:</strong> Inserir uma data válida<br>
+      - <strong>Quantidade:</strong> Inserir uma quantidade em sacas<br>
+      - <strong>Observação:</strong> Opcionalmente inserir uma observação<br>
+  </tr>
+    <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve registrar a colheita com sucesso e gerar uma análise por IA associada à colheita.</td>
+  </tr>
+</table>
 
 # Evidências de Testes de Software
 
@@ -743,6 +819,64 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
   </tr>
 </table>
 
+## ETAPA 4
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-012 - S<br>Visualizar colheitas</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve apresentar corretamente a listagem de colheitas.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Arthur Costa</td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">14/11/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema está apresentando as colheitas corretamente.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ab18ab38-280f-4211-8a1c-1ed4a38728bf" />
+      <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/2ec8746d-9955-4b65-8cb4-35fe7d18bf7c" />
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-007 - S<br>Registrar colheitas</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve registrar a colheita com sucesso e gerar uma análise por IA associada à colheita.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Arthur Costa</td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">14/11/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema está registrando as colheitas corretamente.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <video src="https://github.com/user-attachments/assets/dc07352f-3099-417d-9b1a-0b50225c1c84"/>
+    </td>
+  </tr>
+</table>
 
 ## Parte 2 - Testes por pares
 
