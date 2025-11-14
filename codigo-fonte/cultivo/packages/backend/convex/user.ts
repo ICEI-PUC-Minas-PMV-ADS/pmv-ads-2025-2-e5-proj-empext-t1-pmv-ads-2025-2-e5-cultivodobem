@@ -1,59 +1,60 @@
-import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
+import { mutation, query } from "./_generated/server";
 
 // Listar todos os usuários
 export const list = query({
-  args: {},
-  handler: async (ctx) => {
-    return await ctx.db.query("users").collect();
-  },
+	args: {},
+	handler: async (ctx) => {
+		return await ctx.db.query("users").collect();
+	},
 });
 
 // Listar apenas produtores rurais
 export const listProdutores = query({
-  args: {},
-  handler: async (ctx) => {
-    return await ctx.db
-      .query("users")
-      .filter((q) => q.eq("tipo_usuario", "Produtor Rural"))
-      .collect();
-  },
+	args: {},
+	handler: async (ctx) => {
+		return await ctx.db
+			.query("users")
+			.filter((q) => q.eq("tipo_usuario", "Produtor Rural"))
+			.collect();
+	},
 });
 
 // READ
 export const getById = query({
-  args: { id: v.id("users") },
-  handler: async (ctx, { id }) => {
-    const user = await ctx.db.get(id);
-    if (!user) return null;
-    const { passwordHash, ...safe } = user;
-    return safe;
-  },
+	args: { id: v.id("users") },
+	handler: async (ctx, { id }) => {
+		const user = await ctx.db.get(id);
+		if (!user) return null;
+		const { passwordHash, ...safe } = user;
+		return safe;
+	},
 });
 
 // CREATE
 export const create = mutation({
-  args: {
-    name: v.string(),
-    email: v.string(),
-    senha_hash: v.optional(v.string()),
-    telefone: v.optional(v.string()),
-    tipo_usuario: v.optional(v.string()),
-    data_nascimento: v.optional(v.string()),
-    cep: v.optional(v.string()),
-    cidade: v.optional(v.string()),
-    estado: v.optional(v.string()),
-    bio: v.optional(v.string()),
-    foto_url: v.optional(v.string()),
-  },
-  handler: async (ctx, args) => {
-    const email = args.email.trim().toLowerCase();
+	args: {
+		name: v.string(),
+		email: v.string(),
+		senha_hash: v.optional(v.string()),
+		telefone: v.optional(v.string()),
+		tipo_usuario: v.optional(v.string()),
+		data_nascimento: v.optional(v.string()),
+		cep: v.optional(v.string()),
+		cidade: v.optional(v.string()),
+		estado: v.optional(v.string()),
+		bio: v.optional(v.string()),
+		foto_url: v.optional(v.string()),
+	},
+	handler: async (ctx, args) => {
+		const now = Date.now();
+		const email = args.email.trim().toLowerCase();
 
-    const exists = await ctx.db
-      .query("users")
-      .withIndex("by_email", (q) => q.eq("email", email))
-      .first();
-    if (exists) throw new Error("E-mail já cadastrado.");
+		const exists = await ctx.db
+			.query("users")
+			.withIndex("by_email", (q) => q.eq("email", email))
+			.first();
+		if (exists) throw new Error("E-mail já cadastrado.");
 
     let tipo: string;
     if (args.tipo_usuario === "Produtor Rural") {
@@ -80,8 +81,8 @@ export const create = mutation({
       updatedAt: Date.now(),
     });
 
-    return id;
-  },
+		return id;
+	},
 });
 
 // UPDATE
@@ -173,9 +174,9 @@ export const changePassword = mutation({
 
 // DELETE
 export const remove = mutation({
-  args: { id: v.id("users") },
-  handler: async (ctx, { id }) => {
-    await ctx.db.delete(id);
-    return id;
-  },
+	args: { id: v.id("users") },
+	handler: async (ctx, { id }) => {
+		await ctx.db.delete(id);
+		return id;
+	},
 });

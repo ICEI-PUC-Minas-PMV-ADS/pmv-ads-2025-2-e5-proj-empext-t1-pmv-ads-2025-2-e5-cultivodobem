@@ -1,5 +1,5 @@
-import { mutation } from "./_generated/server";
 import { v } from "convex/values";
+import { mutation } from "./_generated/server";
 
 // usa o mesmo esquema de hash do auth. (btoa)
 const hashPassword = (plain: string) => btoa(plain);
@@ -25,7 +25,6 @@ export const register = mutation({
   },
 
   handler: async (ctx, args) => {
-
     const email = args.email.toLowerCase();
 
     // unicidade por email

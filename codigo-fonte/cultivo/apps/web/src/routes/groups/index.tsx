@@ -1,12 +1,14 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQuery, useMutation } from "convex/react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Avatar } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
 import Dialog from "@/components/ui/dialog";
-import "@/styles/groups.css";
 import { api } from "../../../../../packages/backend/convex/_generated/api";
 import { ensureUserRole, getUserIdFromLocalStorage } from "@/lib/utils";
+import { Plus, Users, Crown, Share2, Edit, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/groups/")({
   component: RouteComponent,
@@ -14,42 +16,23 @@ export const Route = createFileRoute("/groups/")({
 });
 
 function RouteComponent() {
+  const navigate = useNavigate();
   const groups = useQuery(api.group.list);
-  const create = useMutation(api.group.create);
+  const userId = getUserIdFromLocalStorage();
+  const ownedGroups =
+    groups?.filter((g: any) => String(g.createdBy) === String(userId)) ?? [];
+  const memberGroups =
+    groups?.filter(
+      (g: any) =>
+        g.participants?.some((p: any) => String(p) === String(userId)) &&
+        String(g.createdBy) !== String(userId)
+    ) ?? [];
   const update = useMutation(api.group.update);
   const remove = useMutation(api.group.remove);
-  const addParticipant = useMutation(api.group.addParticipant);
   const removeParticipant = useMutation(api.group.removeParticipant);
 
-  const [form, setForm] = useState({ name: "", description: "", stock: 0 });
   const [editing, setEditing] = useState(false);
   const [editGroup, setEditGroup] = useState<any | null>(null);
-
-  useEffect(() => {
-    if (typeof form.stock !== "number") setForm((f) => ({ ...f, stock: 0 }));
-  }, []);
-
-  async function onCreate(e: React.FormEvent) {
-    e.preventDefault();
-    const user = getUserIdFromLocalStorage();
-    if (!user) {
-      alert("Usuário não encontrado. Faça login novamente.");
-      return;
-    }
-    try {
-      const id = await create({
-        userId: user,
-        name: form.name || "Sem nome",
-        description: form.description || undefined,
-        stock: Number(form.stock) || 0,
-        participants: [],
-        createdBy: user,
-      });
-      setForm({ name: "", description: "", stock: 0 });
-    } catch (err) {
-      console.error("Create failed", err);
-    }
-  }
 
   async function onDelete(id: any) {
     if (!confirm("Excluir grupo?")) return;
@@ -57,110 +40,226 @@ function RouteComponent() {
   }
 
   return (
-    <div className="screen flex flex-col mx-auto px-4 py-6">
-      <section className="mb-6 rounded-lg border p-4">
-        <h2 className="mb-2 font-medium">Criar novo grupo</h2>
-        <form className=" gap-2" onSubmit={onCreate}>
-          <Input
-            placeholder="Nome do grupo"
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-          />
+    <main className="min-h-screen bg-[#f8f3ed] py-8 px-4 pt-16">
+      <div className="max-w-4xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-[#7c6a5c] mb-2">
+            Meus Grupos
+          </h1>
+          <p className="text-[#7c6a5c]">Gerencie seus grupos de produção</p>
+        </div>
 
-          <Input
-            placeholder="Descrição (opcional)"
-            value={form.description}
-            onChange={(e) => setForm({ ...form, description: e.target.value })}
-          />
-
-          <Input
-            type="number"
-            placeholder="Estoque inicial"
-            value={String(form.stock)}
-            onChange={(e) =>
-              setForm({ ...form, stock: Number(e.target.value) })
-            }
-          />
-
-          <div className="flex items-center gap-2">
-            <Button type="submit">Criar</Button>
+        {/* Create Group Card */}
+        <Card className="bg-white border-none shadow-lg p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Plus className="text-[#ffa726]" size={24} />
+              <h2 className="text-xl font-semibold text-[#7c6a5c]">
+                Criar Novo Grupo
+              </h2>
+            </div>
           </div>
-        </form>
-      </section>
+          <p className="text-[#7c6a5c] mb-4">
+            Crie um grupo para colaborar com outros produtores rurais
+          </p>
+          <Button
+            onClick={() => navigate({ to: "/groups/new" })}
+            className="w-full bg-[#ffa726] text-white font-semibold hover:bg-[#ff9800]"
+          >
+            <Plus size={18} className="mr-2" />
+            Criar Novo Grupo
+          </Button>
+        </Card>
 
-      <section className="rounded-lg border p-4">
-        <h2 className="mb-3 font-medium">Lista de grupos</h2>
-        {!groups && <div>Carregando...</div>}
-        {groups && groups.length === 0 && <div>Nenhum grupo encontrado.</div>}
-        <ul className="groups-list">
-          {groups?.map((g: any) => (
-            <li key={g._id} className="group-item">
-              <div className="flex justify-between items-start">
+        {/* Owned Groups */}
+        <div>
+          <div className="flex items-center gap-2 mb-4">
+            <Crown className="text-[#ffa726]" size={24} />
+            <h2 className="text-2xl font-bold text-[#7c6a5c]">
+              Grupos que você é proprietário
+            </h2>
+          </div>
+          {!groups && (
+            <Card className="bg-white border-none shadow-lg p-6 text-center">
+              <p className="text-[#7c6a5c]">Carregando...</p>
+            </Card>
+          )}
+          {groups && ownedGroups.length === 0 && (
+            <Card className="bg-white border-none shadow-lg p-6 text-center">
+              <p className="text-[#7c6a5c]">
+                Você não é proprietário de nenhum grupo.
+              </p>
+            </Card>
+          )}
+          <div className="space-y-4">
+            {ownedGroups.map((g: any) => (
+              <Card
+                key={g._id}
+                className="bg-white border-none shadow-lg p-6 hover:shadow-xl transition-shadow"
+              >
+                <div className="flex justify-between items-start gap-4">
+                  <Link
+                    to="/groups/$groupId"
+                    params={{ groupId: g._id }}
+                    className="flex-1"
+                  >
+                    <h3 className="text-xl font-bold text-[#7c6a5c] mb-1">
+                      {g.name}
+                    </h3>
+                    {g.description && (
+                      <p className="text-[#7c6a5c] text-sm mb-2">
+                        {g.description}
+                      </p>
+                    )}
+                    <div className="text-green-700 font-semibold mb-3">
+                      Estoque: {g.stock?.toLocaleString()} sacas
+                    </div>
+                    {g.participantsFull && g.participantsFull.length > 0 && (
+                      <div className="flex items-center gap-2">
+                        <Users size={16} className="text-[#7c6a5c]" />
+                        <div className="flex -space-x-2">
+                          {g.participantsFull.slice(0, 3).map((p: any) => (
+                            <Avatar
+                              key={p._id}
+                              name={p.name ?? p.email ?? "?"}
+                              className="border-2 border-white w-8 h-8 text-xs"
+                            />
+                          ))}
+                          {g.participantsFull.length > 3 && (
+                            <div className="w-8 h-8 rounded-full bg-[#7c6a5c] text-white text-xs flex items-center justify-center border-2 border-white">
+                              +{g.participantsFull.length - 3}
+                            </div>
+                          )}
+                        </div>
+                        <span className="text-sm text-[#7c6a5c]">
+                          {g.participantsFull.length}{" "}
+                          {g.participantsFull.length === 1
+                            ? "membro"
+                            : "membros"}
+                        </span>
+                      </div>
+                    )}
+                  </Link>
+                  <div className="flex flex-col gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setEditGroup(g);
+                        setEditing(true);
+                      }}
+                      className="text-[#7c6a5c] border-[#7c6a5c]"
+                    >
+                      <Edit size={16} />
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        const url = `${window.location.origin}/groups/join?groupId=${g._id}`;
+                        try {
+                          await navigator.clipboard.writeText(url);
+                          alert("Link copiado!");
+                        } catch (e) {
+                          prompt("Copie o link:", url);
+                        }
+                      }}
+                      className="text-[#ffa726] border-[#ffa726]"
+                    >
+                      <Share2 size={16} />
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onDelete(g._id);
+                      }}
+                      className="text-red-600 border-red-600"
+                    >
+                      <Trash2 size={16} />
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Member Groups */}
+        <div>
+          <div className="flex items-center gap-2 mb-4">
+            <Users className="text-[#ffa726]" size={24} />
+            <h2 className="text-2xl font-bold text-[#7c6a5c]">
+              Grupos que você participa
+            </h2>
+          </div>
+          {!groups && (
+            <Card className="bg-white border-none shadow-lg p-6 text-center">
+              <p className="text-[#7c6a5c]">Carregando...</p>
+            </Card>
+          )}
+          {groups && memberGroups.length === 0 && (
+            <Card className="bg-white border-none shadow-lg p-6 text-center">
+              <p className="text-[#7c6a5c]">
+                Você não participa de nenhum grupo.
+              </p>
+            </Card>
+          )}
+          <div className="space-y-4">
+            {memberGroups.map((g: any) => (
+              <Card
+                key={g._id}
+                className="bg-white border-none shadow-lg p-6 hover:shadow-xl transition-shadow"
+              >
                 <Link
                   to="/groups/$groupId"
                   params={{ groupId: g._id }}
-                  className="flex-1 block hover:bg-gray-50 transition-colors"
+                  className="block"
                 >
-                  <div>
-                    <div className="group-name">{g.name}</div>
-                    <div className="group-desc">{g.description}</div>
-                    <div className="group-stock">Estoque: {g.stock}</div>
-                    {g.participantsFull && g.participantsFull.length > 0 && (
-                      <div className="mt-2">
-                        <div className="text-sm font-semibold">
-                          Participantes:
-                        </div>
-                        <ul className="ml-2">
-                          {g.participantsFull.map((p: any) => (
-                            <li key={p._id} className="text-sm">
-                              {p.name ?? p.email} ({p._id})
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+                  <h3 className="text-xl font-bold text-[#7c6a5c] mb-1">
+                    {g.name}
+                  </h3>
+                  {g.description && (
+                    <p className="text-[#7c6a5c] text-sm mb-2">
+                      {g.description}
+                    </p>
+                  )}
+                  <div className="text-green-700 font-semibold mb-3">
+                    Estoque: {g.stock?.toLocaleString()} sacas
                   </div>
+                  {g.participantsFull && g.participantsFull.length > 0 && (
+                    <div className="flex items-center gap-2">
+                      <Users size={16} className="text-[#7c6a5c]" />
+                      <div className="flex -space-x-2">
+                        {g.participantsFull.slice(0, 3).map((p: any) => (
+                          <Avatar
+                            key={p._id}
+                            name={p.name ?? p.email ?? "?"}
+                            className="border-2 border-white w-8 h-8 text-xs"
+                          />
+                        ))}
+                        {g.participantsFull.length > 3 && (
+                          <div className="w-8 h-8 rounded-full bg-[#7c6a5c] text-white text-xs flex items-center justify-center border-2 border-white">
+                            +{g.participantsFull.length - 3}
+                          </div>
+                        )}
+                      </div>
+                      <span className="text-sm text-[#7c6a5c]">
+                        {g.participantsFull.length}{" "}
+                        {g.participantsFull.length === 1 ? "membro" : "membros"}
+                      </span>
+                    </div>
+                  )}
                 </Link>
-                <div className="group-actions">
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setEditGroup(g);
-                      setEditing(true);
-                    }}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      onDelete(g._id);
-                    }}
-                  >
-                    Excluir
-                  </button>
-                  <button
-                    onClick={async (e) => {
-                      e.preventDefault();
-                      const url = `${window.location.origin}/groups/join?groupId=${g._id}`;
-                      try {
-                        await navigator.clipboard.writeText(url);
-                        alert(
-                          "Link copiado para a área de transferência:\n" + url
-                        );
-                      } catch (e) {
-                        prompt("Copie o link abaixo:", url);
-                      }
-                    }}
-                  >
-                    Compartilhar
-                  </button>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
 
       {/* Edit dialog */}
       <Dialog
@@ -218,7 +317,6 @@ function RouteComponent() {
             />
             {(editGroup.participantsFull ?? []).map((p: any) => (
               <div className="space-y-2">
-                {}
                 <div className="text-sm font-medium">Participantes</div>
                 <ul className="ml-2">
                   <li
@@ -264,6 +362,6 @@ function RouteComponent() {
           </form>
         )}
       </Dialog>
-    </div>
+    </main>
   );
 }

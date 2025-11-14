@@ -67,12 +67,12 @@ function HomeComponent() {
       )}
 
       <div
-        className="flex flex-col gap-4 p-4 rounded-lg bg-white border border-cultivo-background-darker mt-6 w-full md:max-w-[540px]"
+        className="mt-6 flex w-full flex-col gap-4 rounded-lg border border-cultivo-background-darker bg-white p-4 md:max-w-[540px]"
         style={{
           boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <h2 className="font-bold text-xl text-cultivo-primary">
+        <h2 className="font-bold text-cultivo-primary text-xl">
           Ações rápidas
         </h2>
         {/* <Link
@@ -84,7 +84,7 @@ function HomeComponent() {
         </Link> */}
         <Link
           to="/classifier"
-          className="flex flex-row justify-center items-center gap-2 bg-white border border-cultivo-green-dark text-cultivo-green-dark rounded-lg p-2"
+          className="flex flex-row items-center justify-center gap-2 rounded-lg border border-cultivo-green-dark bg-white p-2 text-cultivo-green-dark"
         >
           <ScanLine />
           Classificar Amostra

@@ -1,123 +1,153 @@
 /* Estilos específicos para a tela de edituser */
 
-:root{
-  --edit-bg: var(--login-bg, #fcf8f1);
-  --edit-text: var(--login-text-primary, #734338);
-  --edit-input-bg: var(--login-input-bg, #fcf8f1);
-  --edit-input-border: var(--login-input-border, #734338);
-  --edit-primary: var(--login-button-bg, #f99d1c);
-  --edit-shadow: var(--login-shadow, rgba(0,0,0,0.1));
+:root {
+	--edit-bg: var(--login-bg, #fcf8f1);
+	--edit-text: var(--login-text-primary, #734338);
+	--edit-input-bg: var(--login-input-bg, #fcf8f1);
+	--edit-input-border: var(--login-input-border, #734338);
+	--edit-primary: var(--login-button-bg, #f99d1c);
+	--edit-shadow: var(--login-shadow, rgba(0, 0, 0, 0.1));
 }
 
-/* Página: centraliza o conteúdo verticalmente */
-.edit-container{
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 1rem;
-  background: var(--edit-bg);
-  color: var(--edit-text);
-  overflow-y: auto;
+/* Página: apenas a página rola (sem scroll interno no card) */
+.edit-container {
+	width: 100%;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding: 1rem 1rem 2.5rem; /* respiro no final */
+	background: var(--edit-bg);
+	color: var(--edit-text);
 }
 
 /* Card principal */
-.edit-card{
-  width: 100%;
-  max-width: 28rem;
-  border: 0;
-  margin: 2rem auto;
-  display: flex;
-  flex-direction: column;
-  border-radius:1.5rem;
-  box-shadow:0 40px 120px rgba(0,0,0,0.20);
-  background:var(--edit-bg);
-  color:var(--edit-text);
-  overflow:visible;            /* sem rolagem interna */
+.edit-card {
+	width: 100%;
+	max-width: 28rem;
+	border: 0;
+	border-radius: 1.5rem;
+	box-shadow: 0 40px 120px rgba(0, 0, 0, 0.2);
+	background: var(--edit-bg);
+	color: var(--edit-text);
+	overflow: visible; /* sem rolagem interna */
 }
 
 /* Título (se usar) */
-.edit-title{ text-align:center; font-weight:800; color:var(--edit-text); }
+.edit-title {
+	text-align: center;
+	font-weight: 800;
+	color: var(--edit-text);
+}
 
 /* Avatar e seus elementos */
-.edit-avatar{
-  position:relative;           /* para posicionar o botão da câmera */
-  background:#eadfce;
-  color:var(--edit-text);
-  overflow:visible !important; /* botão pode “sair” um pouco para fora */
+.edit-avatar {
+	position: relative; /* para posicionar o botão da câmera */
+	background: #eadfce;
+	color: var(--edit-text);
+	overflow: visible !important; /* botão pode “sair” um pouco para fora */
 }
-.edit-avatar img{ position:absolute; inset:0; z-index:1; }
-.edit-avatar-btn{
-  position:absolute; right:-6px; bottom:-6px; z-index:5; /* sempre sobre a foto */
-  width:34px; height:34px; border-radius:9999px;
-  display:flex; align-items:center; justify-content:center;
-  background:#f39a18; color:#3a2000; border:2px solid #f6efe4; /* anel branco */
-  box-shadow:0 2px 6px rgba(0,0,0,.18);
-  line-height:1;
+.edit-avatar img {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
 }
-.edit-avatar-btn:hover{ filter:brightness(.96); }
+.edit-avatar-btn {
+	position: absolute;
+	right: -6px;
+	bottom: -6px;
+	z-index: 5; /* sempre sobre a foto */
+	width: 34px;
+	height: 34px;
+	border-radius: 9999px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #f39a18;
+	color: #3a2000;
+	border: 2px solid #f6efe4; /* anel branco */
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+	line-height: 1;
+}
+.edit-avatar-btn:hover {
+	filter: brightness(0.96);
+}
 
 /* Fechar (X) */
-.edit-close{
-  position:absolute; left:.75rem; top:.75rem; z-index:10;
-  width:32px; height:32px; border-radius:9999px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:20px; font-weight:700; line-height:1;
-  background:rgba(0,0,0,.06);
-  color:#6b3f33; border:1px solid rgba(0,0,0,.08);
-  box-shadow:0 2px 8px rgba(0,0,0,.15);
+.edit-close {
+	position: absolute;
+	left: 0.75rem;
+	top: 0.75rem;
+	z-index: 10;
+	width: 32px;
+	height: 32px;
+	border-radius: 9999px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 1;
+	background: rgba(0, 0, 0, 0.06);
+	color: #6b3f33;
+	border: 1px solid rgba(0, 0, 0, 0.08);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
-.edit-close:hover{ filter:brightness(.96); }
+.edit-close:hover {
+	filter: brightness(0.96);
+}
 
 /* Campos */
-.edit-input{
-  height:3rem;
-  background:var(--edit-input-bg);
-  border:1px solid var(--edit-input-border);
-  border-radius:.75rem;
+.edit-input {
+	height: 3rem;
+	background: var(--edit-input-bg);
+	border: 1px solid var(--edit-input-border);
+	border-radius: 0.75rem;
 }
-.edit-select{
-  height:3rem; width:100%;
-  background:var(--edit-input-bg);
-  border:1px solid var(--edit-input-border);
-  border-radius:.75rem;
-  padding:0 .75rem;
-  color:var(--edit-text);
+.edit-select {
+	height: 3rem;
+	width: 100%;
+	background: var(--edit-input-bg);
+	border: 1px solid var(--edit-input-border);
+	border-radius: 0.75rem;
+	padding: 0 0.75rem;
+	color: var(--edit-text);
 }
 
 /* Botões */
-.edit-button{
-  height:3rem; width:100%;
-  border-radius:1rem; font-weight:800;
-  box-shadow:0 4px 6px -1px var(--edit-shadow);
-  background:var(--edit-primary); color:#3a2000;
+.edit-button {
+	height: 3rem;
+	width: 100%;
+	border-radius: 1rem;
+	font-weight: 800;
+	box-shadow: 0 4px 6px -1px var(--edit-shadow);
+	background: var(--edit-primary);
+	color: #3a2000;
 }
 
 /* Outline destrutivo (igual ao mock) */
-.btn-danger-outline{
-  background:#f6efe4 !important;
-  color:#c2410c !important;
-  border:2px solid #e6b8b0 !important;
+.btn-danger-outline {
+	background: #f6efe4 !important;
+	color: #c2410c !important;
+	border: 2px solid #e6b8b0 !important;
 }
-.btn-danger-outline:hover{
-  background:#fdece7 !important;
-  border-color:#e25f4c !important;
+.btn-danger-outline:hover {
+	background: #fdece7 !important;
+	border-color: #e25f4c !important;
 }
 
 /* ---- Modal actions: força largura e cores corretas ---- */
-.modal-actions .btn-danger-solid{
-  background:#e04f37 !important;   
-  color:#fff !important;
-  border:2px solid #d8442c !important;
-  box-shadow:0 2px 6px rgba(0,0,0,.12);
+.modal-actions .btn-danger-solid {
+	background: #e04f37 !important;
+	color: #fff !important;
+	border: 2px solid #d8442c !important;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
-.modal-actions .btn-danger-solid:hover{
-  filter:brightness(.96);
+.modal-actions .btn-danger-solid:hover {
+	filter: brightness(0.96);
 }
 
-.btn-secondary-soft{
-  background:#f6efe4 !important;   
-  color:#6b3f33 !important;
-  border:1px solid #eadfce !important;
+.btn-secondary-soft {
+	background: #f6efe4 !important;
+	color: #6b3f33 !important;
+	border: 1px solid #eadfce !important;
 }

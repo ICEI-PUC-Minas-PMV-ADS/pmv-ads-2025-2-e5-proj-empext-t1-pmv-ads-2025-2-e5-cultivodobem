@@ -1,7 +1,8 @@
-import logo from "@/assets/logo.png";
 import { Link, useRouter } from "@tanstack/react-router";
 import { LogIn, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
+import InstallPWAButton from "@/components/InstallPWAButton";
+import logo from "@/assets/logo.png";
 
 const getMenuItemsByUserType = (type?: string) => {
   if (!type) {
@@ -31,36 +32,36 @@ const getMenuItemsByUserType = (type?: string) => {
 };
 
 export default function HeaderNavigation() {
-  const router = useRouter();
-  const [sessionUser, setSessionUser] = useState<any>(null);
-  useEffect(() => {
-    const load = () => {
-      try {
-        setSessionUser(JSON.parse(localStorage.getItem("user") || "null"));
-      } catch {
-        setSessionUser(null);
-      }
-    };
-    load();
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === "user") load();
-    };
-    window.addEventListener("storage", onStorage);
+	const router = useRouter();
+	const [sessionUser, setSessionUser] = useState<any>(null);
+	useEffect(() => {
+		const load = () => {
+			try {
+				setSessionUser(JSON.parse(localStorage.getItem("user") || "null"));
+			} catch {
+				setSessionUser(null);
+			}
+		};
+		load();
+		const onStorage = (e: StorageEvent) => {
+			if (e.key === "user") load();
+		};
+		window.addEventListener("storage", onStorage);
 
-    const onAuthChanged = () => load();
-    window.addEventListener("auth-changed", onAuthChanged as any);
-    return () => {
-      window.removeEventListener("storage", onStorage);
-      window.removeEventListener("auth-changed", onAuthChanged as any);
-    };
-  }, []);
+		const onAuthChanged = () => load();
+		window.addEventListener("auth-changed", onAuthChanged as any);
+		return () => {
+			window.removeEventListener("storage", onStorage);
+			window.removeEventListener("auth-changed", onAuthChanged as any);
+		};
+	}, []);
 
-  function logout() {
-    localStorage.removeItem("user");
-    setSessionUser(null);
-    window.dispatchEvent(new Event("auth-changed"));
-    router.navigate({ to: "/login" });
-  }
+	function logout() {
+		localStorage.removeItem("user");
+		setSessionUser(null);
+		window.dispatchEvent(new Event("auth-changed"));
+		router.navigate({ to: "/login" });
+	}
 
   const links = getMenuItemsByUserType(sessionUser?.tipo_usuario);
   return (
@@ -93,6 +94,9 @@ export default function HeaderNavigation() {
               <span className="max-md:hidden">
                 Olá, <strong>{sessionUser.name ?? sessionUser.email}</strong>
               </span>
+              <div className="hidden max-md:flex">
+                <InstallPWAButton />
+              </div>
               <button
                 className="flex flex-row justify-center items-center gap-2 bg-cultivo-secondary text-white font-medium rounded-lg py-1 px-2 cursor-pointer"
                 onClick={logout}

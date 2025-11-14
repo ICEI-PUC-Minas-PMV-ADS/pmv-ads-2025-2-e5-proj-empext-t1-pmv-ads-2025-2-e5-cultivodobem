@@ -1,8 +1,8 @@
-import { Label } from "@/components/ui/label";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
+import { Label } from "@/components/ui/label";
 import "@/styles/login.css";
 import { useMutation } from "convex/react";
 import { api } from "../../../../packages/backend/convex/_generated/api.js";
@@ -23,7 +23,6 @@ function LoginComponent() {
     e.preventDefault();
     setIsLoading(true);
 
-
     try {
       const user = await login({
         email: email.trim().toLowerCase(),
@@ -34,27 +33,13 @@ function LoginComponent() {
       toast.success("Login realizado com sucesso!");
       router.navigate({ to: "/" });
     } catch (error) {
-      const message = error instanceof Error ? error.message : String(error ?? "");
-      if (message.toLowerCase().includes("credenciais inválidas")) {
-        toast.error("Credenciais inválidas");
-      } else {
-        toast.error("Erro ao fazer login");
-      }
+      toast.error(
+        error instanceof Error ? error.message : "Erro ao fazer login"
+      );
     } finally {
       setIsLoading(false);
     }
   };
-
-      
-    // Simulação de autenticação
-  //   try {
-  //     // Simular autenticação simples para demonstração
-  //     if (email === "admin@cultivodobem.com" && password === "123456") {
-  //       const user = {
-  //         email: "admin@cultivodobem.com",
-  //         name: "Administrador",
-  //         id: "1",
-  //       };
 
   //       // Salvar dados do usuário no localStorage
   //       localStorage.setItem("user", JSON.stringify(user));
