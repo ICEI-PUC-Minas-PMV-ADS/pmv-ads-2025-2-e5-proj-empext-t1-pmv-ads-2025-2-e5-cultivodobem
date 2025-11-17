@@ -39,6 +39,7 @@ export const login = mutation({
 			email: user.email,
 			name: user.name,
 			createdAt: user.createdAt,
+			tipo_usuario: user.tipo_usuario ?? null,
 		};
 	},
 });
@@ -62,6 +63,8 @@ export const createInitialUser = mutation({
 			email: "admin@cultivodobem.com",
 			passwordHash: hashPassword("123456"),
 			name: "Administrador",
+			// Default role for the initial admin user. Adjust if needed.
+			tipo_usuario: "Produtor Rural",
 			createdAt: Date.now(),
 		});
 
@@ -90,6 +93,7 @@ export const getUser = query({
 			email: user.email,
 			name: user.name,
 			createdAt: user.createdAt,
+			tipo_usuario: user.tipo_usuario ?? null,
 		};
 	},
 });
