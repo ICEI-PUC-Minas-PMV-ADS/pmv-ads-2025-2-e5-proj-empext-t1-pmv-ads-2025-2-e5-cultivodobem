@@ -19,10 +19,12 @@ export function getUserIdFromLocalStorage() {
 }
 
 export function ensureAuthenticated() {
-	const userId = getUserIdFromLocalStorage();
-	if (!userId) {
-		throw redirect({ to: "/login" });
-	}
+  if (typeof window === "undefined") return;
+
+  const userId = getUserIdFromLocalStorage();
+  if (!userId) {
+    throw redirect({ to: "/login" });
+  }
 }
 
 export function ensureUserRole(role: string) {
