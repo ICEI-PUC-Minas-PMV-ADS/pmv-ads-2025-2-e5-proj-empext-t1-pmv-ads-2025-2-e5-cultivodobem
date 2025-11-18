@@ -628,6 +628,45 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
 
 <table>
   <tr>
+    <th colspan="2" width="1000">CT-013 - S<br>Envio de propostas comerciais</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o Representante Comercial pode enviar propostas comerciais.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">Lucas Guimarães</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Sucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013	Permitir que o Representante Comercial envie propostas comerciais</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Abrir o website<br>
+      2. Realizar o login na plataforma (como Representante)<br>
+      3. Ao ser redirecionado para o painel principal, clicar no botão "Menu"<br>
+      4. No menu selecionar "Propostas Comerciais" <br>
+      5. Ao abrir, selecionar em "nova Proposta de Compra" ou "Criar Primeira Proposta" <br>
+      6. Depois, selecionar uma colheita <br>
+      7. Informar o valor por saca <br>
+      8. Clicar em "Enviar Proposta de Compra" <br>
+      </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O representante comercial deve poder enviar propostas comerciais. <br> O sistema deve voltar para lista de propostas e exibir a proposta enviada</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
     <th colspan="2" width="1000">CT-009 - S<br>Visualizar propostas comerciais</th>
   </tr>
   <tr>
@@ -636,7 +675,7 @@ A seguir estão descritos todos os casos de teste de sucesso e insucesso que cob
   </tr>
   <tr>
     <td><strong>Responsável Caso de Teste </strong></td>
-    <td width="430">Lucas Guimarães</td>
+    <td width="430">Matheus Castelliano</td>
   </tr>
  <tr>
     <td><strong>Tipo do Teste</strong></td>
@@ -883,7 +922,7 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
   </tr>
 </table>
 
-## ETAPA 4
+### ETAPA 4
 
 <table>
   <tr>
@@ -941,6 +980,97 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
     </td>
   </tr>
 </table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-013 - S<br>Envio de propostas comerciais</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O representante comercial deve poder enviar propostas comerciais.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Lucas Guimarães</td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">15/11/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema está registrando as propostas corretamente.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <!-- <video src="https://github.com/user-attachments/assets/dc07352f-3099-417d-9b1a-0b50225c1c84"/> -->
+      <!-- LINK AQUI -->
+      <p>video aqui</p>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-009 - S<br>Visualizar propostas comerciais</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">Este caso de teste verifica se um Produtor Rural consegue visualizar as propostas que recebeu.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Matheus Casteliano</td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">15/11/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema permite visualizar as propostas corretamente.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <!-- <video src="https://github.com/user-attachments/assets/dc07352f-3099-417d-9b1a-0b50225c1c84"/> -->
+      <!-- LINK AQUI -->
+      <p>video aqui</p>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-011 - S<br>Visualizar cotação diária</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">Este caso de teste verifica se um usuário consegue visualizar a cotação diária do feijão carioca</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Matheus Casteliano</td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">17/11/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema permite visualizar a cotação do feijão corretamente.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <!-- <video src="https://github.com/user-attachments/assets/dc07352f-3099-417d-9b1a-0b50225c1c84"/> -->
+      <!-- LINK AQUI -->
+      <p>video aqui</p>
+    </td>
+  </tr>
+</table>
+
 
 ## Parte 2 - Testes por pares
 
@@ -1236,7 +1366,7 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
   </tr>
     <tr>
       <td><strong>Responsável pela funcionalidade</strong></td>
-    <td width="430">Lucas Guimarães</td>
+    <td width="430">Matheus Castelliano</td>
       <td><strong>Responsável pelo teste</strong></td>
     <td width="430">Arthur Costa</td>
      <td width="100"><strong>Data do teste</strong></td>
@@ -1254,4 +1384,64 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
       <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/7a61322f-89a4-45f5-95df-2016e6fa1a63" />
     </td>
   </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-012 - S<br>Visualizar colheitas</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve apresentar corretamente a listagem de colheitas.</td>
+  </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade</strong></td>
+    <td width="430">Arthur Costa</td>
+      <td><strong>Responsável pelo teste</strong></td>
+    <td width="430">Lucas Guimarães</td>
+     <td width="100"><strong>Data do teste</strong></td>
+    <td width="150">17/11/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema mostra corretamente as colheitas.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <td colspan="6" align="center">
+      <!-- <video src="https://github.com/user-attachments/assets/dc07352f-3099-417d-9b1a-0b50225c1c84"/> -->
+      <!-- LINK AQUI -->
+      <p>video aqui</p>
+    </td>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-013 - S<br>Envio de propostas comerciais</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O representante comercial deve poder enviar propostas comerciais.</td>
+  </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade</strong></td>
+    <td width="430">Lucas Guimarães</td>
+      <td><strong>Responsável pelo teste</strong></td>
+    <td width="430">Matheus Castelliano</td>
+     <td width="100"><strong>Data do teste</strong></td>
+    <td width="150">17/11/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O sistema permite enviar propostas comerciais corretamente.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <td colspan="6" align="center">
+      <!-- <video src="https://github.com/user-attachments/assets/dc07352f-3099-417d-9b1a-0b50225c1c84"/> -->
+      <!-- LINK AQUI -->
+      <p>video aqui</p>
+    </td>
 </table>
