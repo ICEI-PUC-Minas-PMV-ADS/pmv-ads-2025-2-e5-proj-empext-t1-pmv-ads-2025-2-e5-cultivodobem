@@ -1,12 +1,12 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../../../packages/backend/convex/_generated/api";
 import { ensureUserRole, getUserIdFromLocalStorage } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, Plus } from "lucide-react";
+import { ArrowLeft, Plus, AlertCircle } from "lucide-react";
 
 export const Route = createFileRoute("/groups/new")({
   component: NewGroupPage,
@@ -16,15 +16,66 @@ export const Route = createFileRoute("/groups/new")({
 function NewGroupPage() {
   const navigate = useNavigate();
   const create = useMutation(api.group.create);
-  
+  const userId = getUserIdFromLocalStorage();
+  const existingGroup = useQuery(
+    api.group.getUserGroup,
+    userId ? { userId } : "skip"
+  );
+
   const [form, setForm] = useState({ name: "", description: "", stock: 0 });
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // If user is already in a group, redirect them
+  if (existingGroup !== undefined && existingGroup !== null) {
+    return (
+      <main className="min-h-screen bg-[#f8f3ed] py-8 px-4 pt-16">
+        <div className="max-w-2xl mx-auto space-y-6">
+          <button
+            onClick={() => navigate({ to: "/groups" })}
+            className="flex items-center gap-2 text-[#7c6a5c] hover:text-[#bfa98a] transition-colors"
+          >
+            <ArrowLeft size={20} />
+            <span className="font-medium">Voltar</span>
+          </button>
+
+          <Card className="bg-white border-none shadow-lg p-8">
+            <div className="flex flex-col items-center text-center space-y-4">
+              <AlertCircle className="w-16 h-16 text-amber-500" />
+              <h2 className="text-2xl font-bold text-[#7c6a5c]">
+                Você já está em um grupo
+              </h2>
+              <p className="text-[#7c6a5c]">
+                Você já é membro do grupo "<strong>{existingGroup.name}</strong>
+                ". Cada usuário pode estar em apenas um grupo por vez.
+              </p>
+              <div className="flex gap-3 pt-4 w-full">
+                <Button
+                  onClick={() => navigate({ to: "/groups" })}
+                  variant="outline"
+                  className="flex-1 border-[#7c6a5c] text-[#7c6a5c]"
+                >
+                  Ver Grupos
+                </Button>
+                <Button
+                  onClick={() =>
+                    navigate({ to: `/groups/${existingGroup._id}` })
+                  }
+                  className="flex-1 bg-[#ffa726] text-white font-semibold hover:bg-[#ff9800]"
+                >
+                  Ir para Meu Grupo
+                </Button>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </main>
+    );
+  }
   async function onCreate(e: React.FormEvent) {
     e.preventDefault();
     const user = getUserIdFromLocalStorage();
-    
+
     if (!user) {
       setError("Usuário não encontrado. Faça login novamente.");
       return;
@@ -44,10 +95,10 @@ function NewGroupPage() {
         name: form.name.trim(),
         description: form.description.trim() || undefined,
         stock: Number(form.stock) || 0,
-        participants: [],
+        participants: [user],
         createdBy: user,
       });
-      
+
       navigate({ to: `/groups/${groupId}` });
     } catch (err) {
       console.error("Create failed", err);
@@ -70,7 +121,9 @@ function NewGroupPage() {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-2">
             <Plus className="text-[#ffa726]" size={32} />
-            <h1 className="text-3xl font-bold text-[#7c6a5c]">Criar Novo Grupo</h1>
+            <h1 className="text-3xl font-bold text-[#7c6a5c]">
+              Criar Novo Grupo
+            </h1>
           </div>
           <p className="text-[#7c6a5c]">
             Crie um grupo para colaborar com outros produtores
@@ -100,7 +153,9 @@ function NewGroupPage() {
               <textarea
                 placeholder="Descreva o propósito do grupo..."
                 value={form.description}
-                onChange={(e) => setForm({ ...form, description: e.target.value })}
+                onChange={(e) =>
+                  setForm({ ...form, description: e.target.value })
+                }
                 className="w-full bg-[#f5ede3] border-none rounded-md px-3 py-2 text-base min-h-[100px] resize-none focus:outline-none focus:ring-2 focus:ring-[#ffa726]"
                 disabled={isCreating}
               />
@@ -114,7 +169,9 @@ function NewGroupPage() {
                 type="number"
                 placeholder="0"
                 value={String(form.stock)}
-                onChange={(e) => setForm({ ...form, stock: Number(e.target.value) })}
+                onChange={(e) =>
+                  setForm({ ...form, stock: Number(e.target.value) })
+                }
                 className="bg-[#f5ede3] border-none text-lg"
                 disabled={isCreating}
                 min="0"
@@ -168,7 +225,9 @@ function NewGroupPage() {
           <ul className="space-y-2 text-sm text-[#7c6a5c]">
             <li className="flex gap-2">
               <span>•</span>
-              <span>Você será o proprietário do grupo e poderá gerenciar membros</span>
+              <span>
+                Você será o proprietário do grupo e poderá gerenciar membros
+              </span>
             </li>
             <li className="flex gap-2">
               <span>•</span>
