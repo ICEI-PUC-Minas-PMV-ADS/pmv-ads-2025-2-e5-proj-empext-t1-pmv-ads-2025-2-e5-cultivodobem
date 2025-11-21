@@ -456,15 +456,6 @@ function ProposalsPage() {
                       </p>
                     </div>
                   )}
-                  {/* Aviso para membros do grupo */}
-                  {!isRepresentante && proposal.group && !isCreator && (
-                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4">
-                      <p className="text-xs text-amber-800">
-                        ℹ️ Apenas o criador do grupo pode visualizar os dados de
-                        contato e interagir com esta proposta.
-                      </p>
-                    </div>
-                  )}
 
                   {/* Botões de Ação - Minimalista */}
                   {canContact && (

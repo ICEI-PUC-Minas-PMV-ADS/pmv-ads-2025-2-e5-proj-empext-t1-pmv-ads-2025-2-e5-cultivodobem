@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -36,7 +36,7 @@ function RouteComponent() {
   const removeParticipant = useMutation(api.group.removeParticipant);
 
   const [editing, setEditing] = useState(false);
-  const [editGroup, setEditGroup] = useState<any | null>(null);
+  const [editGroup, setEditGroup] = useState<any>(null);
 
   // Check if user is already in a group
   const isInGroup = userGroup !== undefined && userGroup !== null;
@@ -44,6 +44,58 @@ function RouteComponent() {
   async function onDelete(id: any) {
     if (!confirm("Excluir grupo?")) return;
     await remove({ id });
+  }
+
+  async function handleRemoveParticipant(groupId: any, participantId: any) {
+    try {
+      console.log("=== Iniciando remoção de participante ===");
+      console.log("Group ID:", groupId);
+      console.log("Participant ID:", participantId);
+      console.log("Estado atual editGroup:", editGroup);
+
+      await removeParticipant({
+        groupId,
+        userId: participantId,
+      });
+
+      console.log("✅ Participante removido no backend");
+
+      // Atualizar o estado local removendo o participante
+      setEditGroup((prev: any) => {
+        console.log("Estado anterior:", prev);
+        if (!prev) {
+          console.log("⚠️ Estado anterior é null");
+          return prev;
+        }
+
+        const newParticipants = prev.participants.filter(
+          (pid: any) => String(pid) !== String(participantId)
+        );
+        const newParticipantsFull = prev.participantsFull.filter(
+          (participant: any) =>
+            String(participant._id) !== String(participantId)
+        );
+
+        console.log("Participantes antes:", prev.participants.length);
+        console.log("Participantes depois:", newParticipants.length);
+        console.log("ParticipantsFull antes:", prev.participantsFull.length);
+        console.log("ParticipantsFull depois:", newParticipantsFull.length);
+
+        const newState = {
+          ...prev,
+          participants: newParticipants,
+          participantsFull: newParticipantsFull,
+        };
+
+        console.log("Novo estado:", newState);
+        return newState;
+      });
+
+      console.log("=== Remoção concluída ===");
+    } catch (error) {
+      console.error("❌ Erro ao remover participante:", error);
+      alert(`Erro ao remover participante: ${error}`);
+    }
   }
 
   return (
@@ -363,19 +415,12 @@ function RouteComponent() {
                       </span>
                     ) : (
                       <Button
+                        type="button"
                         size="sm"
                         variant="destructive"
-                        onClick={async () => {
-                          await removeParticipant({
-                            groupId: editGroup._id,
-                            userId: p._id,
-                          });
-                          const refreshed =
-                            groups?.find(
-                              (gg: any) => gg._id === editGroup._id
-                            ) ?? null;
-                          setEditGroup(refreshed);
-                        }}
+                        onClick={() =>
+                          handleRemoveParticipant(editGroup._id, p._id)
+                        }
                       >
                         Remover
                       </Button>

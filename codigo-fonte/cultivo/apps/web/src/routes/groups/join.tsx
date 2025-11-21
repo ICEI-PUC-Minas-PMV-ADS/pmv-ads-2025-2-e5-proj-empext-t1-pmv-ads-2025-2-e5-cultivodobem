@@ -24,16 +24,28 @@ function JoinGroupPage() {
   const { groupId: groupIdParam } = Route.useSearch();
   const groupId = groupIdParam as Id<"groups">;
   const userId = getUserIdFromLocalStorage();
-  
+
   const group = useQuery(api.group.getById, groupId ? { id: groupId } : "skip");
+  const currentUser = useQuery(
+    api.user.getById,
+    userId ? { id: userId as Id<"users"> } : "skip"
+  );
   const addParticipant = useMutation(api.group.addParticipant);
-  
+
   const [isJoining, setIsJoining] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Auto-join and redirect when group loads
   useEffect(() => {
-    if (!group || !userId || isJoining) return;
+    if (!group || !userId || !currentUser || isJoining) return;
+
+    // Verificar se o usuário é do tipo "Produtor Rural"
+    if (currentUser.tipo_usuario !== "Produtor Rural") {
+      setError(
+        "Apenas usuários do tipo 'Produtor Rural' podem participar de grupos."
+      );
+      return;
+    }
 
     const isAlreadyMember = group.participants?.some(
       (p: any) => String(p) === String(userId)
@@ -62,14 +74,24 @@ function JoinGroupPage() {
     };
 
     joinGroup();
-  }, [group, userId, groupId, addParticipant, navigate, isJoining]);
+  }, [
+    group,
+    userId,
+    currentUser,
+    groupId,
+    addParticipant,
+    navigate,
+    isJoining,
+  ]);
 
   // Loading state
   if (!groupId) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#f8f3ed] p-4">
         <Card className="bg-white border-none shadow-lg p-8 max-w-md w-full text-center">
-          <div className="text-red-600 text-lg font-semibold mb-2">Link Inválido</div>
+          <div className="text-red-600 text-lg font-semibold mb-2">
+            Link Inválido
+          </div>
           <p className="text-[#7c6a5c] mb-4">
             O link de convite está incompleto ou inválido.
           </p>

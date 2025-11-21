@@ -127,13 +127,22 @@ export const addParticipant = mutation({
   handler: async (ctx, { groupId, userId }) => {
     const g = await ctx.db.get(groupId);
     if (!g) throw new Error("Grupo não encontrado.");
+
+    // Get the user info who is joining
+    const joiningUser = await ctx.db.get(userId);
+    if (!joiningUser) throw new Error("Usuário não encontrado.");
+
+    // Verificar se o usuário é do tipo "Produtor Rural"
+    if (joiningUser.tipo_usuario !== "Produtor Rural") {
+      throw new Error(
+        "Apenas usuários do tipo 'Produtor Rural' podem participar de grupos."
+      );
+    }
+
     const participants: any[] = g.participants ?? [];
     // avoid duplicates
     if (participants.some((p: any) => String(p) === String(userId)))
       return groupId;
-
-    // Get the user info who is joining
-    const joiningUser = await ctx.db.get(userId);
 
     participants.push(userId);
     await ctx.db.patch(groupId, { participants });

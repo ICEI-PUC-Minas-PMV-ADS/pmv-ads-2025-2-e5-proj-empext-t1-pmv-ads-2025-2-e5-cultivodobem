@@ -12,6 +12,7 @@ import {
   Info,
   Eye,
   X,
+  Users,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
@@ -32,6 +33,9 @@ export const Route = createFileRoute("/proposals/create")({
 });
 
 const proposalSchema = z.object({
+  recipientType: z.enum(["producer", "group"], {
+    message: "Selecione o tipo de destinatário",
+  }),
   valuePerSack: z
     .number({ message: "Informe o valor por saca" })
     .min(0.01, "O valor deve ser maior que zero"),
@@ -48,6 +52,7 @@ function CreateProposalPage() {
   const { harvestId } = Route.useSearch();
   const convex = useConvex();
   const [selectedHarvest, setSelectedHarvest] = useState<any>(null);
+  const [selectedGroup, setSelectedGroup] = useState<any>(null);
   const [buyerData, setBuyerData] = useState<any>(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -65,6 +70,9 @@ function CreateProposalPage() {
   // Buscar todas as colheitas com detalhes
   const harvests = useQuery(api.harvests.getAllHarvestsWithDetails);
 
+  // Buscar todos os grupos
+  const groups = useQuery(api.group.list);
+
   // Mutation para criar proposta
   const createProposalMutation = useMutation(api.proposals.createProposal);
 
@@ -72,10 +80,12 @@ function CreateProposalPage() {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<ProposalFormData>({
     resolver: zodResolver(proposalSchema),
     defaultValues: {
+      recipientType: "producer",
       valuePerSack: 0,
       quantity: 1,
       observations: "",
@@ -121,9 +131,18 @@ function CreateProposalPage() {
 
   const valuePerSack = watch("valuePerSack");
   const quantity = watch("quantity");
+  const recipientType = watch("recipientType");
   const totalValue = valuePerSack * quantity;
 
-  if (!harvests || !buyerData) {
+  // Determinar quantidade máxima disponível
+  let maxQuantity: number | undefined;
+  if (selectedHarvest) {
+    maxQuantity = selectedHarvest.quantity;
+  } else if (selectedGroup) {
+    maxQuantity = selectedGroup.stock;
+  }
+
+  if (!harvests || !buyerData || !groups) {
     return (
       <div className="min-h-screen bg-[#F5F1E8] flex items-center justify-center mt-16">
         <div className="text-center">
@@ -139,22 +158,41 @@ function CreateProposalPage() {
   };
 
   const onSubmit = async (data: ProposalFormData) => {
-    if (!selectedHarvest) {
+    if (data.recipientType === "producer" && !selectedHarvest) {
       toast.error("Selecione uma colheita para enviar a proposta");
       return;
     }
 
+    if (data.recipientType === "group" && !selectedGroup) {
+      toast.error("Selecione um grupo para enviar a proposta");
+      return;
+    }
+
     try {
-      await createProposalMutation({
-        userId: selectedHarvest.userId,
-        valuePerSack: data.valuePerSack,
-        quantity: data.quantity,
-        phoneBuyer: buyerData.telefone || "",
-        emailBuyer: buyerData.email,
-        nameBuyer: buyerData.name,
-        buyerId: currentUserId,
-        observations: data.observations,
-      });
+      if (data.recipientType === "producer") {
+        await createProposalMutation({
+          userId: selectedHarvest.userId,
+          valuePerSack: data.valuePerSack,
+          quantity: data.quantity,
+          phoneBuyer: buyerData.telefone || "",
+          emailBuyer: buyerData.email,
+          nameBuyer: buyerData.name,
+          buyerId: currentUserId,
+          observations: data.observations,
+        });
+      } else {
+        // Proposta para grupo
+        await createProposalMutation({
+          groupId: selectedGroup._id,
+          valuePerSack: data.valuePerSack,
+          quantity: data.quantity,
+          phoneBuyer: buyerData.telefone || "",
+          emailBuyer: buyerData.email,
+          nameBuyer: buyerData.name,
+          buyerId: currentUserId,
+          observations: data.observations,
+        });
+      }
 
       toast.success("Proposta enviada com sucesso!");
       navigate({ to: "/proposals" });
@@ -186,61 +224,158 @@ function CreateProposalPage() {
           {/* Card Principal Compacto */}
           <Card className="bg-white shadow-lg">
             <CardContent className="p-6 space-y-5">
-              {/* Seletor de Colheita Minimalista */}
+              {/* Seletor de Tipo de Destinatário */}
               <div>
-                <label
-                  htmlFor="harvestSelect"
-                  className="block text-sm font-semibold text-gray-700 mb-2"
-                >
-                  Selecione a Colheita
-                </label>
-
-                {harvests.length === 0 ? (
-                  <div className="bg-gray-50 rounded-lg p-8 text-center border-2 border-dashed border-gray-300">
-                    <Package2 className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                    <p className="text-gray-500">Nenhuma colheita disponível</p>
-                  </div>
-                ) : (
-                  <div className="relative">
-                    <select
-                      id="harvestSelect"
-                      value={selectedHarvest?._id || ""}
-                      onChange={(e) => {
-                        const harvest = harvests.find(
-                          (h) => h._id === e.target.value
-                        );
-                        setSelectedHarvest(harvest || null);
-                      }}
-                      className="w-full px-4 py-3 pr-10 border-2 border-gray-300 rounded-lg bg-white text-gray-900 font-medium focus:border-[#62331B] focus:ring-2 focus:ring-[#62331B]/20 cursor-pointer appearance-none transition-all"
-                    >
-                      <option value="">Escolha uma colheita...</option>
-                      {harvests.map((harvest) => {
-                        const finalScore =
-                          harvest.analysis?.colorimetry?.finalScore;
-                        const scoreText = finalScore
-                          ? ` | Nota: ${finalScore.toFixed(1)}`
-                          : "";
-                        return (
-                          <option key={harvest._id} value={harvest._id}>
-                            {harvest.user?.name || "Produtor"} -{" "}
-                            {harvest.quantity} sacas -{" "}
-                            {harvest.user?.cidade || "Cidade"}
-                            {scoreText}
-                          </option>
-                        );
-                      })}
-                    </select>
-                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
-                  </div>
-                )}
-
-                {!selectedHarvest && harvests.length > 0 && (
-                  <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
-                    <Info className="w-3 h-3" />
-                    Selecione uma colheita para continuar
+                <div className="block text-sm font-semibold text-gray-700 mb-2">
+                  Tipo de Destinatário
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setValue("recipientType", "producer");
+                      setSelectedGroup(null);
+                    }}
+                    className={`cursor-pointer flex items-center justify-center gap-2 p-4 rounded-lg border-2 transition-all ${
+                      recipientType === "producer"
+                        ? "border-[#62331B] bg-[#62331B]/10 text-[#62331B]"
+                        : "border-gray-300 bg-white text-gray-700 hover:border-gray-400"
+                    }`}
+                  >
+                    <User className="w-5 h-5" />
+                    <span className="font-semibold">Produtor Individual</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setValue("recipientType", "group");
+                      setSelectedHarvest(null);
+                    }}
+                    className={`cursor-pointer flex items-center justify-center gap-2 p-4 rounded-lg border-2 transition-all ${
+                      recipientType === "group"
+                        ? "border-[#62331B] bg-[#62331B]/10 text-[#62331B]"
+                        : "border-gray-300 bg-white text-gray-700 hover:border-gray-400"
+                    }`}
+                  >
+                    <Users className="w-5 h-5" />
+                    <span className="font-semibold">Grupo</span>
+                  </button>
+                </div>
+                {errors.recipientType && (
+                  <p className="text-red-500 text-xs mt-1 font-medium">
+                    {errors.recipientType.message}
                   </p>
                 )}
               </div>
+
+              {/* Seletor de Colheita Minimalista */}
+              {recipientType === "producer" && (
+                <div>
+                  <label
+                    htmlFor="harvestSelect"
+                    className="block text-sm font-semibold text-gray-700 mb-2"
+                  >
+                    Selecione a Colheita
+                  </label>
+
+                  {harvests.length === 0 ? (
+                    <div className="bg-gray-50 rounded-lg p-8 text-center border-2 border-dashed border-gray-300">
+                      <Package2 className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+                      <p className="text-gray-500">
+                        Nenhuma colheita disponível
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="relative">
+                      <select
+                        id="harvestSelect"
+                        value={selectedHarvest?._id || ""}
+                        onChange={(e) => {
+                          const harvest = harvests.find(
+                            (h) => h._id === e.target.value
+                          );
+                          setSelectedHarvest(harvest || null);
+                        }}
+                        className="w-full px-4 py-3 pr-10 border-2 border-gray-300 rounded-lg bg-white text-gray-900 font-medium focus:border-[#62331B] focus:ring-2 focus:ring-[#62331B]/20 cursor-pointer appearance-none transition-all"
+                      >
+                        <option value="">Escolha uma colheita...</option>
+                        {harvests.map((harvest) => {
+                          const finalScore =
+                            harvest.analysis?.colorimetry?.finalScore;
+                          const scoreText = finalScore
+                            ? ` | Nota: ${finalScore.toFixed(1)}`
+                            : "";
+                          return (
+                            <option key={harvest._id} value={harvest._id}>
+                              {harvest.user?.name || "Produtor"} -{" "}
+                              {harvest.quantity} sacas -{" "}
+                              {harvest.user?.cidade || "Cidade"}
+                              {scoreText}
+                            </option>
+                          );
+                        })}
+                      </select>
+                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
+                    </div>
+                  )}
+
+                  {!selectedHarvest && harvests.length > 0 && (
+                    <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                      <Info className="w-3 h-3" />
+                      Selecione uma colheita para continuar
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {/* Seletor de Grupo */}
+              {recipientType === "group" && (
+                <div>
+                  <label
+                    htmlFor="groupSelect"
+                    className="block text-sm font-semibold text-gray-700 mb-2"
+                  >
+                    Selecione o Grupo
+                  </label>
+
+                  {groups.length === 0 ? (
+                    <div className="bg-gray-50 rounded-lg p-8 text-center border-2 border-dashed border-gray-300">
+                      <Users className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+                      <p className="text-gray-500">Nenhum grupo disponível</p>
+                    </div>
+                  ) : (
+                    <div className="relative">
+                      <select
+                        id="groupSelect"
+                        value={selectedGroup?._id || ""}
+                        onChange={(e) => {
+                          const group = groups.find(
+                            (g) => g._id === e.target.value
+                          );
+                          setSelectedGroup(group || null);
+                        }}
+                        className="w-full px-4 py-3 pr-10 border-2 border-gray-300 rounded-lg bg-white text-gray-900 font-medium focus:border-[#62331B] focus:ring-2 focus:ring-[#62331B]/20 cursor-pointer appearance-none transition-all"
+                      >
+                        <option value="">Escolha um grupo...</option>
+                        {groups.map((group) => (
+                          <option key={group._id} value={group._id}>
+                            {group.name} - {group.stock} sacas -{" "}
+                            {group.participantsFull?.length || 0} membros
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
+                    </div>
+                  )}
+
+                  {!selectedGroup && groups.length > 0 && (
+                    <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                      <Info className="w-3 h-3" />
+                      Selecione um grupo para continuar
+                    </p>
+                  )}
+                </div>
+              )}
 
               {/* Detalhes da Colheita Selecionada */}
               {selectedHarvest && (
@@ -322,8 +457,52 @@ function CreateProposalPage() {
                 </div>
               )}
 
+              {/* Detalhes do Grupo Selecionado */}
+              {selectedGroup && (
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200 space-y-3">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-2">
+                      <Users className="w-5 h-5 text-blue-700" />
+                      <div>
+                        <p className="font-bold text-blue-900">
+                          {selectedGroup.name}
+                        </p>
+                        {selectedGroup.description && (
+                          <p className="text-xs text-blue-700 mt-1">
+                            {selectedGroup.description}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-blue-700">Estoque Total</p>
+                      <p className="font-bold text-blue-900">
+                        {selectedGroup.stock} sacas
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-blue-200">
+                    <div className="text-center bg-blue-100 rounded-lg p-2">
+                      <p className="text-xs text-blue-700">Membros</p>
+                      <p className="font-semibold text-lg text-blue-900">
+                        {selectedGroup.participantsFull?.length || 0}
+                      </p>
+                    </div>
+                    <div className="text-center bg-blue-100 rounded-lg p-2">
+                      <p className="text-xs text-blue-700">Criado em</p>
+                      <p className="font-semibold text-sm text-blue-900">
+                        {new Date(selectedGroup.createdAt).toLocaleDateString(
+                          "pt-BR"
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Campos do Formulário */}
-              {selectedHarvest && (
+              {(selectedHarvest || selectedGroup) && (
                 <>
                   <div className="grid md:grid-cols-2 gap-4">
                     {/* Valor por Saca */}
@@ -367,7 +546,7 @@ function CreateProposalPage() {
                           id="quantity"
                           type="number"
                           min="1"
-                          max={selectedHarvest.quantity}
+                          max={maxQuantity}
                           {...register("quantity", { valueAsNumber: true })}
                           className="pl-10 h-12 text-lg font-medium border-2 focus:border-[#62331B] focus:ring-2 focus:ring-[#62331B]/20"
                           placeholder="1"
@@ -440,7 +619,7 @@ function CreateProposalPage() {
           </Card>
 
           {/* Botão de Envio */}
-          {selectedHarvest && (
+          {(selectedHarvest || selectedGroup) && (
             <Button
               type="submit"
               className="w-full mb-24 h-14 bg-gradient-to-r from-[#62331B] to-[#8B5A3C] text-white hover:from-[#4a2415] hover:to-[#62331B] cursor-pointer shadow-lg hover:shadow-xl transition-all duration-200 text-lg font-bold"
