@@ -1019,7 +1019,7 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
   </tr>
     <tr>
     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
-    <td width="430">Matheus Casteliano</td>
+    <td width="430">Matheus Castelliano</td>
      <td width="100"><strong>Data do Teste</strong></td>
     <td width="150">15/11/2025</td>
   </tr>
@@ -1047,7 +1047,7 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
   </tr>
     <tr>
     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
-    <td width="430">Matheus Casteliano</td>
+    <td width="430">Matheus Castelliano</td>
      <td width="100"><strong>Data do Teste</strong></td>
     <td width="150">17/11/2025</td>
   </tr>
