@@ -1004,9 +1004,7 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
   </tr>
   <tr>
     <td colspan="6" align="center">
-      <!-- <video src="https://github.com/user-attachments/assets/dc07352f-3099-417d-9b1a-0b50225c1c84"/> -->
-      <!-- LINK AQUI -->
-      <p>video aqui</p>
+      <video src="https://github.com/user-attachments/assets/412097da-8666-48b3-8229-21c75a4f9009"/>
     </td>
   </tr>
 </table>
@@ -1034,9 +1032,7 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
   </tr>
   <tr>
     <td colspan="6" align="center">
-      <!-- <video src="https://github.com/user-attachments/assets/dc07352f-3099-417d-9b1a-0b50225c1c84"/> -->
-      <!-- LINK AQUI -->
-      <p>video aqui</p>
+      <video src="https://github.com/user-attachments/assets/2736f239-f36b-4244-b3f4-1a8dacfa46e4"/>
     </td>
   </tr>
 </table>
@@ -1064,9 +1060,7 @@ Testes realizados pelo próprio desenvolvedor responsável pela implementação 
   </tr>
   <tr>
     <td colspan="6" align="center">
-      <!-- <video src="https://github.com/user-attachments/assets/dc07352f-3099-417d-9b1a-0b50225c1c84"/> -->
-      <!-- LINK AQUI -->
-      <p>video aqui</p>
+      <video src="https://github.com/user-attachments/assets/5bdccec7-74a7-4ba4-8117-c7368a33c779"/>
     </td>
   </tr>
 </table>
@@ -1410,9 +1404,7 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <td colspan="6" align="center">
-      <!-- <video src="https://github.com/user-attachments/assets/dc07352f-3099-417d-9b1a-0b50225c1c84"/> -->
-      <!-- LINK AQUI -->
-      <p>video aqui</p>
+    <video src="https://github.com/user-attachments/assets/a3ebfc98-0a0a-46df-b669-65ae9b887640"
     </td>
 </table>
 
@@ -1440,8 +1432,6 @@ Testes realizados por um desenvolvedor terceiro, diferente daquele responsável 
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <td colspan="6" align="center">
-      <!-- <video src="https://github.com/user-attachments/assets/dc07352f-3099-417d-9b1a-0b50225c1c84"/> -->
-      <!-- LINK AQUI -->
-      <p>video aqui</p>
+      <video src="https://github.com/user-attachments/assets/41d92999-1bc8-4755-9ac4-a9c8e91a4142"/>
     </td>
 </table>
