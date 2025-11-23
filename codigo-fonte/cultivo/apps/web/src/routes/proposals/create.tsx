@@ -25,6 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 const searchSchema = z.object({
   harvestId: z.string().optional(),
+  groupId: z.string().optional(),
 });
 
 export const Route = createFileRoute("/proposals/create")({
@@ -49,7 +50,7 @@ type ProposalFormData = z.infer<typeof proposalSchema>;
 
 function CreateProposalPage() {
   const navigate = useNavigate();
-  const { harvestId } = Route.useSearch();
+  const { harvestId, groupId } = Route.useSearch();
   const convex = useConvex();
   const [selectedHarvest, setSelectedHarvest] = useState<any>(null);
   const [selectedGroup, setSelectedGroup] = useState<any>(null);
@@ -107,6 +108,17 @@ function CreateProposalPage() {
       }
     }
   }, [harvestId, harvests]);
+
+  // Pré-selecionar grupo se groupId foi passado na URL
+  useEffect(() => {
+    if (groupId && groups) {
+      const group = groups.find((g) => g._id === groupId);
+      if (group) {
+        setSelectedGroup(group);
+        setValue("recipientType", "group");
+      }
+    }
+  }, [groupId, groups, setValue]);
 
   // Buscar URL da imagem quando a colheita selecionada mudar
   useEffect(() => {

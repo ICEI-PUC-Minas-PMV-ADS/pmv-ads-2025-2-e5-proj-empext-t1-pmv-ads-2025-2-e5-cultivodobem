@@ -1,5 +1,6 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { mutation, query, internalAction } from "./_generated/server";
+import { internal, api } from "./_generated/api";
 
 // Criar uma nova proposta
 export const createProposal = mutation({
@@ -21,7 +22,114 @@ export const createProposal = mutation({
       viewed: false,
     });
 
+    // After creating the proposal, notify recipients via push
+    try {
+      const payloadObj = {
+        title: "Nova Proposta de Compra",
+        body: args.groupId
+          ? `Uma nova proposta foi enviada para o grupo.`
+          : `Você recebeu uma nova proposta de compra.`,
+        url: args.groupId ? `/groups/${String(args.groupId)}` : `/proposals`,
+        proposalId: proposalId,
+      };
+      const payload = JSON.stringify(payloadObj);
+
+      if (args.groupId) {
+        // Fetch group to get participants and owner
+        const g = await ctx.db.get(args.groupId);
+        if (g) {
+          const participants: any[] = g.participants ?? [];
+          // keep ids as-is (they are stored as id objects)
+          const allRecipients = [...participants, g.createdBy];
+          // Build a map of stringId -> original id object to preserve id types
+          const idMap: Record<string, any> = {};
+          for (const r of allRecipients) {
+            if (r) idMap[String(r)] = r;
+          }
+
+          const recipients = Object.keys(idMap)
+            .filter((sid) => String(sid) !== String(args.buyerId))
+            .map((sid) => idMap[sid]);
+
+          if (recipients.length > 0) {
+            // schedule internal action to send notifications
+            await ctx.scheduler.runAfter(
+              0,
+              (internal as any).proposals.sendProposalNotification,
+              {
+                recipients,
+                payload,
+              }
+            );
+          }
+        }
+      } else if (args.userId) {
+        // Direct proposal to a specific producer
+        // don't notify the buyer themselves
+        if (String(args.userId) !== String(args.buyerId)) {
+          const recipients = [args.userId];
+          await ctx.scheduler.runAfter(
+            0,
+            (internal as any).proposals.sendProposalNotification,
+            {
+              recipients,
+              payload,
+            }
+          );
+        }
+      }
+    } catch (e) {
+      console.error("Error scheduling proposal notifications:", e);
+    }
+
     return proposalId;
+  },
+});
+
+// Internal action to send a notification payload to multiple userIds
+export const sendProposalNotification: any = internalAction({
+  args: {
+    recipients: v.array(v.id("users")),
+    payload: v.string(),
+  },
+  handler: async (ctx, { recipients, payload }) => {
+    const results: any[] = [];
+    // Try to parse payload to extract title/body/url for in-app notification storage
+    let parsed: any = null;
+    try {
+      parsed = JSON.parse(payload);
+    } catch (e) {
+      // payload may be plain string
+    }
+
+    for (const uid of recipients) {
+      try {
+        // Create an in-app notification record via the notifications mutation
+        try {
+          await ctx.runMutation(api.notifications.create, {
+            userId: uid,
+            title: parsed?.title || "Notificação",
+            body: parsed?.body || String(payload).slice(0, 200),
+            url: parsed?.url || undefined,
+            data: parsed?.proposalId ? String(parsed.proposalId) : undefined,
+            senderId: undefined,
+          });
+        } catch (e) {
+          console.error("Error creating notification record for user", uid, e);
+        }
+
+        const res = await ctx.runAction(api.push.sendToUser, {
+          userId: uid,
+          payload,
+        });
+        results.push({ userId: uid, result: res });
+      } catch (err) {
+        console.error("Error sending proposal notification to", uid, err);
+        results.push({ userId: uid, error: String(err) });
+      }
+    }
+
+    return results;
   },
 });
 

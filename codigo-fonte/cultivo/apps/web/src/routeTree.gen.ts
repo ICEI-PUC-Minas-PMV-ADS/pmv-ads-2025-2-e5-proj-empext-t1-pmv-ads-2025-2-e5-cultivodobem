@@ -32,6 +32,7 @@ import { Route as GroupsNewRouteImport } from './routes/groups/new'
 import { Route as GroupsJoinRouteImport } from './routes/groups/join'
 import { Route as GroupsGroupIdRouteImport } from './routes/groups/$groupId'
 import { Route as ClassifierIdRouteImport } from './routes/classifier/$id'
+import { Route as GroupsGroupIdProposeRouteImport } from './routes/groups/$groupId/propose'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -148,6 +149,11 @@ const ClassifierIdRoute = ClassifierIdRouteImport.update({
   path: '/classifier/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GroupsGroupIdProposeRoute = GroupsGroupIdProposeRouteImport.update({
+  id: '/propose',
+  path: '/propose',
+  getParentRoute: () => GroupsGroupIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -160,7 +166,7 @@ export interface FileRoutesByFullPath {
   '/menu': typeof MenuRoute
   '/signup': typeof SignupRoute
   '/classifier/$id': typeof ClassifierIdRoute
-  '/groups/$groupId': typeof GroupsGroupIdRoute
+  '/groups/$groupId': typeof GroupsGroupIdRouteWithChildren
   '/groups/join': typeof GroupsJoinRoute
   '/groups/new': typeof GroupsNewRoute
   '/groups/owned': typeof GroupsOwnedRoute
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/harvests': typeof HarvestsIndexRoute
   '/proposals': typeof ProposalsIndexRoute
   '/search-harvests': typeof SearchHarvestsIndexRoute
+  '/groups/$groupId/propose': typeof GroupsGroupIdProposeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -185,7 +192,7 @@ export interface FileRoutesByTo {
   '/menu': typeof MenuRoute
   '/signup': typeof SignupRoute
   '/classifier/$id': typeof ClassifierIdRoute
-  '/groups/$groupId': typeof GroupsGroupIdRoute
+  '/groups/$groupId': typeof GroupsGroupIdRouteWithChildren
   '/groups/join': typeof GroupsJoinRoute
   '/groups/new': typeof GroupsNewRoute
   '/groups/owned': typeof GroupsOwnedRoute
@@ -198,6 +205,7 @@ export interface FileRoutesByTo {
   '/harvests': typeof HarvestsIndexRoute
   '/proposals': typeof ProposalsIndexRoute
   '/search-harvests': typeof SearchHarvestsIndexRoute
+  '/groups/$groupId/propose': typeof GroupsGroupIdProposeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -211,7 +219,7 @@ export interface FileRoutesById {
   '/menu': typeof MenuRoute
   '/signup': typeof SignupRoute
   '/classifier/$id': typeof ClassifierIdRoute
-  '/groups/$groupId': typeof GroupsGroupIdRoute
+  '/groups/$groupId': typeof GroupsGroupIdRouteWithChildren
   '/groups/join': typeof GroupsJoinRoute
   '/groups/new': typeof GroupsNewRoute
   '/groups/owned': typeof GroupsOwnedRoute
@@ -224,6 +232,7 @@ export interface FileRoutesById {
   '/harvests/': typeof HarvestsIndexRoute
   '/proposals/': typeof ProposalsIndexRoute
   '/search-harvests/': typeof SearchHarvestsIndexRoute
+  '/groups/$groupId/propose': typeof GroupsGroupIdProposeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -251,6 +260,7 @@ export interface FileRouteTypes {
     | '/harvests'
     | '/proposals'
     | '/search-harvests'
+    | '/groups/$groupId/propose'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -276,6 +286,7 @@ export interface FileRouteTypes {
     | '/harvests'
     | '/proposals'
     | '/search-harvests'
+    | '/groups/$groupId/propose'
   id:
     | '__root__'
     | '/'
@@ -301,6 +312,7 @@ export interface FileRouteTypes {
     | '/harvests/'
     | '/proposals/'
     | '/search-harvests/'
+    | '/groups/$groupId/propose'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -314,7 +326,7 @@ export interface RootRouteChildren {
   MenuRoute: typeof MenuRoute
   SignupRoute: typeof SignupRoute
   ClassifierIdRoute: typeof ClassifierIdRoute
-  GroupsGroupIdRoute: typeof GroupsGroupIdRoute
+  GroupsGroupIdRoute: typeof GroupsGroupIdRouteWithChildren
   GroupsJoinRoute: typeof GroupsJoinRoute
   GroupsNewRoute: typeof GroupsNewRoute
   GroupsOwnedRoute: typeof GroupsOwnedRoute
@@ -492,8 +504,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClassifierIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/groups/$groupId/propose': {
+      id: '/groups/$groupId/propose'
+      path: '/propose'
+      fullPath: '/groups/$groupId/propose'
+      preLoaderRoute: typeof GroupsGroupIdProposeRouteImport
+      parentRoute: typeof GroupsGroupIdRoute
+    }
   }
 }
+
+interface GroupsGroupIdRouteChildren {
+  GroupsGroupIdProposeRoute: typeof GroupsGroupIdProposeRoute
+}
+
+const GroupsGroupIdRouteChildren: GroupsGroupIdRouteChildren = {
+  GroupsGroupIdProposeRoute: GroupsGroupIdProposeRoute,
+}
+
+const GroupsGroupIdRouteWithChildren = GroupsGroupIdRoute._addFileChildren(
+  GroupsGroupIdRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -506,7 +537,7 @@ const rootRouteChildren: RootRouteChildren = {
   MenuRoute: MenuRoute,
   SignupRoute: SignupRoute,
   ClassifierIdRoute: ClassifierIdRoute,
-  GroupsGroupIdRoute: GroupsGroupIdRoute,
+  GroupsGroupIdRoute: GroupsGroupIdRouteWithChildren,
   GroupsJoinRoute: GroupsJoinRoute,
   GroupsNewRoute: GroupsNewRoute,
   GroupsOwnedRoute: GroupsOwnedRoute,

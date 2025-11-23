@@ -152,4 +152,16 @@ export default defineSchema({
     createdAt: v.number(),
     updatedAt: v.optional(v.number()),
   }).index("by_endpoint", ["endpoint"]).index("by_user", ["userId"]),
+
+    // Notifications stored for in-app display
+    notifications: defineTable({
+      userId: v.id("users"),
+      title: v.string(),
+      body: v.string(),
+      url: v.optional(v.string()),
+      data: v.optional(v.string()), // optional JSON string for extra data
+      senderId: v.optional(v.id("users")),
+      read: v.boolean(),
+      createdAt: v.number(),
+    }).index("by_user", ["userId"]),
 });

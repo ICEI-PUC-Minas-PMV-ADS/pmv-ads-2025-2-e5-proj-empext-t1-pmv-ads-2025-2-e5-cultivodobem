@@ -30,6 +30,12 @@ function GroupDetails() {
     const user = localStorage.getItem("user");
     return user ? JSON.parse(user)._id : null;
   }, []);
+  // full current user object for role checks
+  const currentUser = useMemo(() => {
+    if (typeof window === "undefined") return null;
+    const user = localStorage.getItem("user");
+    return user ? JSON.parse(user) : null;
+  }, []);
   const isOwner = useMemo(
     () => userId && group && String(group.createdBy) === String(userId),
     [userId, group]
@@ -38,6 +44,21 @@ function GroupDetails() {
     () =>
       group ? `${window.location.origin}/groups/join?groupId=${group._id}` : "",
     [group]
+  );
+
+  // If current user is a representative, fetch proposals they've sent to check duplicates
+  const sentProposals = useQuery(
+    api.proposals.getSentProposals,
+    currentUser?.tipo_usuario === "Representante" && currentUser?._id
+      ? { buyerId: currentUser._id as Id<"users"> }
+      : "skip"
+  );
+
+  const canPropose = currentUser?.tipo_usuario === "Representante";
+  const alreadyProposed = Boolean(
+    sentProposals &&
+      group &&
+      sentProposals.some((p: any) => String(p.group?._id ?? p.groupId) === String(group._id))
   );
 
   async function handleRemoveParticipant(
@@ -209,6 +230,19 @@ function GroupDetails() {
             {inviteCopied ? "✓ Link copiado!" : "📋 Convidar"}
           </Button>
         </Card>
+        <div className="mt-3">
+          <Button
+            onClick={() => navigate({ to: `/groups/${groupId}/propose` })}
+            className="w-full bg-green-600 text-white font-semibold hover:bg-green-700"
+            disabled={!canPropose || alreadyProposed}
+          >
+            {alreadyProposed
+              ? "Proposta Enviada"
+              : !canPropose
+              ? "Apenas representantes podem propor"
+              : "Propor Compra"}
+          </Button>
+        </div>
         {!isOwner && (
           <Button
             variant="outline"

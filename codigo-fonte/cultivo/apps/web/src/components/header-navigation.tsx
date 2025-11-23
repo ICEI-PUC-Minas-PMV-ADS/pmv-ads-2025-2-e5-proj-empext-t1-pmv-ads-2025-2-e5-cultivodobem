@@ -3,6 +3,7 @@ import { LogIn, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import InstallPWAButton from "@/components/InstallPWAButton";
 import logo from "@/assets/logo.png";
+import NotificationsBell from "@/components/NotificationsBell";
 
 const getMenuItemsByUserType = (type?: string) => {
   if (!type) {
@@ -91,6 +92,9 @@ export default function HeaderNavigation() {
         <div className="flex items-center gap-3">
           {sessionUser ? (
             <>
+                <div className="mr-2">
+                  <NotificationsBell />
+                </div>
               <span className="max-md:hidden">
                 Olá, <strong>{sessionUser.name ?? sessionUser.email}</strong>
               </span>
