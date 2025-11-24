@@ -30,12 +30,6 @@ function GroupDetails() {
     const user = localStorage.getItem("user");
     return user ? JSON.parse(user)._id : null;
   }, []);
-  // full current user object for role checks
-  const currentUser = useMemo(() => {
-    if (typeof window === "undefined") return null;
-    const user = localStorage.getItem("user");
-    return user ? JSON.parse(user) : null;
-  }, []);
   const isOwner = useMemo(
     () => userId && group && String(group.createdBy) === String(userId),
     [userId, group]
@@ -44,21 +38,6 @@ function GroupDetails() {
     () =>
       group ? `${window.location.origin}/groups/join?groupId=${group._id}` : "",
     [group]
-  );
-
-  // If current user is a representative, fetch proposals they've sent to check duplicates
-  const sentProposals = useQuery(
-    api.proposals.getSentProposals,
-    currentUser?.tipo_usuario === "Representante" && currentUser?._id
-      ? { buyerId: currentUser._id as Id<"users"> }
-      : "skip"
-  );
-
-  const canPropose = currentUser?.tipo_usuario === "Representante";
-  const alreadyProposed = Boolean(
-    sentProposals &&
-      group &&
-      sentProposals.some((p: any) => String(p.group?._id ?? p.groupId) === String(group._id))
   );
 
   async function handleRemoveParticipant(
@@ -96,7 +75,7 @@ function GroupDetails() {
         groupId: groupId as Id<"groups">,
         userId: userId as Id<"users">,
       });
-      navigate({ to: "/groups" });
+    navigate({ to: "/groups" } as any);
     } catch (error: any) {
       console.error("Error leaving group:", error);
       alert(error.message || "Erro ao sair do grupo. Tente novamente.");
@@ -122,7 +101,7 @@ function GroupDetails() {
     <main className="flex flex-col justify-center items-center min-h-screen p-4 pt-16">
       <div className="w-full max-w-md mb-4">
         <button
-          onClick={() => navigate({ to: "/groups" })}
+          onClick={() => navigate({ to: "/groups" } as any)}
           className="flex items-center gap-2 text-[#7c6a5c] hover:text-[#bfa98a] mb-3 transition-colors cursor-pointer"
         >
           <ArrowLeft size={20} />
@@ -232,15 +211,12 @@ function GroupDetails() {
         </Card>
         <div className="mt-3">
           <Button
-            onClick={() => navigate({ to: `/groups/${groupId}/propose` })}
+            onClick={() =>
+              navigate({ to: "/groups/$groupId/propose", params: { groupId } } as any)
+            }
             className="w-full bg-green-600 text-white font-semibold hover:bg-green-700"
-            disabled={!canPropose || alreadyProposed}
           >
-            {alreadyProposed
-              ? "Proposta Enviada"
-              : !canPropose
-              ? "Apenas representantes podem propor"
-              : "Propor Compra"}
+            Propor Compra
           </Button>
         </div>
         {!isOwner && (

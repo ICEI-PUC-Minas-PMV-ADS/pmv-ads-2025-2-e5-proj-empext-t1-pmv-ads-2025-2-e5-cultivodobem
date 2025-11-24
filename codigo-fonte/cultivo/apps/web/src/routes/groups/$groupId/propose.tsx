@@ -11,8 +11,7 @@ function ProposeRedirect() {
 
   useEffect(() => {
     if (!groupId) return;
-    // Redirect to the proposals creation page with groupId in search params
-    navigate({ to: "/proposals/create", search: { groupId } });
+  navigate({ to: "/proposals/create", search: { groupId } } as any);
   }, [groupId, navigate]);
 
   return (
