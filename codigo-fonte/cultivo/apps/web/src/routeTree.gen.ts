@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as NotFoundRouteImport } from './routes/not-found'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotRouteImport } from './routes/forgot'
@@ -37,6 +38,11 @@ import { Route as GroupsGroupIdProposeRouteImport } from './routes/groups/$group
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotFoundRoute = NotFoundRouteImport.update({
+  id: '/not-found',
+  path: '/not-found',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MenuRoute = MenuRouteImport.update({
@@ -164,6 +170,7 @@ export interface FileRoutesByFullPath {
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
+  '/not-found': typeof NotFoundRoute
   '/signup': typeof SignupRoute
   '/classifier/$id': typeof ClassifierIdRoute
   '/groups/$groupId': typeof GroupsGroupIdRouteWithChildren
@@ -190,6 +197,7 @@ export interface FileRoutesByTo {
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
+  '/not-found': typeof NotFoundRoute
   '/signup': typeof SignupRoute
   '/classifier/$id': typeof ClassifierIdRoute
   '/groups/$groupId': typeof GroupsGroupIdRouteWithChildren
@@ -217,6 +225,7 @@ export interface FileRoutesById {
   '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/menu': typeof MenuRoute
+  '/not-found': typeof NotFoundRoute
   '/signup': typeof SignupRoute
   '/classifier/$id': typeof ClassifierIdRoute
   '/groups/$groupId': typeof GroupsGroupIdRouteWithChildren
@@ -245,6 +254,7 @@ export interface FileRouteTypes {
     | '/forgot'
     | '/login'
     | '/menu'
+    | '/not-found'
     | '/signup'
     | '/classifier/$id'
     | '/groups/$groupId'
@@ -271,6 +281,7 @@ export interface FileRouteTypes {
     | '/forgot'
     | '/login'
     | '/menu'
+    | '/not-found'
     | '/signup'
     | '/classifier/$id'
     | '/groups/$groupId'
@@ -297,6 +308,7 @@ export interface FileRouteTypes {
     | '/forgot'
     | '/login'
     | '/menu'
+    | '/not-found'
     | '/signup'
     | '/classifier/$id'
     | '/groups/$groupId'
@@ -324,6 +336,7 @@ export interface RootRouteChildren {
   ForgotRoute: typeof ForgotRoute
   LoginRoute: typeof LoginRoute
   MenuRoute: typeof MenuRoute
+  NotFoundRoute: typeof NotFoundRoute
   SignupRoute: typeof SignupRoute
   ClassifierIdRoute: typeof ClassifierIdRoute
   GroupsGroupIdRoute: typeof GroupsGroupIdRouteWithChildren
@@ -348,6 +361,13 @@ declare module '@tanstack/react-router' {
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/not-found': {
+      id: '/not-found'
+      path: '/not-found'
+      fullPath: '/not-found'
+      preLoaderRoute: typeof NotFoundRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/menu': {
@@ -535,6 +555,7 @@ const rootRouteChildren: RootRouteChildren = {
   ForgotRoute: ForgotRoute,
   LoginRoute: LoginRoute,
   MenuRoute: MenuRoute,
+  NotFoundRoute: NotFoundRoute,
   SignupRoute: SignupRoute,
   ClassifierIdRoute: ClassifierIdRoute,
   GroupsGroupIdRoute: GroupsGroupIdRouteWithChildren,

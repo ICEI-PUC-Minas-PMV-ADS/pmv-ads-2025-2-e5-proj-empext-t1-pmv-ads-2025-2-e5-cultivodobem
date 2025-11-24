@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>404 - Cultivo do Bem</title>
+    <style>
+      body { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#f8f3ed; color:#7c6a5c; display:flex; align-items:center; justify-content:center; height:100vh; margin:0 }
+      .card { background:white; padding:24px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.08); max-width:680px; text-align:center }
+      .muted { color:#7c6a5c }
+      .btn { background:#ffa726; color:white; padding:10px 16px; border-radius:6px; text-decoration:none; display:inline-block; font-weight:600 }
+      code { background:#f1f1f1; padding:2px 6px; border-radius:4px }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>404 — Página não encontrada</h1>
+      <p class="muted">Tentando acessar <code id="path">/</code></p>
+      <p class="muted">Se este é um link interno da aplicação, o servidor precisa devolver <code>index.html</code> para rotas do cliente. Veja a documentação de deploy do seu host (Vercel, Netlify, GitHub Pages).</p>
+      <p class="muted" id="error"></p>
+      <div style="margin-top:16px">
+        <a id="home" class="btn" href="/">Ir para Início</a>
+      </div>
+    </div>
+
+    <script>
+      // Show the requested path so it's easier to debug deep link problems
+      try {
+        const p = decodeURIComponent(location.pathname + location.search + location.hash);
+        document.getElementById('path').textContent = p;
+        // If index.html exists, load it dynamically so the SPA can handle the route
+        fetch('/index.html', {cache: 'no-store'}).then(r => r.text()).then(html => {
+          // If the SPA boot script is present, inject it and let the client app boot.
+          // This keeps the 404 page visible until the SPA overrides it.
+          const hasApp = /id="app"/.test(html);
+          if (hasApp) {
+            // Attempt to replace the body with index.html to let the SPA mount.
+            document.open();
+            document.write(html);
+            document.close();
+          }
+        }).catch(() => {});
+      } catch (e) {
+        document.getElementById('error').textContent = String(e);
+      }
+    </script>
+  </body>
+</html>

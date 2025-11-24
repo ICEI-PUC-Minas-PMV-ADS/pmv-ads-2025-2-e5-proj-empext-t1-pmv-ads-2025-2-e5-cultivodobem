@@ -53,7 +53,7 @@ function JoinGroupPage() {
 
     if (isAlreadyMember) {
       // Already a member, redirect immediately
-      navigate({ to: `/groups/${groupId}` });
+  navigate({ to: `/groups/${groupId}` } as any);
       return;
     }
 
@@ -64,7 +64,7 @@ function JoinGroupPage() {
         await addParticipant({ groupId, userId: userId as Id<"users"> });
         // Redirect to group page after successful join
         setTimeout(() => {
-          navigate({ to: `/groups/${groupId}` });
+          navigate({ to: `/groups/${groupId}` } as any);
         }, 500);
       } catch (err) {
         console.error("Error joining group:", err);
@@ -96,7 +96,7 @@ function JoinGroupPage() {
             O link de convite está incompleto ou inválido.
           </p>
           <Button
-            onClick={() => navigate({ to: "/" })}
+            onClick={() => navigate({ to: "/" } as any)}
             className="bg-[#ffa726] text-white font-semibold"
           >
             Voltar para o Início
@@ -134,7 +134,7 @@ function JoinGroupPage() {
             O grupo que você está tentando acessar não existe ou foi removido.
           </p>
           <Button
-            onClick={() => navigate({ to: "/" })}
+            onClick={() => navigate({ to: "/" } as any)}
             className="bg-[#ffa726] text-white font-semibold"
           >
             Voltar para o Início
@@ -159,7 +159,7 @@ function JoinGroupPage() {
             </Button>
             <Button
               variant="secondary"
-              onClick={() => navigate({ to: "/" })}
+              onClick={() => navigate({ to: "/" } as any)}
               className="flex-1"
             >
               Voltar
