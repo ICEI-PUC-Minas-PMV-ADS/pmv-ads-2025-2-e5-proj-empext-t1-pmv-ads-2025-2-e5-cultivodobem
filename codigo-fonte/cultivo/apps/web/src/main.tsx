@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import Loader from "./components/loader";
 import { routeTree } from "./routeTree.gen";
 import React from "react";
+import ConvexErrorBoundary from "./components/ConvexErrorBoundary";
 
 const convexUrl = import.meta.env.VITE_CONVEX_URL as string | undefined;
 
@@ -60,7 +61,11 @@ if (!convexUrl || convexUrl.length === 0) {
 
 		if (!rootElement.innerHTML) {
 			const root = ReactDOM.createRoot(rootElement);
-			root.render(<RouterProvider router={router} />);
+			root.render(
+				<ConvexErrorBoundary>
+					<RouterProvider router={router} />
+				</ConvexErrorBoundary>
+			);
 		}
 }
 
