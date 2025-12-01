@@ -33,7 +33,7 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 | RF-002 | Permitir que o usuário faça login                                                             | ALTA       |
 | RF-003 | Permitir que o usuário recupere a senha                                                       | ALTA       |
 | RF-004 | Permitir que o usuário edite as informações do seu perfil                                     | ALTA       |
-| RF-005 | Permitir que o usuário edite as suas preferências do sistema                                  | ALTA       |
+| RF-005 | Permitir que o usuário edite as suas preferências do sistema                                  | BAIXA       |
 | RF-006 | Permitir que o Produtor Rural classifique feijão carioca usando IA                            | ALTA       |
 | RF-007 | Permitir que o Produtor Rural registre a colheita                                             | ALTA       |
 | RF-008 | Permitir que o Produtor Rural participe de grupos                                             | ALTA       |
