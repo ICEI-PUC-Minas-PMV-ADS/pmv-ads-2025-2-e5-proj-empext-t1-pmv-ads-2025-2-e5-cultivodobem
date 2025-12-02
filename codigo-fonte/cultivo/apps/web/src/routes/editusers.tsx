@@ -686,10 +686,10 @@ function EditUserRoute() {
                   {label("Endereço")}
                   <Input
                     value={form.logradouro}
-                    readOnly
+                    onChange={(e) => set("logradouro", e.target.value)}
                     placeholder="Rua, avenida, etc."
                     className={errClass("logradouro")}
-                    style={{ background: "#eadfce", borderColor: "#eadfce" }}
+                    style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
                   />
                 </div>
 
