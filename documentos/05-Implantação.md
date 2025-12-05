@@ -1,7 +1,26 @@
 # Implantação do Software
 
-•	Apresentar o planejamento da implantação: descrever tecnologias e processo de implantação.
+O projeto hospedado gratuitamente no Netlify. O backend foi hospedado gratuitamente na plataforma Convex.
 
-•	Informar link da aplicação em ambiente de produção
+Link para acesso: https://cultivodobem.netlify.app/
 
-•	Apresentar o planejamento de evolução da aplicação.
+## Projeto de evolução
+1. Conseguir investimentos
+do mercado agro e firmar
+parcerias com instituições
+especializadas no setor,
+como EMBRAPA E MAPA
+
+2. Treinar do zero um
+modelo de IA utilizando
+base de dados própria,
+fornecida por
+instituições qualificadas
+
+3. Planejar rodadas de
+teste com os produtores
+rurais em diferentes
+condições para
+aprimorar a
+acessibilidade do
+sistema
