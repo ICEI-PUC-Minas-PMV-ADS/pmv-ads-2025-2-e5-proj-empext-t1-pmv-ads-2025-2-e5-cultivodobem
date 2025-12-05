@@ -33,9 +33,21 @@ function LoginComponent() {
       toast.success("Login realizado com sucesso!");
       router.navigate({ to: "/" });
     } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Erro ao fazer login"
-      );
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      
+      // Tratar mensagens de erro específicas do Convex
+      if (errorMessage.toLowerCase().includes("credenciais inválidas") || 
+          errorMessage.toLowerCase().includes("invalid credentials")) {
+        toast.error("E-mail ou senha incorretos. Verifique suas credenciais.");
+      } else if (errorMessage.toLowerCase().includes("network") || 
+                 errorMessage.toLowerCase().includes("fetch")) {
+        toast.error("Erro de conexão. Verifique sua internet e tente novamente.");
+      } else if (errorMessage.includes("[CONVEX")) {
+        // Erro genérico do Convex - mostrar mensagem amigável
+        toast.error("Não foi possível realizar o login. Tente novamente.");
+      } else {
+        toast.error("Erro ao fazer login. Tente novamente.");
+      }
     } finally {
       setIsLoading(false);
     }

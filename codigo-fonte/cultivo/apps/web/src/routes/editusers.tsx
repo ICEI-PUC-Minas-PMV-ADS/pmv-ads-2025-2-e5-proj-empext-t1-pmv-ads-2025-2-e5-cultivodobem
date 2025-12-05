@@ -398,12 +398,23 @@ function EditUserRoute() {
       setTimeout(() => setShowSuccess(false), 2000);
       setTopError(null);
     } catch (error) {
-      setTopError(
-        error instanceof Error ? error.message : "Erro ao atualizar perfil"
-      );
-      toast.error(
-        error instanceof Error ? error.message : "Erro ao atualizar perfil"
-      );
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      const msgLower = errorMessage.toLowerCase();
+      
+      let friendlyMessage = "Erro ao atualizar perfil. Tente novamente.";
+      
+      if (msgLower.includes("e-mail já está em uso") || msgLower.includes("email já está em uso")) {
+        friendlyMessage = "Este e-mail já está sendo usado por outra conta.";
+      } else if (msgLower.includes("usuário não encontrado")) {
+        friendlyMessage = "Usuário não encontrado. Faça login novamente.";
+      } else if (msgLower.includes("network") || msgLower.includes("fetch")) {
+        friendlyMessage = "Erro de conexão. Verifique sua internet e tente novamente.";
+      } else if (msgLower.includes("[convex")) {
+        friendlyMessage = "Não foi possível atualizar o perfil. Tente novamente.";
+      }
+      
+      setTopError(friendlyMessage);
+      toast.error(friendlyMessage);
     } finally {
       setLoading(false);
     }
@@ -686,10 +697,10 @@ function EditUserRoute() {
                   {label("Endereço")}
                   <Input
                     value={form.logradouro}
-                    readOnly
+                    onChange={(e) => set("logradouro", e.target.value)}
                     placeholder="Rua, avenida, etc."
                     className={errClass("logradouro")}
-                    style={{ background: "#eadfce", borderColor: "#eadfce" }}
+                    style={{ background: "#f9f2e8", borderColor: "#eadfce" }}
                   />
                 </div>
 

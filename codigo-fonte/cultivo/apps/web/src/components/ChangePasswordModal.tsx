@@ -105,9 +105,24 @@ export function ChangePasswordModal({
 
       onClose();
     } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Erro ao alterar senha"
-      );
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      const msgLower = errorMessage.toLowerCase();
+      
+      let friendlyMessage = "Erro ao alterar senha. Tente novamente.";
+      
+      if (msgLower.includes("senha atual incorreta") || msgLower.includes("incorrect password")) {
+        friendlyMessage = "Senha atual incorreta. Verifique e tente novamente.";
+        setErrors((prev) => ({ ...prev, currentPassword: "Senha incorreta." }));
+      } else if (msgLower.includes("usuário não encontrado")) {
+        friendlyMessage = "Usuário não encontrado. Faça login novamente.";
+      } else if (msgLower.includes("network") || msgLower.includes("fetch")) {
+        friendlyMessage = "Erro de conexão. Verifique sua internet e tente novamente.";
+      } else if (msgLower.includes("[convex")) {
+        friendlyMessage = "Não foi possível alterar a senha. Tente novamente.";
+      }
+      
+      setTopError(friendlyMessage);
+      toast.error(friendlyMessage);
     } finally {
       setLoading(false);
     }
